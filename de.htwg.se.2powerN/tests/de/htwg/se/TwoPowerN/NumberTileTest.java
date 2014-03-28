@@ -21,10 +21,5 @@ public class NumberTileTest {
 		assertEquals(16, numberTile.doubleValue().getValue());
 		assertEquals(32, numberTile.doubleValue().getValue());
 	}
-	
-	@Test
-	public void getValuetest() {
-		
-	}
 
 }
