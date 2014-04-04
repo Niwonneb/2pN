@@ -16,12 +16,31 @@ public class GameFieldTest {
 
 	@Test
 	public void testInsertNumberTile() {
-		int tilecount = getTilesInGameField();
-		assertEquals(2, tilecount);
-		gamefield.insertNumberTile(2);
-		tilecount = getTilesInGameField();
-		assertEquals(4, tilecount);
+		gamefield.insertNumberTile(0, 0, 0);
+		int value = gamefield.grid[0][0].getValue();
+		assertEquals(2, value);
 		
+		gamefield.insertNumberTile(0, 3, 0);
+		value = gamefield.grid[3][0].getValue();
+		assertEquals(2, value);
+		
+		gamefield.insertNumberTile(100, 0, 3);
+		value = gamefield.grid[0][3].getValue();
+		assertEquals(4, value);
+		
+		gamefield.insertNumberTile(100, 3, 3);
+		value = gamefield.grid[3][3].getValue();
+		assertEquals(4, value);
+		
+		int tilecount = getTilesInGameField();
+		assertEquals(4, tilecount);
+	}
+	
+	@Test
+	public void testInsertRandomNumberTile() {
+		gamefield.insertRandomNumberTile(15);
+		int tilecount = getTilesInGameField();
+		assertEquals(15, tilecount);
 	}
 	
 	private int getTilesInGameField(){
@@ -34,5 +53,4 @@ public class GameFieldTest {
 		}
 		return tilecount;
 	}
-
 }

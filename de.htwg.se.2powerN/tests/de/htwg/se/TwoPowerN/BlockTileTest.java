@@ -6,13 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class BlockTileTest {
+	
+	BlockTile blockTile;
 
 	@Before
 	public void setUp() throws Exception {
+		blockTile = new BlockTile();
 	}
 
 	@Test
-	public void test() {
+	public void testgetValue() {
+		assertEquals(-1, blockTile.getValue());
 	}
-
 }
