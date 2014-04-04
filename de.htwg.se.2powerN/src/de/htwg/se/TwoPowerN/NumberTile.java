@@ -14,8 +14,4 @@ public class NumberTile implements Tile {
 	public int getValue() {
 		return value;
 	}
-	public void asdlökfj(){
-		int a = 1;
-	}
-
 }
