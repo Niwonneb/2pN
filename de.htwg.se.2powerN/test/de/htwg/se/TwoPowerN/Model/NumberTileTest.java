@@ -18,10 +18,14 @@ public class NumberTileTest {
 
 	@Test
 	public void doubleValuetest() {
-		assertEquals(4, numberTile.doubleValue().getValue());
-		assertEquals(8, numberTile.doubleValue().getValue());
-		assertEquals(16, numberTile.doubleValue().getValue());
-		assertEquals(32, numberTile.doubleValue().getValue());
+		numberTile.doubleValue();
+		assertEquals(4, numberTile.getValue());
+		numberTile.doubleValue();
+		assertEquals(8, numberTile.getValue());
+		numberTile.doubleValue();
+		assertEquals(16, numberTile.getValue());
+		numberTile.doubleValue();
+		assertEquals(32, numberTile.getValue());
 	}
 
 }

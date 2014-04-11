@@ -1,7 +1,7 @@
 package de.htwg.se.TwoPowerN.Model;
 import java.util.Random;
 
-public class GameField {
+public final class GameField {
 	
 	protected Tile[][] grid;
 	protected int height;
@@ -12,78 +12,51 @@ public class GameField {
 	
 	public GameField(int height){
 		this.grid = new Tile[height][height];
-		this.height = height;
-	}
+		this.height = height;						
+	} 
 	
  	public void mergeTile(int line, int direction){
  		assert(direction == LEFT || direction == RIGHT || direction == DOWN || direction == UP);
  		
- 		if (direction == LEFT || direction == RIGHT)
- 			;
- 		else if (direction == DOWN || direction == UP)
- 			;
- 
- 		for (int j = 0; j < height; ++j) {
-			if (grid [i + x][j ] == grid [i][j]) {
-				grid[i][j - 1].doubleValue();
-				grid [i][j] = null;
+ 		int xChange = 0, yChange = 0;
+ 		int xStart = 0, yStart = 0;
+ 		
+ 		
+ 		switch (direction) {
+ 		case LEFT:
+ 			yStart = line;
+ 			xChange = 1;
+ 			break;
+ 		case RIGHT:
+ 			xStart = height - 1;
+ 			yStart = line;
+ 			xChange = -1;
+ 			break;
+ 		case UP:
+ 			xStart = line;
+ 			yChange = 1;
+ 			break;
+ 		case DOWN:
+ 			xStart = line;
+ 			yStart = height - 1;
+ 			yChange = -1;
+ 		}
+ 		
+ 		int x = xStart;
+ 		int y = yStart;
+ 		int xNext;
+ 		int yNext;
+ 		
+ 		for (int i = 0; i < height; ++i) {
+ 			xNext = x + yChange;
+ 			yNext = y + xChange;
+			if (grid[y][x] != null && grid[yNext][xNext] != null
+				&& grid[y][x].getValue() == grid[yNext][xNext].getValue()) {
+				grid[y][x].doubleValue();
+				grid[yNext][xNext] = null;
 			} 
 		}
  	}
-// 		switch (direction) {
-// 		case 0:
-// 			int i = 0;
-// 			while (i < height) {
-// 				for (int j = 1; j < height + 1; ++j) {
-// 					if (grid [i][j - 1] == grid [i][j]) {
-// 						grid[i][j - 1].doubleValue();
-// 						grid [i][j] = null;
-// 					} 
-// 				}
-// 				++i;
-// 			}
-// 			break;
-// 			
-// 		case 1:
-// 			i = 0;
-// 			while (i < height + 1) {
-// 				for (int j = height - 1; j < -1; --j) {
-// 					if (grid [i][j + 1] == null && grid [i][j] != null) {
-// 						grid[i][j + 1].doubleValue();
-// 						grid [i][j] = null;
-// 					} 
-// 				}
-// 				++i;
-// 			}
-// 			break;
-// 			
-// 		case 2:
-// 			i = 0;
-// 			while (i < height + 1) {
-// 				for (int j = 0; j < height + 1; ++j) {
-// 					if (grid [j - 1][i] == null && grid [j][i] != null) {
-// 						grid[j - 1][i].doubleValue();
-// 						grid [j][i] = null;
-// 					}
-// 				}
-// 				++i;
-// 			}
-// 			break;
-// 			
-// 		case 3:
-// 			i = 0;
-// 			while (i < height + 1) {
-// 				for (int j = height - 1; j < -1; --j) {
-// 					if (grid [j + 1][i] == null && grid [j][i] != null) {
-// 						grid[j + 1][i].doubleValue();
-// 						grid [j][i] = null;
-// 					}
-// 				}
-// 				++i;
-// 			}
-// 			break;
-// 		}
-// 	}
 	
 	
 
@@ -97,80 +70,12 @@ public class GameField {
 	public void moveTile(int direction){
 		
 	}
-//		switch (direction) {
-//			case 0:
-//				int i = 0;
-//				while (i < height + 1) {
-//					for (int j = 1; j < height +1; ++j) {
-//						if (grid [i][j - 1] == null && grid [i][j] != null) {
-//							grid[i][j - 1] = grid [i][j];
-//							grid [i][j] = null;
-//						} else if (grid [i][j - 1] == null && grid [i][j] == null && j < height) {
-//							grid[i][j - 1] = grid [i][j + 1];
-//							grid [i][j + 1] = null;
-//						}
-//					}
-//					++i;
-//				}
-//				break;
-//				
-//			case 1:
-//				i = 0;
-//				while (i < height + 1) {
-//					for (int j = height - 1; j < -1; --j) {
-//						if (grid [i][j + 1] == null && grid [i][j] != null) {
-//							grid[i][j + 1] = grid [i][j];
-//							grid [i][j] = null;
-//						} else if (grid [i][j + 1] == null && grid [i][j] == null & j > 0) {
-//							grid[i][j - 1] = grid [i][j + 1];
-//							grid [i][j + 1] = null;
-//						}
-//					}
-//					++i;
-//				}
-//				break;
-//				
-//			case 2:
-//				i = 0;
-//				while (i < height + 1) {
-//					for (int j = 0; j < height + 1; ++j) {
-//						if (grid [j - 1][i] == null && grid [j][i] != null) {
-//							grid[j - 1][i] = grid [j][i];
-//							grid [j][i] = null;
-//						} else if (grid [j + 1][i] == null && grid [j][i] == null & j < height) {
-//							grid[j - 1][i] = grid [j + 1][i];
-//							grid [j - 1][i] = null;
-//						}
-//					}
-//					++i;
-//				}
-//				break;
-//				
-//			case 3:
-//				i = 0;
-//				while (i < height + 1) {
-//					for (int j = height - 1; j < -1; --j) {
-//						if (grid [j + 1][i] == null && grid [j][i] != null) {
-//							grid[j + 1][i] = grid [j][i];
-//							grid [j][i] = null;
-//						} else if (grid [j + 1][i] == null && grid [j][i] == null & j > 0) {
-//							grid[j - 1][i] = grid [j + 1][i];
-//							grid [j + 1][i] = null;
-//						}
-//					}
-//					++i;
-//				}
-//				break;
-//		}
-//			
-//	}
-	
 	
 	/*
 	 * insert a new NumberTiles to (ycord,xcord) if it's empty
 	 * @param chance percentage (0-100) of spawning a 4 
 	 */
-	public boolean insertNumberTile(int chance, int ycord, int xcord){
+	protected boolean insertNumberTile(int chance, int ycord, int xcord){
 		if (grid[ycord][xcord] == null) {					// place is empty
 			Random rand = new Random();
 			int random = rand.nextInt(101);					// create random 1-100

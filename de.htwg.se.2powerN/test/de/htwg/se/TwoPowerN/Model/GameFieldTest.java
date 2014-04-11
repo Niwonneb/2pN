@@ -17,6 +17,16 @@ public class GameFieldTest {
 	}
 
 	@Test
+	public void testMergeTile() {
+		gamefield.insertNumberTile(0, 0, 0);
+		gamefield.insertNumberTile(0, 1, 0);
+		gamefield.insertNumberTile(0, 0, 3);
+		
+		gamefield.mergeTile(0, GameField.UP);
+		assertEquals(4, gamefield.grid[0][0].getValue());
+	}
+	
+	@Test
 	public void testInsertNumberTile() {
 		gamefield.insertNumberTile(0, 0, 0);
 		int value = gamefield.grid[0][0].getValue();
