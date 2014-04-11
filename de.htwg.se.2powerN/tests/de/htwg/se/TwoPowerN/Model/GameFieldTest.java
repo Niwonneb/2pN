@@ -1,9 +1,11 @@
-package de.htwg.se.TwoPowerN;
+package de.htwg.se.TwoPowerN.Model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import de.htwg.se.TwoPowerN.Model.GameField;
 
 public class GameFieldTest {
 	

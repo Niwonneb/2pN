@@ -1,11 +1,11 @@
-package de.htwg.se.TwoPowerN;
+package de.htwg.se.TwoPowerN.Controller;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class TUITest {
+public class TwoPowerNTest {
 
 	@Before
 	public void setUp() throws Exception {

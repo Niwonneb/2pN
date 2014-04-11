@@ -1,4 +1,4 @@
-package de.htwg.se.TwoPowerN;
+package de.htwg.se.TwoPowerN.Model;
 import java.util.Random;
 
 public class GameField {
@@ -15,7 +15,7 @@ public class GameField {
 	}
 	
 
-	public void moveTile(int line, int direction){
+	public void moveTile(int direction){
 	}
 	
 	
