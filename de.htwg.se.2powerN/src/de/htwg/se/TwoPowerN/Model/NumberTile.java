@@ -8,9 +8,8 @@ public class NumberTile implements Tile {
 	public NumberTile() {
 		value = 2;
 	}
-	public NumberTile doubleValue() {
+	public void doubleValue() {
 		value *= 2;
-		return this;
 	}
 	public int getValue() {
 		return value;
