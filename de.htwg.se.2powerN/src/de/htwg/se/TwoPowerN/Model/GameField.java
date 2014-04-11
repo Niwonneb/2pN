@@ -15,46 +15,52 @@ public final class GameField {
 		this.height = height;						
 	} 
 	
- 	public void mergeTile(int line, int direction){
+	/*
+	 * merges the Tiles in 'direction' in the line 'index'
+	 */
+ 	public void mergeTile(int index, int direction){
  		assert(direction == LEFT || direction == RIGHT || direction == DOWN || direction == UP);
  		
- 		int xChange = 0, yChange = 0;
- 		int xStart = 0, yStart = 0;
+ 		int collumnStep = 0, rowStep = 0;
+ 		int collumnStart = 0, rowStart = 0;
  		
  		
  		switch (direction) {
  		case LEFT:
- 			yStart = line;
- 			xChange = 1;
+ 			rowStart = index;
+ 			collumnStep = 1;
  			break;
  		case RIGHT:
- 			xStart = height - 1;
- 			yStart = line;
- 			xChange = -1;
+ 			collumnStart = height - 1;
+ 			rowStart = index;
+ 			collumnStep = -1;
  			break;
  		case UP:
- 			xStart = line;
- 			yChange = 1;
+ 			collumnStart = index;
+ 			rowStep = 1;
  			break;
  		case DOWN:
- 			xStart = line;
- 			yStart = height - 1;
- 			yChange = -1;
+ 			collumnStart = index;
+ 			rowStart = height - 1;
+ 			rowStep = -1;
  		}
  		
- 		int x = xStart;
- 		int y = yStart;
- 		int xNext;
- 		int yNext;
+ 		int column = collumnStart;
+ 		int row = rowStart;
+ 		int cNext;					// r := row 	c := column
+ 		int rNext;
  		
- 		for (int i = 0; i < height; ++i) {
- 			xNext = x + yChange;
- 			yNext = y + xChange;
-			if (grid[y][x] != null && grid[yNext][xNext] != null
-				&& grid[y][x].getValue() == grid[yNext][xNext].getValue()) {
-				grid[y][x].doubleValue();
-				grid[yNext][xNext] = null;
-			} 
+ 		for (int i = 0; i < height - 1; ++i) {
+ 			cNext = column + collumnStep;
+ 			rNext = row + rowStep;
+			if (grid[row][column] != null && grid[rNext][cNext] != null
+				&& grid[row][column].getValue() == grid[rNext][cNext].getValue()) {
+				
+				grid[row][column].doubleValue();
+				grid[rNext][cNext] = null;
+			}
+			column = cNext;
+			row = rNext;
 		}
  	}
 	
@@ -72,17 +78,17 @@ public final class GameField {
 	}
 	
 	/*
-	 * insert a new NumberTiles to (ycord,xcord) if it's empty
+	 * insert a new NumberTiles to (row,column) if it's empty
 	 * @param chance percentage (0-100) of spawning a 4 
 	 */
-	protected boolean insertNumberTile(int chance, int ycord, int xcord){
-		if (grid[ycord][xcord] == null) {					// place is empty
+	protected boolean insertNumberTile(int chance, int row, int column){
+		if (grid[row][column] == null) {					// place is empty
 			Random rand = new Random();
 			int random = rand.nextInt(101);					// create random 1-100
 			NumberTile newTile = new NumberTile();
 			if (random <= chance)							// chance of creating a 4
 				newTile.doubleValue();
-			grid[ycord][xcord] = newTile;
+			grid[row][column] = newTile;
 			return true;
 		}
 		return false;
@@ -92,9 +98,9 @@ public final class GameField {
 		Random rand = new Random();
 		int created = 0;
 		while (created < count) {
-			int xcord = rand.nextInt(height);
-			int ycord = rand.nextInt(height);
-			if (insertNumberTile(20, ycord, xcord))
+			int column = rand.nextInt(height);
+			int row = rand.nextInt(height);
+			if (insertNumberTile(20, row, column))
 				created++;
 		}
 	}

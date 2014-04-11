@@ -20,10 +20,33 @@ public class GameFieldTest {
 	public void testMergeTile() {
 		gamefield.insertNumberTile(0, 0, 0);
 		gamefield.insertNumberTile(0, 1, 0);
-		gamefield.insertNumberTile(0, 0, 3);
+		gamefield.insertNumberTile(0, 3, 0);
 		
 		gamefield.mergeTile(0, GameField.UP);
 		assertEquals(4, gamefield.grid[0][0].getValue());
+		// 4 at (0,0); 2 at (3,0)
+		
+		gamefield.insertNumberTile(0, 0, 0);
+		gamefield.insertNumberTile(100, 0, 1);
+		gamefield.insertNumberTile(0, 0, 3);
+		
+		gamefield.mergeTile(0, GameField.LEFT);
+		assertEquals(8, gamefield.grid[0][0].getValue());
+		// 8 at (0,0); 2 at (0,3); 2 at (3,0)
+		
+		gamefield.insertNumberTile(100, 1, 3);
+		gamefield.insertNumberTile(100, 2, 3);
+		
+		gamefield.mergeTile(3, GameField.DOWN);
+		assertEquals(8, gamefield.grid[2][3].getValue());
+		// 8 at (0,0); 2 at (0,3); 2 at (3,0); 8 at (2,3)
+		
+		gamefield.insertNumberTile(100, 2, 0);
+		gamefield.insertNumberTile(100, 2, 1);
+		
+		gamefield.mergeTile(2, GameField.RIGHT);
+		assertEquals(8, gamefield.grid[2][1].getValue());
+		// 8 at (0,0); 2 at (0,3); 2 at (3,0); 8 at (2,3); 8 at (2,1)
 	}
 	
 	@Test
