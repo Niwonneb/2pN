@@ -1,4 +1,4 @@
-package de.htwg.se.TwoPowerN.Model;
+package de.htwg.se.TwoPowerN.model;
 
 
 public class NumberTile implements Tile {

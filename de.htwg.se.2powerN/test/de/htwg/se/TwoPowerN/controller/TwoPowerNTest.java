@@ -1,4 +1,4 @@
-package de.htwg.se.TwoPowerN.Controller;
+package de.htwg.se.TwoPowerN.controller;
 
 import static org.junit.Assert.*;
 

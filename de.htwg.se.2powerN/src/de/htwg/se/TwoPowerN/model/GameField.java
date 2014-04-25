@@ -1,57 +1,31 @@
-package de.htwg.se.TwoPowerN.Model;
+package de.htwg.se.TwoPowerN.model;
 import java.util.Random;
 
 public final class GameField {
 	
 	protected Tile[][] grid;
 	protected int height;
-	public static final int LEFT = 0;
-	public static final int RIGHT = 1;
-	public static final int DOWN = 2;
-	public static final int UP = 3;
 	
 	public GameField(int height){
 		this.grid = new Tile[height][height];
-		this.height = height;						
+		this.height = height;
 	} 
 	
 	/*
 	 * merges the Tiles in 'direction' in the line 'index'
 	 */
- 	public void mergeTile(int index, int direction){
- 		assert(direction == LEFT || direction == RIGHT || direction == DOWN || direction == UP);
+ 	public void mergeTile(int index, Direction direction){
+ 		direction.setStarts(index, height);
  		
- 		int collumnStep = 0, rowStep = 0;
- 		int collumnStart = 0, rowStart = 0;
- 		
- 		
- 		switch (direction) {
- 		case LEFT:
- 			rowStart = index;
- 			collumnStep = 1;
- 			break;
- 		case RIGHT:
- 			collumnStart = height - 1;
- 			rowStart = index;
- 			collumnStep = -1;
- 			break;
- 		case UP:
- 			collumnStart = index;
- 			rowStep = 1;
- 			break;
- 		case DOWN:
- 			collumnStart = index;
- 			rowStart = height - 1;
- 			rowStep = -1;
- 		}
- 		
- 		int column = collumnStart;
- 		int row = rowStart;
+ 		int column = direction.getcStart();
+ 		int row = direction.getrStart();
+ 		int columnStep = direction.getcStep();
+ 		int rowStep = direction.getrStep();
  		int cNext;					// r := row 	c := column
  		int rNext;
  		
  		for (int i = 0; i < height - 1; ++i) {
- 			cNext = column + collumnStep;
+ 			cNext = column + columnStep;
  			rNext = row + rowStep;
 			if (grid[row][column] != null && grid[rNext][cNext] != null
 				&& grid[row][column].getValue() == grid[rNext][cNext].getValue()) {
@@ -68,13 +42,35 @@ public final class GameField {
 
 	/*
 	 * The method moves the tiles according to the given direction.
-	 * Case 1: left
-	 * Case 2: right
-	 * Case 3: down
-	 * Case 4: up
 	 */
-	public void moveTile(int direction){
-		
+	public void moveTile(int index, Direction direction){
+ 		direction.setStarts(index, height);
+ 		
+ 		int columnStart = direction.getcStart();
+ 		int rowStart = direction.getrStart();
+ 		int columnStep = direction.getcStep();
+ 		int rowStep = direction.getrStep();
+ 		int cNext, column;					// r := row 	c := column
+ 		int rNext, row;
+ 		
+ 		boolean moved = false;
+ 		do {
+
+	 		column = columnStart;
+	 		row = rowStart;
+
+	 		for (int i = 0; i < height - 1; ++i) {
+	 			cNext = column + columnStep;
+	 			rNext = row + rowStep;
+				if (grid[row][column] == null && grid[rNext][cNext] != null) {
+					grid[row][column] = grid[rNext][cNext];
+					grid[rNext][cNext] = null;
+					moved = true;
+				}
+				column = cNext;
+				row = rNext;
+	 		}
+		} while (moved);
 	}
 	
 	/*

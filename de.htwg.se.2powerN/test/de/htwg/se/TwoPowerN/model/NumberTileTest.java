@@ -1,11 +1,11 @@
-package de.htwg.se.TwoPowerN.Model;
+package de.htwg.se.TwoPowerN.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.se.TwoPowerN.Model.NumberTile;
+import de.htwg.se.TwoPowerN.model.NumberTile;
 
 public class NumberTileTest {
 

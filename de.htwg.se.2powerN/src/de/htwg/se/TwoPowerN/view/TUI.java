@@ -1,4 +1,4 @@
-package de.htwg.se.TwoPowerN.View;
+package de.htwg.se.TwoPowerN.view;
 
 public class TUI {
 //	public TUI(){

@@ -1,4 +1,4 @@
-package de.htwg.se.TwoPowerN.View;
+package de.htwg.se.TwoPowerN.view;
 
 import static org.junit.Assert.*;
 
