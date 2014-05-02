@@ -3,7 +3,7 @@ import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.GameField;
 
 public class TpnController {
-	GameField gamefield;
+	private GameField gamefield;
 	
 	public TpnController() {
 		gameInit();

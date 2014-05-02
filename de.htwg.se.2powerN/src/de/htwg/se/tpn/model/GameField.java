@@ -6,13 +6,21 @@ import java.awt.Point;
 
 public final class GameField {
 	
-	protected Tile[][] grid;
-	protected int height;
+	private Tile[][] grid;
+	private int height;
 	
 	public GameField(int height) {
 		this.grid = new Tile[height][height];
 		this.height = height;
 	} 
+	
+	protected Tile[][] getGrid() {
+		return grid;
+	}
+	
+	protected int getHeight() {
+		return height;
+	}
 	
 	public void mergeTiles(Direction direction) {
 		for (int i = 0; i < height; i++) {
@@ -30,7 +38,8 @@ public final class GameField {
  		int row = direction.getrStart();
  		int columnStep = direction.getcStep();
  		int rowStep = direction.getrStep();
- 		int cNext;					// r := row 	c := column
+ 		// r := row 	c := column
+ 		int cNext;
  		int rNext;
  		
  		for (int i = 0; i < height - 1; ++i) {
@@ -63,7 +72,8 @@ public final class GameField {
  		int rowStart = direction.getrStart();
  		int columnStep = direction.getcStep();
  		int rowStep = direction.getrStep();
- 		int cNext, column;					// r := row 	c := column
+ 		// r := row 	c := column
+ 		int cNext, column;
  		int rNext, row;
  		
  		boolean moved;
@@ -92,9 +102,11 @@ public final class GameField {
 	 */
 	protected void insertNumberTile(int chance, int row, int column) {
 		Random rand = new Random();
-		int random = rand.nextInt(101);					// create random 1-100
+		// --------------------------------------------- create random 1-100
+		int random = rand.nextInt(101);
 		NumberTile newTile = new NumberTile();
-		if (random <= chance) {							// chance of creating a 4
+		// --------------------------------------------- chance of creating a 4
+		if (random <= chance) {
 			newTile.doubleValue();
 		}
 		grid[row][column] = newTile;
@@ -108,7 +120,8 @@ public final class GameField {
 		}
 		int idx = rand.nextInt(emptyPlaces.size());
 		Point insertPlace = emptyPlaces.get(idx);
-		insertNumberTile(20, (int) insertPlace.getY(), (int) insertPlace.getX());
+		insertNumberTile(20, (int) insertPlace.getY(),
+							 (int) insertPlace.getX());
 		return true;
 	}
 	
