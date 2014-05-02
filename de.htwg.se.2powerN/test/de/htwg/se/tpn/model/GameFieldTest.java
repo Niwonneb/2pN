@@ -89,7 +89,6 @@ public class GameFieldTest {
 		assertEquals(4, gamefield.grid[0][0].getValue());
 		// 4 at (0,0); 2 at (3,0)
 		
-		gamefield.insertNumberTile(0, 0, 0);
 		gamefield.insertNumberTile(100, 0, 1);
 		gamefield.insertNumberTile(0, 0, 3);
 		
@@ -142,7 +141,7 @@ public class GameFieldTest {
 		int tilecount = getTilesInGameField();
 		assertEquals(3, tilecount);
 		boolean insert = true;
-		for (int i = 3; i < 4 * 4; i++) {
+		for (int i = 3; i <= 4 * 4; i++) {
 			insert = gamefield.insertRandomNumberTile();
 		}
 		assertEquals(false, insert);
