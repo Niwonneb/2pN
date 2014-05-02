@@ -11,7 +11,7 @@ import de.htwg.se.tpn.model.GameField;
 public class GameFieldTest {
 	
 	GameField gamefield;
-	private final static int INITIALSIZE = 4; 
+	private static final int INITIALSIZE = 4; 
 
 	@Before
 	public void setUp() throws Exception {
