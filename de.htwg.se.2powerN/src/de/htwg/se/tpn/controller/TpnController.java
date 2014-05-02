@@ -4,7 +4,7 @@ import de.htwg.se.tpn.model.GameField;
 
 public class TpnController {
 	private GameField gamefield;
-	private static int FIELDSIZE = 4;
+	private final static int FIELDSIZE = 4;
 	
 	public TpnController() {
 		gameInit();

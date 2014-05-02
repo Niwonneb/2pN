@@ -8,8 +8,8 @@ public final class GameField {
 	
 	private Tile[][] grid;
 	private int height;
-	private static int DOUBLECHANCE = 20;
-	private static int PERCMAX = 100;
+	private final static int DOUBLECHANCE = 20;
+	private final static int PERCMAX = 100;
 	
 	public GameField(int height) {
 		this.grid = new Tile[height][height];
