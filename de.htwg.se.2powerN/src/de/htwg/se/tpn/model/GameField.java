@@ -8,6 +8,8 @@ public final class GameField {
 	
 	private Tile[][] grid;
 	private int height;
+	private static final int DOUBLECHANCE = 20;
+	private static final int PERCMAX = 100;
 	
 	public GameField(int height) {
 		this.grid = new Tile[height][height];
@@ -103,7 +105,7 @@ public final class GameField {
 	protected void insertNumberTile(int chance, int row, int column) {
 		Random rand = new Random();
 		// --------------------------------------------- create random 1-100
-		int random = rand.nextInt(101);
+		int random = rand.nextInt(PERCMAX + 1);
 		NumberTile newTile = new NumberTile();
 		// --------------------------------------------- chance of creating a 4
 		if (random <= chance) {
@@ -120,7 +122,7 @@ public final class GameField {
 		}
 		int idx = rand.nextInt(emptyPlaces.size());
 		Point insertPlace = emptyPlaces.get(idx);
-		insertNumberTile(20, (int) insertPlace.getY(),
+		insertNumberTile(DOUBLECHANCE, (int) insertPlace.getY(),
 							 (int) insertPlace.getX());
 		return true;
 	}

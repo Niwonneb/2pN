@@ -4,13 +4,14 @@ import de.htwg.se.tpn.model.GameField;
 
 public class TpnController {
 	private GameField gamefield;
+	private static final int FIELDSIZE = 4;
 	
 	public TpnController() {
 		gameInit();
 	}
 	
-	public void gameInit() {
-		gamefield = new GameField(4);
+	public final void gameInit() {
+		gamefield = new GameField(FIELDSIZE);
 		gamefield.insertRandomNumberTile();
 		gamefield.insertRandomNumberTile();
 	}
