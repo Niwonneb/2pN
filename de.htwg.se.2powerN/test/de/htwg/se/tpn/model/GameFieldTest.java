@@ -11,10 +11,11 @@ import de.htwg.se.tpn.model.GameField;
 public class GameFieldTest {
 	
 	GameField gamefield;
+	private static int INITIALSIZE = 4; 
 
 	@Before
 	public void setUp() throws Exception {
-		gamefield = new GameField(4);
+		gamefield = new GameField(INITIALSIZE);
 	}
 	
 	@Test
@@ -26,10 +27,10 @@ public class GameFieldTest {
 		
 		gamefield.moveTiles(new Direction(Direction.DOWN));
 		
-		assertEquals(4, gamefield.grid[3][0].getValue());
-		assertEquals(2, gamefield.grid[2][0].getValue());
-		assertEquals(4, gamefield.grid[3][2].getValue());
-		assertEquals(4, gamefield.grid[3][3].getValue());
+		assertEquals(4, gamefield.getGrid()[3][0].getValue());
+		assertEquals(2, gamefield.getGrid()[2][0].getValue());
+		assertEquals(4, gamefield.getGrid()[3][2].getValue());
+		assertEquals(4, gamefield.getGrid()[3][3].getValue());
 		// 2 at (2,0); 4 at (3,0); 4 at (3,2); 4 at (3,3)
 	}
 	
@@ -42,9 +43,9 @@ public class GameFieldTest {
 		gamefield.insertNumberTile(100, 3, 2);
 		
 		gamefield.mergeTiles(new Direction(Direction.UP));
-		assertEquals(4, gamefield.grid[0][0].getValue());
-		assertEquals(2, gamefield.grid[3][0].getValue());
-		assertEquals(8, gamefield.grid[2][2].getValue());
+		assertEquals(4, gamefield.getGrid()[0][0].getValue());
+		assertEquals(2, gamefield.getGrid()[3][0].getValue());
+		assertEquals(8, gamefield.getGrid()[2][2].getValue());
 		// 4 at (0,0); 2 at (3,0); 8 at (2,2)
 	}
 
@@ -55,27 +56,27 @@ public class GameFieldTest {
 		
 		gamefield.moveTile(0, new Direction(Direction.DOWN));
 		
-		assertEquals(4, gamefield.grid[3][0].getValue());
-		assertEquals(2, gamefield.grid[2][0].getValue());
+		assertEquals(4, gamefield.getGrid()[3][0].getValue());
+		assertEquals(2, gamefield.getGrid()[2][0].getValue());
 		// 2 at (2,0); 4 at (3,0)
 		
 		gamefield.insertNumberTile(0, 3, 2);
 		
 		gamefield.moveTile(3, new Direction(Direction.RIGHT));
 		
-		assertEquals(2, gamefield.grid[3][3].getValue());
-		assertEquals(4, gamefield.grid[3][2].getValue());
+		assertEquals(2, gamefield.getGrid()[3][3].getValue());
+		assertEquals(4, gamefield.getGrid()[3][2].getValue());
 		// 2 at (2,0); 2 at (3,3); 4 at (3,2)
 		
 		gamefield.moveTile(2, new Direction(Direction.UP));
 		
-		assertEquals(4, gamefield.grid[0][2].getValue());
+		assertEquals(4, gamefield.getGrid()[0][2].getValue());
 		// 2 at (2,0); 2 at (3,3); 4 at (0,2)
 		
 		gamefield.moveTile(1, new Direction(Direction.LEFT));
 		
-		assertEquals(4, gamefield.grid[0][2].getValue());
-		assertEquals(2, gamefield.grid[3][3].getValue());
+		assertEquals(4, gamefield.getGrid()[0][2].getValue());
+		assertEquals(2, gamefield.getGrid()[3][3].getValue());
 		// 2 at (2,0); 2 at (3,3); 4 at (0,2)
 	}
 	
@@ -86,47 +87,47 @@ public class GameFieldTest {
 		gamefield.insertNumberTile(0, 3, 0);
 		
 		gamefield.mergeTile(0, new Direction(Direction.UP));
-		assertEquals(4, gamefield.grid[0][0].getValue());
+		assertEquals(4, gamefield.getGrid()[0][0].getValue());
 		// 4 at (0,0); 2 at (3,0)
 		
 		gamefield.insertNumberTile(100, 0, 1);
 		gamefield.insertNumberTile(0, 0, 3);
 		
 		gamefield.mergeTile(0, new Direction(Direction.LEFT));
-		assertEquals(8, gamefield.grid[0][0].getValue());
+		assertEquals(8, gamefield.getGrid()[0][0].getValue());
 		// 8 at (0,0); 2 at (0,3); 2 at (3,0)
 		
 		gamefield.insertNumberTile(100, 1, 3);
 		gamefield.insertNumberTile(100, 2, 3);
 		
 		gamefield.mergeTile(3, new Direction(Direction.DOWN));
-		assertEquals(8, gamefield.grid[2][3].getValue());
+		assertEquals(8, gamefield.getGrid()[2][3].getValue());
 		// 8 at (0,0); 2 at (0,3); 2 at (3,0); 8 at (2,3)
 		
 		gamefield.insertNumberTile(100, 2, 0);
 		gamefield.insertNumberTile(100, 2, 1);
 		
 		gamefield.mergeTile(2, new Direction(Direction.RIGHT));
-		assertEquals(8, gamefield.grid[2][1].getValue());
+		assertEquals(8, gamefield.getGrid()[2][1].getValue());
 		// 8 at (0,0); 2 at (0,3); 2 at (3,0); 8 at (2,3); 8 at (2,1)
 	}
 	
 	@Test
 	public void testInsertNumberTile() {
 		gamefield.insertNumberTile(0, 0, 0);
-		int value = gamefield.grid[0][0].getValue();
+		int value = gamefield.getGrid()[0][0].getValue();
 		assertEquals(2, value);
 		
 		gamefield.insertNumberTile(0, 3, 0);
-		value = gamefield.grid[3][0].getValue();
+		value = gamefield.getGrid()[3][0].getValue();
 		assertEquals(2, value);
 		
 		gamefield.insertNumberTile(100, 0, 3);
-		value = gamefield.grid[0][3].getValue();
+		value = gamefield.getGrid()[0][3].getValue();
 		assertEquals(4, value);
 		
 		gamefield.insertNumberTile(100, 3, 3);
-		value = gamefield.grid[3][3].getValue();
+		value = gamefield.getGrid()[3][3].getValue();
 		assertEquals(4, value);
 		
 		int tilecount = getTilesInGameField();
@@ -149,9 +150,9 @@ public class GameFieldTest {
 	
 	private int getTilesInGameField(){
 		int tilecount = 0;
-		for (int i = 0; i < gamefield.height; ++i) {
-			for (int j = 0; j < gamefield.height; ++j) {
-				if (gamefield.grid[i][j] != null)
+		for (int i = 0; i < gamefield.getHeight(); ++i) {
+			for (int j = 0; j < gamefield.getHeight(); ++j) {
+				if (gamefield.getGrid()[i][j] != null)
 					tilecount++;
 			}		
 		}
