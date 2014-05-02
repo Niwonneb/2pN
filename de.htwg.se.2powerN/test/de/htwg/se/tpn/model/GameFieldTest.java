@@ -1,11 +1,12 @@
-package de.htwg.se.TwoPowerN.model;
+package de.htwg.se.tpn.model;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.se.TwoPowerN.model.GameField;
+import de.htwg.se.tpn.model.Direction;
+import de.htwg.se.tpn.model.GameField;
 
 public class GameFieldTest {
 	
@@ -15,6 +16,37 @@ public class GameFieldTest {
 	public void setUp() throws Exception {
 		gamefield = new GameField(4);
 	}
+	
+	@Test
+	public void testMoveTiles() {
+		gamefield.insertNumberTile(0, 0, 0);
+		gamefield.insertNumberTile(100, 1, 0);
+		gamefield.insertNumberTile(100, 2, 2);
+		gamefield.insertNumberTile(100, 1, 3);
+		
+		gamefield.moveTiles(new Direction(Direction.DOWN));
+		
+		assertEquals(4, gamefield.grid[3][0].getValue());
+		assertEquals(2, gamefield.grid[2][0].getValue());
+		assertEquals(4, gamefield.grid[3][2].getValue());
+		assertEquals(4, gamefield.grid[3][3].getValue());
+		// 2 at (2,0); 4 at (3,0); 4 at (3,2); 4 at (3,3)
+	}
+	
+	@Test
+	public void testMergeTiles() {
+		gamefield.insertNumberTile(0, 0, 0);
+		gamefield.insertNumberTile(0, 1, 0);
+		gamefield.insertNumberTile(0, 3, 0);
+		gamefield.insertNumberTile(100, 2, 2);
+		gamefield.insertNumberTile(100, 3, 2);
+		
+		gamefield.mergeTiles(new Direction(Direction.UP));
+		assertEquals(4, gamefield.grid[0][0].getValue());
+		assertEquals(2, gamefield.grid[3][0].getValue());
+		assertEquals(8, gamefield.grid[2][2].getValue());
+		// 4 at (0,0); 2 at (3,0); 8 at (2,2)
+	}
 
 	@Test
 	public void testMoveTile() {
@@ -23,8 +55,8 @@ public class GameFieldTest {
 		
 		gamefield.moveTile(0, new Direction(Direction.DOWN));
 		
-		assertEquals(8, gamefield.grid[3][0].getValue());
-		assertEquals(4, gamefield.grid[2][0].getValue());
+		assertEquals(4, gamefield.grid[3][0].getValue());
+		assertEquals(2, gamefield.grid[2][0].getValue());
 		// 2 at (2,0); 4 at (3,0)
 		
 		gamefield.insertNumberTile(0, 3, 2);
@@ -33,18 +65,18 @@ public class GameFieldTest {
 		
 		assertEquals(2, gamefield.grid[3][3].getValue());
 		assertEquals(4, gamefield.grid[3][2].getValue());
-		// 2 at (2,0); 4 at (3,3); 2 at (3,2)
+		// 2 at (2,0); 2 at (3,3); 4 at (3,2)
 		
 		gamefield.moveTile(2, new Direction(Direction.UP));
 		
-		assertEquals(2, gamefield.grid[0][2].getValue());
-		// 2 at (2,0); 4 at (3,3); 2 at (0,2)
+		assertEquals(4, gamefield.grid[0][2].getValue());
+		// 2 at (2,0); 2 at (3,3); 4 at (0,2)
 		
 		gamefield.moveTile(1, new Direction(Direction.LEFT));
 		
-		assertEquals(2, gamefield.grid[0][2].getValue());
-		assertEquals(4, gamefield.grid[3][2].getValue());
-		// 2 at (2,0); 4 at (3,3); 2 at (0,2)
+		assertEquals(4, gamefield.grid[0][2].getValue());
+		assertEquals(2, gamefield.grid[3][3].getValue());
+		// 2 at (2,0); 2 at (3,3); 4 at (0,2)
 	}
 	
 	@Test
@@ -104,9 +136,16 @@ public class GameFieldTest {
 	
 	@Test
 	public void testInsertRandomNumberTile() {
-		gamefield.insertRandomNumberTile(15);
+		gamefield.insertRandomNumberTile();
+		gamefield.insertRandomNumberTile();
+		gamefield.insertRandomNumberTile();
 		int tilecount = getTilesInGameField();
-		assertEquals(15, tilecount);
+		assertEquals(3, tilecount);
+		boolean insert = true;
+		for (int i = 3; i < 4 * 4; i++) {
+			insert = gamefield.insertRandomNumberTile();
+		}
+		assertEquals(false, insert);
 	}
 	
 	private int getTilesInGameField(){

@@ -1,4 +1,4 @@
-package de.htwg.se.TwoPowerN.model;
+package de.htwg.se.tpn.model;
 
 public interface Tile {
 	public int getValue();

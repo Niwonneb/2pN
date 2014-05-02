@@ -1,20 +1,29 @@
-package de.htwg.se.TwoPowerN.model;
+package de.htwg.se.tpn.model;
 import java.util.Random;
+import java.util.List;
+import java.util.LinkedList;
+import java.awt.Point;
 
 public final class GameField {
 	
 	protected Tile[][] grid;
 	protected int height;
 	
-	public GameField(int height){
+	public GameField(int height) {
 		this.grid = new Tile[height][height];
 		this.height = height;
 	} 
 	
+	public void mergeTiles(Direction direction) {
+		for (int i = 0; i < height; i++) {
+			mergeTile(i, direction);
+		}
+	}
+	
 	/*
 	 * merges the Tiles in 'direction' in the line 'index'
 	 */
- 	public void mergeTile(int index, Direction direction){
+ 	protected void mergeTile(int index, Direction direction) {
  		direction.setStarts(index, height);
  		
  		int column = direction.getcStart();
@@ -37,13 +46,17 @@ public final class GameField {
 			row = rNext;
 		}
  	}
-	
-	
+
+	public void moveTiles(Direction direction) {
+		for (int i = 0; i < height; i++) {
+			moveTile(i, direction);
+		}
+	}
 
 	/*
 	 * The method moves the tiles according to the given direction.
 	 */
-	public void moveTile(int index, Direction direction){
+	protected void moveTile(int index, Direction direction) {
  		direction.setStarts(index, height);
  		
  		int columnStart = direction.getcStart();
@@ -53,9 +66,9 @@ public final class GameField {
  		int cNext, column;					// r := row 	c := column
  		int rNext, row;
  		
- 		boolean moved = false;
+ 		boolean moved;
  		do {
-
+ 			moved = false;
 	 		column = columnStart;
 	 		row = rowStart;
 
@@ -77,27 +90,37 @@ public final class GameField {
 	 * insert a new NumberTiles to (row,column) if it's empty
 	 * @param chance percentage (0-100) of spawning a 4 
 	 */
-	protected boolean insertNumberTile(int chance, int row, int column){
-		if (grid[row][column] == null) {					// place is empty
-			Random rand = new Random();
-			int random = rand.nextInt(101);					// create random 1-100
-			NumberTile newTile = new NumberTile();
-			if (random <= chance)							// chance of creating a 4
-				newTile.doubleValue();
-			grid[row][column] = newTile;
-			return true;
+	protected void insertNumberTile(int chance, int row, int column) {
+		Random rand = new Random();
+		int random = rand.nextInt(101);					// create random 1-100
+		NumberTile newTile = new NumberTile();
+		if (random <= chance) {							// chance of creating a 4
+			newTile.doubleValue();
 		}
-		return false;
+		grid[row][column] = newTile;
 	}
 	
-	public void insertRandomNumberTile(int count) {
+	public boolean insertRandomNumberTile() {
 		Random rand = new Random();
-		int created = 0;
-		while (created < count) {
-			int column = rand.nextInt(height);
-			int row = rand.nextInt(height);
-			if (insertNumberTile(20, row, column))
-				created++;
+		List<Point> emptyPlaces = getEmptyPlaces();
+		if (emptyPlaces.isEmpty()) {
+			return false;
 		}
+		int idx = rand.nextInt(emptyPlaces.size());
+		Point insertPlace = emptyPlaces.get(idx);
+		insertNumberTile(20, (int) insertPlace.getY(), (int) insertPlace.getX());
+		return true;
+	}
+	
+	protected List<Point> getEmptyPlaces() {
+		LinkedList<Point> emptyPlaces = new LinkedList<Point>();
+		for (int y = 0; y < height; ++y) {
+			for (int x = 0; x < height; ++x) {
+				if (grid[y][x] == null) {
+					emptyPlaces.add(new Point(x, y));
+				}
+			}
+		}
+		return emptyPlaces;
 	}
 }
