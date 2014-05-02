@@ -12,19 +12,11 @@ public class TUI implements KeyListener, ActionListener{
 	
 	public TUI(){
 		
-		c = new TpnController();	
+		c = new TpnController();
+		
 	}
 	
-	public void getDirection() {
-		if (this.direction == KeyEvent.VK_LEFT)
-			c.actionLeft();
-		else if (this.direction == KeyEvent.VK_RIGHT)
-			c.actionRight();
-		else if (this.direction == KeyEvent.VK_DOWN)
-			c.actionDown();
-		else if (this.direction == KeyEvent.VK_UP)
-			c.actionUp();
-		}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -36,6 +28,15 @@ public class TUI implements KeyListener, ActionListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		this.direction = e.getKeyCode();
+		
+		if (this.direction == KeyEvent.VK_LEFT)
+			System.out.println("LEft");
+		else if (this.direction == KeyEvent.VK_RIGHT)
+			System.out.println("Right");
+		else if (this.direction == KeyEvent.VK_DOWN)
+			System.out.println("Down");
+		else if (this.direction == KeyEvent.VK_UP)
+			System.out.println("Up");
 		
 		
 	}
