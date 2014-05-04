@@ -12,13 +12,13 @@ public class TUI{
 	public TUI(){
 		
 		TUI.controller = new TpnController();
+		inn = new Scanner(System.in);
 		
 	}
 	
 	public static void main(String[] args) {
 
-		inn = new Scanner(System.in);
-		String dChar = inn.nextLine();
+		char dChar = inn.next().charAt(0);
 		directionChar.dirChar(controller, dChar);
 	
 	}
