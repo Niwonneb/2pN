@@ -15,6 +15,8 @@ public class TUI {
 		controller.gameInit();
 		inn = new Scanner(System.in);
 		printField(4);
+		directionEstimation(4);
+		
 	}
 	
 	protected void printField(int height) {
@@ -77,14 +79,37 @@ public class TUI {
 		System.out.println("|");
 	}
 	
-//	public static void main(String[] args) {
-//		System.out.println("Hello");
-//		int dChar;
-//		dChar = inn.nextInt();
-//		System.out.println(dChar);
-//	}
+	protected void directionEstimation(int height) {
+		String direction = "";
+		while (true) {
+			System.out.println("Give the new direction");
+			direction =  inn.next();
+			if (direction.equals("4")) {
+				controller.actionLeft();
+				printField(height);
+			} else if (direction.equals("6")) {
+				controller.actionRight();
+				printField(height);
+			} else if (direction.equals("8")){
+				controller.actionUp();
+				printField(height);
+			} else if (direction.equals("2")) {
+				controller.actionDown();
+				printField(height);
+			} else if (direction.equals("69")){
+				System.out.println("Game finished");
+				System.exit(0);
+			} else {
+			
+				System.out.println("Please press only 2, 4, 6 or 8 to play or 69 to quit");
+			}
+		}
+		
+	}
+	
+		
+	}
+
 
 	
 
-
-}
