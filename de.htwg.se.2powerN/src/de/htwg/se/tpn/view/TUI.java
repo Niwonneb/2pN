@@ -86,15 +86,4 @@ public class TUI {
 			
 		System.out.println("|");
 	}
-	
-//	public static void main(String[] args) {
-//		System.out.println("Hello");
-//		int dChar;
-//		dChar = inn.nextInt();
-//		System.out.println(dChar);
-//	}
-
-	
-
-
 }
