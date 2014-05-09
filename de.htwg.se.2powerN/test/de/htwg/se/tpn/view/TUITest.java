@@ -3,19 +3,17 @@ package de.htwg.se.tpn.view;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.htwg.se.tpn.controller.TpnController;
-
 public class TUITest {
 
-	TpnController c = new TpnController();
+	TUI tui;
+	
 	@Before
 	public void setUp() throws Exception {
-		c.gameInit();
+		tui = new TUI();
 	}
 
 	@Test
-	public void test() {
-		
+	public void testprintField() {
 	}
 
 }

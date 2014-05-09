@@ -24,6 +24,12 @@ public final class GameField {
 		return height;
 	}
 	
+	public int getValue(int row,  int collumn) {
+		if (grid[row][collumn] == null)
+			return 0;
+		return grid[row][collumn].getValue();
+	}
+	
 	public void mergeTiles(Direction direction) {
 		for (int i = 0; i < height; i++) {
 			mergeTile(i, direction);

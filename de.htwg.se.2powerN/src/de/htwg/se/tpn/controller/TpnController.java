@@ -16,6 +16,10 @@ public class TpnController {
 		gamefield.insertRandomNumberTile();
 	}
 	
+	public int getValue(int row, int collumn) {
+		return gamefield.getValue(row, collumn);
+	}
+	
 	public void actionLeft() {
 		actionDir(Direction.LEFT);
 	}

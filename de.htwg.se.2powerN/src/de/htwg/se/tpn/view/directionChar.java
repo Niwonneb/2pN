@@ -16,16 +16,16 @@ public class directionChar {
 	 */
 	public static void dirChar(final TpnController controller, final int directionChar) {
 	
-	if (directionChar == 4)
-		controller.actionLeft();
-	else if (directionChar == 6)
-		controller.actionRight();
-	else if (directionChar ==  8)
-		controller.actionUp();
-	else if (directionChar == 2)
-		controller.actionDown();
-	else if (directionChar == 69)
-		System.exit(0);
+//	if (directionChar == 4)
+//		controller.actionLeft();
+//	else if (directionChar == 6)
+//		controller.actionRight();
+//	else if (directionChar ==  8)
+//		controller.actionUp();
+//	else if (directionChar == 2)
+//		controller.actionDown();
+//	else if (directionChar == 69)
+//		System.exit(0);
 	}
 	
 
