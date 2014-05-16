@@ -1,7 +1,7 @@
 package de.htwg.se.tpn.view;
 
 public class TwoPN {
-	public void main() {
+	public static void main(String[] args) {
 		new TUI();
 	}
 }

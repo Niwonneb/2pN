@@ -21,26 +21,25 @@ public class TpnController {
 	}
 	
 	public void actionLeft() {
-		actionDir(Direction.LEFT);
+		actionDir(new Direction.Left());
 	}
 	
 	public void actionRight() {
-		actionDir(Direction.RIGHT);
+		actionDir(new Direction.Right());
 	}
 	
 	public void actionUp() {
-		actionDir(Direction.UP);
+		actionDir(new Direction.Up());
 	}
 	
 	public void actionDown() {
-		actionDir(Direction.DOWN);
+		actionDir(new Direction.Down());
 	}
 	
-	private void actionDir(int direction) {
+	private void actionDir(Direction direction) {
 		gamefield.insertRandomNumberTile();
-		Direction d = new Direction(direction);
-		gamefield.moveTiles(d);
-		gamefield.mergeTiles(d);
-		gamefield.moveTiles(d);
+		gamefield.moveTiles(direction);
+		gamefield.mergeTiles(direction);
+		gamefield.moveTiles(direction);
 	}
 }
