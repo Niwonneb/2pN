@@ -125,5 +125,3 @@ public class TUI {
 		System.out.print(str);
 	}
 }
-
-

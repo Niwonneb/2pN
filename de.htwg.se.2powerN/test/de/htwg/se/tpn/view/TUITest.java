@@ -15,5 +15,9 @@ public class TUITest {
 	@Test
 	public void testprintField() {
 	}
+	@Test
+	public void testdirectionEstimation() {
+		
+	}
 
 }

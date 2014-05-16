@@ -50,6 +50,14 @@ public class Direction {
  		}
 	}
 	
+//	class Left extends Direction {
+//		public void setStarts() {
+//			collumStart = 0;
+//			rowStart= index;
+//					
+//		}
+//	}
+	
 	public int getcStep() {
 		return collumnStep;
 	}
