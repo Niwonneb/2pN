@@ -15,9 +15,10 @@ public class TUI {
 		controller.gameInit();
 		inn = new Scanner(System.in);
 		printField(4);
+		readInput(4);
 	}
 	
-	protected void printField(int height) {
+	protected final void printField(int height) {
 		printSeperator(height);
 		for (int row = 0; row < height; row++) {
 			printNumbers(height, row);
@@ -27,11 +28,12 @@ public class TUI {
 	
 	private void printSeperator(int height) {
 		for (int i = 0; i < height; i++) {
-			System.out.print("+");
-			for (int j = 0; j < TILESIZE; j++)
-				System.out.print("-");
+			print("+");
+			for (int j = 0; j < TILESIZE; j++) {
+				print("-");
+			}
 		}
-		System.out.println("+");
+		println("+");
 	}
 	
 	private void printNumbers(int height, int row) {
@@ -45,13 +47,13 @@ public class TUI {
 		for (int collumn = 0; collumn < height; collumn++) {
 			printemptyTileSection();
 		}
-		System.out.println("|");
+		println("|");
 	}
 	
 	private void printemptyTileSection() {
-		System.out.print("|");
+		print("|");
 		for (int i = 0; i < TILESIZE; i++) {
-			System.out.print(" ");
+			print(" ");
 		}
 	}
 	
@@ -72,18 +74,56 @@ public class TUI {
 			int spacesBefore = (int) Math.ceil(spaces / 2);
 			int spacesAfter = (int) Math.floor(spaces / 2);
 
-			System.out.print("|");
+			print("|");
 			for (int i = 0; i < spacesBefore; i++) {
-				System.out.print(" ");
+				print(" ");
 			}
 			
-			System.out.print(strValue);
+			print(strValue);
 			
 			for (int i = 0; i < spacesAfter; i++) {
-				System.out.print(" ");
+				print(" ");
 			}
 		}
 			
-		System.out.println("|");
+		println("|");
+	}
+	
+	protected void readInput(int height) {
+		String direction = "";
+		while (true) {
+			println("Give the new direction");
+			direction =  inn.next();
+			if (direction.equals("4")) {
+				controller.actionLeft();
+				printField(height);
+			} else if (direction.equals("6")) {
+				controller.actionRight();
+				printField(height);
+			} else if (direction.equals("8")){
+				controller.actionUp();
+				printField(height);
+			} else if (direction.equals("2")) {
+				controller.actionDown();
+				printField(height);
+			} else if (direction.equals("q")){
+				println("Game finished");
+				System.exit(0);
+			} else {
+			
+				println("Please press only 2, 4, 6 or 8 to play or q to quit");
+			}
+		}
+		
+	}
+	
+	private void println(String str) {
+		print(str + "\n");
+	}
+	
+	private void print(String str) {
+		System.out.print(str);
 	}
 }
+
+
