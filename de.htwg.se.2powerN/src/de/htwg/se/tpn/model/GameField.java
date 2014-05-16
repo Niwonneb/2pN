@@ -25,8 +25,9 @@ public final class GameField {
 	}
 	
 	public int getValue(int row,  int collumn) {
-		if (grid[row][collumn] == null)
+		if (grid[row][collumn] == null) {
 			return 0;
+		}
 		return grid[row][collumn].getValue();
 	}
 	

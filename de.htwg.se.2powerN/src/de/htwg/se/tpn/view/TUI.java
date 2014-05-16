@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class TUI {
 
 	private static final int TILESIZE = 7;
+	private static final int FIELDSIZE = 4;
 	
 	private TpnController controller;
 	private static Scanner inn;
@@ -14,8 +15,8 @@ public class TUI {
 		controller = new TpnController();
 		controller.gameInit();
 		inn = new Scanner(System.in);
-		printField(4);
-		readInput(4);
+		printField(FIELDSIZE);
+		readInput(FIELDSIZE);
 	}
 	
 	protected final void printField(int height) {
@@ -89,7 +90,7 @@ public class TUI {
 		println("|");
 	}
 	
-	protected void readInput(int height) {
+	protected final void readInput(int height) {
 		String direction = "";
 		while (true) {
 			println("Give the new direction");
