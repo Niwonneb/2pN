@@ -1,6 +1,6 @@
 package de.htwg.se.tpn.view;
 
-public class TwoPN {
+public final class TwoPN {
 	private TwoPN() {
 	}
 
