@@ -45,31 +45,41 @@ public class TUI {
 	
 	private void printemptyTileLine(int height) {
 		for (int collumn = 0; collumn < height; collumn++) {
-			System.out.print("|");
-			for (int i = 0; i < TILESIZE; i++) {
-				System.out.print(" ");
-			}
+			printemptyTileSection();
 		}
 		System.out.println("|");
+	}
+	
+	private void printemptyTileSection() {
+		System.out.print("|");
+		for (int i = 0; i < TILESIZE; i++) {
+			System.out.print(" ");
+		}
 	}
 	
 	private void printTileLine(int row, int height) {
 		int valueLength = 0;
 		
 		for (int collumn = 0; collumn < height; collumn++) {
-			System.out.print("|");
 
-			String value = String.valueOf(controller.getValue(row, collumn));
-			valueLength = value.length();
+			int value = controller.getValue(row, collumn);
+			if (value == 0) {
+				printemptyTileSection();
+				continue;
+			}
+			
+			String strValue = String.valueOf(value);
+			valueLength = strValue.length();
 			double spaces = (TILESIZE - valueLength);
 			int spacesBefore = (int) Math.ceil(spaces / 2);
 			int spacesAfter = (int) Math.floor(spaces / 2);
 
+			System.out.print("|");
 			for (int i = 0; i < spacesBefore; i++) {
 				System.out.print(" ");
 			}
 			
-			System.out.print(value);
+			System.out.print(strValue);
 			
 			for (int i = 0; i < spacesAfter; i++) {
 				System.out.print(" ");
@@ -108,8 +118,6 @@ public class TUI {
 	}
 	
 		
-	}
+}
 
-
-	
 
