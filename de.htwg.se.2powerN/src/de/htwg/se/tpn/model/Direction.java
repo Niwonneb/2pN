@@ -1,6 +1,6 @@
 package de.htwg.se.tpn.model;
 
-public abstract class Direction {
+public abstract class Direction implements DirectionInterface{
 	private int columnStep, rowStep;
 	private int columnStart, rowStart;
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.awt.Point;
 
-public final class GameField extends Observable{
+public final class GameField extends Observable implements GameFieldInterface{
 	
 	private Tile[][] grid;
 	private int height;

@@ -4,7 +4,7 @@ import java.util.Observer;
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.GameField;
 
-public class TpnController {
+public class TpnController implements TpnControllerInterface {
 	private GameField gamefield;
 	
 	public TpnController(int size, Observer o) {
