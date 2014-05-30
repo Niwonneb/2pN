@@ -1,21 +1,23 @@
 package de.htwg.se.tpn.view;
 import de.htwg.se.tpn.controller.*;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Scanner;
 
-public class TUI {
+public class TUI implements Observer{
 
 	private static final int TILESIZE = 7;
-	private static final int FIELDSIZE = 4;
+	private static final int FIELDSIZE = 5;
 	
 	private TpnController controller;
+	private boolean end;
 	private static Scanner inn;
 	
 	public TUI() {
-		controller = new TpnController();
-		controller.gameInit();
+		controller = new TpnController(FIELDSIZE, this);
 		inn = new Scanner(System.in);
-		printField(FIELDSIZE);
+		end = false;
 		readInput(FIELDSIZE);
 	}
 	
@@ -92,21 +94,18 @@ public class TUI {
 	
 	protected final void readInput(int height) {
 		String direction = "";
-		while (true) {
+		while (!end) {
+			printField(height);
 			println("Give the new direction");
-			direction =  inn.next();
+			direction = inn.next();
 			if (direction.equals("4")) {
 				controller.actionLeft();
-				printField(height);
 			} else if (direction.equals("6")) {
 				controller.actionRight();
-				printField(height);
 			} else if (direction.equals("8")){
 				controller.actionUp();
-				printField(height);
 			} else if (direction.equals("2")) {
 				controller.actionDown();
-				printField(height);
 			} else if (direction.equals("q")){
 				println("Game finished");
 				System.exit(0);
@@ -124,5 +123,11 @@ public class TUI {
 	
 	private void print(String str) {
 		System.out.print(str);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		println("Game over");
+		end = true;
 	}
 }

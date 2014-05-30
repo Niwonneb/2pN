@@ -1,10 +1,11 @@
 package de.htwg.se.tpn.model;
+import java.util.Observable;
 import java.util.Random;
 import java.util.List;
 import java.util.LinkedList;
 import java.awt.Point;
 
-public final class GameField {
+public final class GameField extends Observable{
 	
 	private Tile[][] grid;
 	private int height;
@@ -31,17 +32,20 @@ public final class GameField {
 		return grid[row][collumn].getValue();
 	}
 	
-	public void mergeTiles(Direction direction) {
+	public boolean mergeTiles(Direction direction) {
+		boolean merged = false;
 		for (int i = 0; i < height; i++) {
-			mergeTile(i, direction);
+			merged = mergeTile(i, direction) || merged;
 		}
+		return merged;
 	}
 	
 	/*
 	 * merges the Tiles in 'direction' in the line 'index'
 	 */
- 	protected void mergeTile(int index, Direction direction) {
+ 	protected boolean mergeTile(int index, Direction direction) {
  		direction.setStarts(index, height);
+ 		boolean merged = false;
  		
  		int column = direction.getcStart();
  		int row = direction.getrStart();
@@ -57,12 +61,15 @@ public final class GameField {
 			if (grid[row][column] != null && grid[rNext][cNext] != null
 				&& grid[row][column].getValue() == grid[rNext][cNext].getValue()) {
 				
+				merged = true;
 				grid[row][column].doubleValue();
 				grid[rNext][cNext] = null;
 			}
 			column = cNext;
 			row = rNext;
 		}
+ 		
+ 		return merged;
  	}
 
 	public void moveTiles(Direction direction) {
@@ -144,5 +151,20 @@ public final class GameField {
 			}
 		}
 		return emptyPlaces;
+	}
+	
+	public void trymerge() {
+		Tile[][] gridoriginal = grid;
+		boolean merged = false;
+		
+		merged = mergeTiles(new Direction.Left()); 
+		merged = merged || mergeTiles(new Direction.Right());
+		merged = merged || mergeTiles(new Direction.Up());
+		merged = merged || mergeTiles(new Direction.Down());
+		grid = gridoriginal;
+		if (!merged) {
+			setChanged();
+			notifyObservers();
+		}
 	}
 }

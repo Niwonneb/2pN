@@ -1,14 +1,17 @@
 package de.htwg.se.tpn.controller;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import org.junit.Before;
 import org.junit.Test;
 
-public class TpnControllerTest {
-TpnController c = new TpnController();
+public class TpnControllerTest implements Observer{
+TpnController c = new TpnController(4, this);
 
 	@Before
 	public void setUp() throws Exception {
-		c.gameInit();
+		c.gameInit(4);
 	}
 
 	@Test
@@ -29,5 +32,9 @@ TpnController c = new TpnController();
 	@Test
 	public void testactionDown() {
 		c.actionDown();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
 	}
 }
