@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class TUI implements Observer{
 
 	private static final int TILESIZE = 7;
-	private static final int FIELDSIZE = 5;
+	private static final int FIELDSIZE = 2;
 	
 	private TpnController controller;
 	private boolean end;
@@ -18,6 +18,7 @@ public class TUI implements Observer{
 		controller = new TpnController(FIELDSIZE, this);
 		inn = new Scanner(System.in);
 		end = false;
+		printField(FIELDSIZE);
 		readInput(FIELDSIZE);
 	}
 	
@@ -95,17 +96,16 @@ public class TUI implements Observer{
 	protected final void readInput(int height) {
 		String direction = "";
 		while (!end) {
-			printField(height);
 			println("Give the new direction");
 			direction = inn.next();
-			if (direction.equals("4")) {
-				controller.actionLeft();
-			} else if (direction.equals("6")) {
-				controller.actionRight();
-			} else if (direction.equals("8")){
-				controller.actionUp();
-			} else if (direction.equals("2")) {
-				controller.actionDown();
+			if (direction.equals("4") && controller.actionLeft()) {
+				printField(height);
+			} else if (direction.equals("6") && controller.actionRight()) {
+				printField(height);
+			} else if (direction.equals("8") && controller.actionUp()) {
+				printField(height);
+			} else if (direction.equals("2") && controller.actionDown()) {
+				printField(height);
 			} else if (direction.equals("q")){
 				println("Game finished");
 				System.exit(0);

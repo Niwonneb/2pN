@@ -9,7 +9,7 @@ public final class GameField extends Observable implements GameFieldInterface{
 	
 	private Tile[][] grid;
 	private int height;
-	private static final int DOUBLECHANCE = 20;
+	private static final int DOUBLECHANCE = 10;
 	private static final int PERCMAX = 100;
 	
 	public GameField(int height) {
@@ -72,16 +72,18 @@ public final class GameField extends Observable implements GameFieldInterface{
  		return merged;
  	}
 
-	public void moveTiles(Direction direction) {
+	public boolean moveTiles(Direction direction) {
+		boolean moved = false;
 		for (int i = 0; i < height; i++) {
-			moveTile(i, direction);
+			moved = moveTile(i, direction) || moved;
 		}
+		return moved;
 	}
 
 	/*
 	 * The method moves the tiles according to the given direction.
 	 */
-	protected void moveTile(int index, Direction direction) {
+	protected boolean moveTile(int index, Direction direction) {
  		direction.setStarts(index, height);
  		
  		int columnStart = direction.getcStart();
@@ -92,6 +94,7 @@ public final class GameField extends Observable implements GameFieldInterface{
  		int cNext, column;
  		int rNext, row;
  		
+ 		boolean movedatall = false;
  		boolean moved;
  		do {
  			moved = false;
@@ -105,11 +108,13 @@ public final class GameField extends Observable implements GameFieldInterface{
 					grid[row][column] = grid[rNext][cNext];
 					grid[rNext][cNext] = null;
 					moved = true;
+					movedatall = true;
 				}
 				column = cNext;
 				row = rNext;
 	 		}
 		} while (moved);
+ 		return movedatall;
 	}
 	
 	/*
@@ -153,18 +158,30 @@ public final class GameField extends Observable implements GameFieldInterface{
 		return emptyPlaces;
 	}
 	
-	public void trymerge() {
-		Tile[][] gridoriginal = grid;
+	public boolean trymerge() {
+		Tile[][] original = cloneGrid();
 		boolean merged = false;
 		
-		merged = mergeTiles(new Direction.Left()); 
-		merged = merged || mergeTiles(new Direction.Right());
-		merged = merged || mergeTiles(new Direction.Up());
-		merged = merged || mergeTiles(new Direction.Down());
-		grid = gridoriginal;
+		merged = mergeTiles(new Direction.Left())
+			  || mergeTiles(new Direction.Right())
+			  || mergeTiles(new Direction.Up())
+			  || mergeTiles(new Direction.Down());
+		grid = original;
 		if (!merged) {
 			setChanged();
 			notifyObservers();
+			return false;
 		}
+		return true;
+	}
+	
+	private Tile[][] cloneGrid() {
+		Tile[][] original = new Tile[height][];
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < height; j++) {
+				original[i][j] = grid[i][j].clone();
+			}
+		}
+		return original;
 	}
 }

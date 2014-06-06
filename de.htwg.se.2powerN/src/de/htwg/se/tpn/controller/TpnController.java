@@ -6,6 +6,8 @@ import de.htwg.se.tpn.model.GameField;
 
 public class TpnController implements TpnControllerInterface {
 	private GameField gamefield;
+	private Direction lastDirection;
+	private boolean hasMoved;
 	
 	public TpnController(int size, Observer o) {
 		gameInit(size);
@@ -22,31 +24,39 @@ public class TpnController implements TpnControllerInterface {
 		return gamefield.getValue(row, collumn);
 	}
 
-	public void actionLeft() {
-		actionDir(new Direction.Left());
+	public boolean actionLeft() {
+		return actionDir(new Direction.Left());
 	}
 
-	public void actionRight() {
-		actionDir(new Direction.Right());
+	public boolean actionRight() {
+		return actionDir(new Direction.Right());
 	}
 
-	public void actionUp() {
-		actionDir(new Direction.Up());
+	public boolean actionUp() {
+		return actionDir(new Direction.Up());
 	}
 
-	public void actionDown() {
-		actionDir(new Direction.Down());
+	public boolean actionDown() {
+		return actionDir(new Direction.Down());
 	}
 
-	private void actionDir(Direction direction) {
+	private boolean actionDir(Direction direction) {
+		if (!hasMoved && direction.equals(lastDirection)) {
+			return false;
+		}
 		boolean inserted = false;
-		gamefield.moveTiles(direction);
-		gamefield.mergeTiles(direction);
-		gamefield.moveTiles(direction);
+		hasMoved = false;
+
+		hasMoved = gamefield.moveTiles(direction);
+		hasMoved = gamefield.mergeTiles(direction) || hasMoved;
+		hasMoved = gamefield.moveTiles(direction) || hasMoved;
 		inserted = gamefield.insertRandomNumberTile();
-		gamefield.moveTiles(direction);
 		if (!inserted) {
 			gamefield.trymerge();
 		}
+		lastDirection = direction;
+		return true;
 	}
+	
+	
 }

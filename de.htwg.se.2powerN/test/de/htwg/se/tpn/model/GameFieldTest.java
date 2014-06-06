@@ -62,22 +62,23 @@ public class GameFieldTest {
 		
 		gamefield.insertNumberTile(0, 3, 2);
 		
-		gamefield.moveTile(3, new Direction.Right());
+		gamefield.moveTiles(new Direction.Right());
 		
-		assertEquals(2, gamefield.getGrid()[3][3].getValue());
+		assertEquals(2, gamefield.getGrid()[2][3].getValue());
 		assertEquals(4, gamefield.getGrid()[3][2].getValue());
-		// 2 at (2,0); 2 at (3,3); 4 at (3,2)
-		
-		gamefield.moveTile(2, new Direction.Up());
-		
-		assertEquals(4, gamefield.getGrid()[0][2].getValue());
-		// 2 at (2,0); 2 at (3,3); 4 at (0,2)
-		
-		gamefield.moveTile(1, new Direction.Left());
-		
-		assertEquals(4, gamefield.getGrid()[0][2].getValue());
 		assertEquals(2, gamefield.getGrid()[3][3].getValue());
-		// 2 at (2,0); 2 at (3,3); 4 at (0,2)
+		// 2 at (2,3); 2 at (3,3); 4 at (3,2)
+		
+		gamefield.moveTiles(new Direction.Up());
+		
+		assertEquals(4, gamefield.getGrid()[0][2].getValue());
+		// 2 at (0,3); 2 at (1,3); 4 at (0,2)
+		
+		gamefield.moveTiles(new Direction.Left());
+		
+		assertEquals(4, gamefield.getGrid()[0][0].getValue());
+		assertEquals(2, gamefield.getGrid()[0][1].getValue());
+		// 2 at (0,1); 2 at (1,0); 4 at (0,0)
 	}
 	
 	@Test
@@ -157,5 +158,15 @@ public class GameFieldTest {
 			}		
 		}
 		return tilecount;
+	}
+	
+	@Test
+	public void testTryMerge() {
+		assertEquals(false, gamefield.trymerge());
+		
+		gamefield.insertNumberTile(0, 0, 0);
+		gamefield.insertNumberTile(0, 1, 0);
+		
+		assertEquals(true, gamefield.trymerge());
 	}
 }

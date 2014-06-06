@@ -66,4 +66,24 @@ public abstract class Direction implements DirectionInterface{
 	public int getrStart() {
 		return rowStart;
 	}
+	
+	public boolean equals(Object o) {
+		if (o == null) {
+			return false;
+		}
+		if (!(o instanceof Direction)) {
+			return false;
+		}
+		Direction d = (Direction) o;
+		if (columnStep != d.columnStep || rowStep != d.rowStep ||
+			columnStart != d.columnStart || rowStart != d.rowStart) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		return columnStep + columnStart + rowStep + rowStart;
+	}
 }
