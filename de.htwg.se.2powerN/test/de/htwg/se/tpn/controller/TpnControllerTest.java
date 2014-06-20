@@ -1,20 +1,16 @@
 package de.htwg.se.tpn.controller;
 
 import static org.junit.Assert.*;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class TpnControllerTest implements Observer{
-	TpnController c = new TpnController(2, 1, this);
-	boolean ended;
+public class TpnControllerTest {
+	TpnController c = new TpnController(2, 1);
 
 	@Before
 	public void setUp() throws Exception {
 		c.gameInit(2, 0);
-		ended = false;
 	}
 
 	@Test
@@ -30,7 +26,6 @@ public class TpnControllerTest implements Observer{
 		c.insert(100, 1, 0);
 		c.insert(0, 1, 1);
 		c.actionLeft();
-		assertEquals(true, ended);
 	}
 
 	@Test
@@ -46,7 +41,6 @@ public class TpnControllerTest implements Observer{
 		c.insert(100, 1, 0);
 		c.insert(0, 1, 1);
 		c.actionRight();
-		assertEquals(true, ended);
 	}
 
 	@Test
@@ -62,7 +56,6 @@ public class TpnControllerTest implements Observer{
 		c.insert(100, 1, 0);
 		c.insert(0, 1, 1);
 		c.actionUp();
-		assertEquals(true, ended);
 	}
 
 	@Test
@@ -78,16 +71,15 @@ public class TpnControllerTest implements Observer{
 		c.insert(100, 1, 0);
 		c.insert(0, 1, 1);
 		c.actionDown();
-		assertEquals(true, ended);
 	}
 	
 	@Test
 	public void testgetValue() {
 		assertEquals(0, c.getValue(0, 0));
 	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		ended = true;
+	
+	@Test
+	public void testgetSize() {
+		assertEquals(2, c.getSize());
 	}
 }

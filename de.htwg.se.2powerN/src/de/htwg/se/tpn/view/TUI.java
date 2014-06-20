@@ -1,25 +1,25 @@
 package de.htwg.se.tpn.view;
 import de.htwg.se.tpn.controller.*;
+import de.htwg.se.tpn.util.observer.Event;
+import de.htwg.se.tpn.util.observer.IObserver;
 
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Scanner;
 
-public class TUI implements Observer{
+public class TUI implements IObserver{
 
 	private static final int TILESIZE = 7;
-	private static final int INSERTS = 2;
 	
 	private TpnControllerInterface controller;
-	private boolean end;
 	private static Scanner inn;
+	private boolean end;
 	
-	public TUI(int fieldsize) {
-		controller = new TpnController(fieldsize, INSERTS, this);
+	public TUI(TpnControllerInterface controller) {
+		this.controller = controller;
+		controller.addObserver(this);
 		inn = new Scanner(System.in);
+		printField(controller.getSize());
+		readInput();
 		end = false;
-		printField(fieldsize);
-		readInput(fieldsize);
 	}
 	
 	protected final void printField(int height) {
@@ -93,7 +93,7 @@ public class TUI implements Observer{
 		println("|");
 	}
 	
-	protected final void readInput(int height) {
+	protected final void readInput() {
 		String direction = "";
 		while (!end) {
 			println("Give the new direction");
@@ -101,33 +101,21 @@ public class TUI implements Observer{
 			
 			switch (direction) {
 			case "4":
-				if (controller.actionLeft()) {
-					printField(height);
-				}
+				controller.actionLeft();
 				break;
 			case "6":
-				if (controller.actionRight()) {
-					printField(height);
-				}
+				controller.actionRight();
 				break;
 			case "8":
-				if (controller.actionUp()) {
-					printField(height);
-				}
+				controller.actionUp();
 				break;
 			case "2":
-				if (controller.actionDown()) {
-					printField(height);
-				}
+				controller.actionDown();
 				break;
-			case "q":
-				println("Game finished");
-				System.exit(0);
 			default:
 				println("Please press only 2, 4, 6 or 8 to play or q to quit");
 			}
 		}
-		
 	}
 	
 	private void println(String str) {
@@ -139,8 +127,16 @@ public class TUI implements Observer{
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		println("Game over");
-		end = true;
+	public void update(Event e) {
+		if (e instanceof TpnControllerInterface.NewFieldEvent) {
+			printField(controller.getSize());
+		} else if (e instanceof TpnControllerInterface.GameOverEvent && !end) {
+			println("Game Over");
+			end = true;
+		} else if (e instanceof TpnControllerInterface.NewGameEvent) {
+			println("New Game");
+			end = false;
+			printField(controller.getSize());
+		}
 	}
 }

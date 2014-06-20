@@ -20,7 +20,7 @@ public final class GameField implements GameFieldInterface{
 		return grid;
 	}
 	
-	protected int getHeight() {
+	public int getHeight() {
 		return height;
 	}
 	
@@ -130,6 +130,15 @@ public final class GameField implements GameFieldInterface{
 			newTile.doubleValue();
 		}
 		grid[row][collumn] = newTile;
+	}
+	
+	public boolean insertRandomNumberTiles(int count) {
+		for (int i = 0; i < count; i++) {
+			if (!insertRandomNumberTile()) {
+				return false;
+			}
+		}	
+		return true;
 	}
 	
 	public boolean insertRandomNumberTile() {
