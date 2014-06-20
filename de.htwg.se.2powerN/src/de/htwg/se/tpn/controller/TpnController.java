@@ -4,25 +4,32 @@ import java.util.Observer;
 
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.GameField;
+import de.htwg.se.tpn.model.DirectionInterface;
+import de.htwg.se.tpn.model.GameFieldInterface;
 
 public class TpnController  extends Observable implements TpnControllerInterface {
-	private GameField gamefield;
-	private Direction lastDirection;
+	private GameFieldInterface gamefield;
+	private DirectionInterface lastDirection;
 	private boolean hasMoved;
 	
-	public TpnController(int size, Observer o) {
-		gameInit(size);
+	public TpnController(int size, int inserts, Observer o) {
+		gameInit(size, inserts);
 		this.addObserver(o);
 	}
-	
-	protected final void gameInit(int size) {
+
+	protected final void gameInit(int size, int inserts) {
 		gamefield = new GameField(size);
-		gamefield.insertRandomNumberTile();
-		gamefield.insertRandomNumberTile();
+		for (int i = 0; i < inserts; i++) {
+			gamefield.insertRandomNumberTile();
+		}
 	}
-	
+
 	public int getValue(int row, int collumn) {
 		return gamefield.getValue(row, collumn);
+	}
+	
+	public void insert(int chance, int row, int collumn) {
+		gamefield.insertNumberTile(chance, row, collumn);
 	}
 
 	public boolean actionLeft() {
@@ -60,6 +67,4 @@ public class TpnController  extends Observable implements TpnControllerInterface
 		lastDirection = direction;
 		return true;
 	}
-	
-	
 }

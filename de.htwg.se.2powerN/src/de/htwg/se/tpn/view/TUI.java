@@ -8,13 +8,14 @@ import java.util.Scanner;
 public class TUI implements Observer{
 
 	private static final int TILESIZE = 7;
+	private static final int INSERTS = 2;
 	
-	private TpnController controller;
+	private TpnControllerInterface controller;
 	private boolean end;
 	private static Scanner inn;
 	
 	public TUI(int fieldsize) {
-		controller = new TpnController(fieldsize, this);
+		controller = new TpnController(fieldsize, INSERTS, this);
 		inn = new Scanner(System.in);
 		end = false;
 		printField(fieldsize);

@@ -1,5 +1,6 @@
 package de.htwg.se.tpn.controller;
 
+import static org.junit.Assert.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -7,39 +8,86 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TpnControllerTest implements Observer{
-TpnController c = new TpnController(4, this);
+	TpnController c = new TpnController(2, 1, this);
+	boolean ended;
 
 	@Before
 	public void setUp() throws Exception {
-		c.gameInit(4);
+		c.gameInit(2, 0);
+		ended = false;
 	}
 
 	@Test
 	public void testactionLeft() {
+		c.insert(0, 0, 1);
+		assertEquals(true, c.actionLeft());
+		c.insert(100, 0, 1);
+		c.insert(0, 1, 0);
+		c.insert(100, 1, 1);
+		assertEquals(false, c.actionLeft());
+		c.insert(0, 0, 0);
+		c.insert(100, 0, 1);
+		c.insert(100, 1, 0);
+		c.insert(0, 1, 1);
 		c.actionLeft();
+		assertEquals(true, ended);
 	}
 
 	@Test
 	public void testactionRight() {
+		c.insert(0, 1, 0);
+		assertEquals(true, c.actionRight());
+		c.insert(0, 0, 1);
+		c.insert(100, 1, 0);
+		c.insert(100, 0, 0);
+		assertEquals(false, c.actionRight());
+		c.insert(0, 0, 0);
+		c.insert(100, 0, 1);
+		c.insert(100, 1, 0);
+		c.insert(0, 1, 1);
 		c.actionRight();
+		assertEquals(true, ended);
 	}
 
 	@Test
 	public void testactionUp() {
+		c.insert(0, 1, 0);
+		assertEquals(true, c.actionUp());
+		c.insert(0, 0, 1);
+		c.insert(100, 1, 0);
+		c.insert(100, 1, 1);
+		assertEquals(false, c.actionUp());
+		c.insert(0, 0, 0);
+		c.insert(100, 0, 1);
+		c.insert(100, 1, 0);
+		c.insert(0, 1, 1);
 		c.actionUp();
+		assertEquals(true, ended);
 	}
 
 	@Test
 	public void testactionDown() {
+		c.insert(0, 0, 0);
+		assertEquals(true, c.actionDown());
+		c.insert(100, 0, 1);
+		c.insert(100, 0, 0);
+		c.insert(0, 1, 1);
+		assertEquals(false, c.actionDown());
+		c.insert(0, 0, 0);
+		c.insert(100, 0, 1);
+		c.insert(100, 1, 0);
+		c.insert(0, 1, 1);
 		c.actionDown();
+		assertEquals(true, ended);
 	}
 	
 	@Test
 	public void testgetValue() {
-		c.getValue(0, 0);
+		assertEquals(0, c.getValue(0, 0));
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		ended = true;
 	}
 }

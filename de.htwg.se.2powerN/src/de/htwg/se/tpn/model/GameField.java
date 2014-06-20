@@ -120,7 +120,7 @@ public final class GameField implements GameFieldInterface{
 	 * insert a new NumberTiles to (row,column) if it's empty
 	 * @param chance percentage (0-100) of spawning a 4 
 	 */
-	protected void insertNumberTile(int chance, int row, int column) {
+	public void insertNumberTile(int chance, int row, int collumn) {
 		Random rand = new Random();
 		// --------------------------------------------- create random 1-100
 		int random = rand.nextInt(PERCMAX + 1);
@@ -129,7 +129,7 @@ public final class GameField implements GameFieldInterface{
 		if (random <= chance) {
 			newTile.doubleValue();
 		}
-		grid[row][column] = newTile;
+		grid[row][collumn] = newTile;
 	}
 	
 	public boolean insertRandomNumberTile() {
