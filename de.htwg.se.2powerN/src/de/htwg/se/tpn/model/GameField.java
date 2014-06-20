@@ -179,7 +179,7 @@ public final class GameField extends Observable implements GameFieldInterface{
 		Tile[][] original = new Tile[height][];
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < height; j++) {
-				original[i][j] = grid[i][j].clone();
+				original[i][j] = (Tile) grid[i][j].clone();
 			}
 		}
 		return original;
