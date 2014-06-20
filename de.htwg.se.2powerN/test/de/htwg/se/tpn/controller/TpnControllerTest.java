@@ -33,6 +33,11 @@ TpnController c = new TpnController(4, this);
 	public void testactionDown() {
 		c.actionDown();
 	}
+	
+	@Test
+	public void testgetValue() {
+		c.getValue(0, 0);
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {

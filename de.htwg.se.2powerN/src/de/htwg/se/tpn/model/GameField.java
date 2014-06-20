@@ -145,7 +145,7 @@ public final class GameField implements GameFieldInterface{
 		return true;
 	}
 	
-	protected List<Point> getEmptyPlaces() {
+	public List<Point> getEmptyPlaces() {
 		LinkedList<Point> emptyPlaces = new LinkedList<Point>();
 		for (int y = 0; y < height; ++y) {
 			for (int x = 0; x < height; ++x) {
@@ -173,6 +173,10 @@ public final class GameField implements GameFieldInterface{
 		Tile[][] original = new Tile[height][height];
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < height; j++) {
+				if (grid[i][j] == null) {
+					original[i][j] = null;
+					continue;
+				}
 				original[i][j] = (Tile) grid[i][j].clone();
 			}
 		}

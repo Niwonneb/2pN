@@ -42,20 +42,21 @@ public class TpnController  extends Observable implements TpnControllerInterface
 	}
 
 	private boolean actionDir(Direction direction) {
-		boolean inserted = false;
 		hasMoved = false;
 
 		hasMoved = gamefield.moveTiles(direction);
 		hasMoved = gamefield.mergeTiles(direction) || hasMoved;
 		hasMoved = gamefield.moveTiles(direction) || hasMoved;
+
+		if (gamefield.getEmptyPlaces().isEmpty() && !gamefield.trymerge()) {
+			setChanged();
+			notifyObservers();
+			return false;
+		}
 		if (!hasMoved && direction.equals(lastDirection)) {
 			return false;
 		}
-		inserted = gamefield.insertRandomNumberTile();
-		if (!inserted && !gamefield.trymerge()) {
-			setChanged();
-			notifyObservers();
-		}
+		gamefield.insertRandomNumberTile();
 		lastDirection = direction;
 		return true;
 	}

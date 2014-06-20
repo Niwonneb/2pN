@@ -161,6 +161,13 @@ public class GameFieldTest {
 	}
 	
 	@Test
+	public void testgetValue() {
+		assertEquals(0, gamefield.getValue(0, 0));
+		gamefield.insertNumberTile(0, 0, 0);
+		assertEquals(2, gamefield.getValue(0, 0));
+	}
+	
+	@Test
 	public void testTryMerge() {
 		assertEquals(false, gamefield.trymerge());
 		
