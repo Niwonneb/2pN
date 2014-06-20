@@ -5,6 +5,6 @@ public final class TwoPN {
 	}
 
 	public static void main(String[] args) {
-		new TUI();
+		new TUI(2);
 	}
 }

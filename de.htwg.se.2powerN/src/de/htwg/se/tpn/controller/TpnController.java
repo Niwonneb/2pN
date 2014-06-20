@@ -1,17 +1,18 @@
 package de.htwg.se.tpn.controller;
+import java.util.Observable;
 import java.util.Observer;
 
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.GameField;
 
-public class TpnController implements TpnControllerInterface {
+public class TpnController  extends Observable implements TpnControllerInterface {
 	private GameField gamefield;
 	private Direction lastDirection;
 	private boolean hasMoved;
 	
 	public TpnController(int size, Observer o) {
 		gameInit(size);
-		gamefield.addObserver(o);
+		this.addObserver(o);
 	}
 	
 	protected final void gameInit(int size) {
@@ -41,18 +42,19 @@ public class TpnController implements TpnControllerInterface {
 	}
 
 	private boolean actionDir(Direction direction) {
-		if (!hasMoved && direction.equals(lastDirection)) {
-			return false;
-		}
 		boolean inserted = false;
 		hasMoved = false;
 
 		hasMoved = gamefield.moveTiles(direction);
 		hasMoved = gamefield.mergeTiles(direction) || hasMoved;
 		hasMoved = gamefield.moveTiles(direction) || hasMoved;
+		if (!hasMoved && direction.equals(lastDirection)) {
+			return false;
+		}
 		inserted = gamefield.insertRandomNumberTile();
-		if (!inserted) {
-			gamefield.trymerge();
+		if (!inserted && !gamefield.trymerge()) {
+			setChanged();
+			notifyObservers();
 		}
 		lastDirection = direction;
 		return true;

@@ -1,11 +1,10 @@
 package de.htwg.se.tpn.model;
-import java.util.Observable;
 import java.util.Random;
 import java.util.List;
 import java.util.LinkedList;
 import java.awt.Point;
 
-public final class GameField extends Observable implements GameFieldInterface{
+public final class GameField implements GameFieldInterface{
 	
 	private Tile[][] grid;
 	private int height;
@@ -167,16 +166,11 @@ public final class GameField extends Observable implements GameFieldInterface{
 			  || mergeTiles(new Direction.Up())
 			  || mergeTiles(new Direction.Down());
 		grid = original;
-		if (!merged) {
-			setChanged();
-			notifyObservers();
-			return false;
-		}
-		return true;
+		return merged;
 	}
-	
+
 	private Tile[][] cloneGrid() {
-		Tile[][] original = new Tile[height][];
+		Tile[][] original = new Tile[height][height];
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < height; j++) {
 				original[i][j] = (Tile) grid[i][j].clone();

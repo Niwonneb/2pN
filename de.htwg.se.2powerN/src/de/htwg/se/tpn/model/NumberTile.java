@@ -8,10 +8,17 @@ public class NumberTile implements Tile {
 	public NumberTile() {
 		value = 2;
 	}
+	public NumberTile(int value) {
+		this.value = value;
+	}
 	public void doubleValue() {
 		value *= 2;
 	}
 	public int getValue() {
 		return value;
+	}
+	@Override
+	public Object clone()  {
+		return new NumberTile(value);
 	}
 }

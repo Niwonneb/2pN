@@ -8,18 +8,17 @@ import java.util.Scanner;
 public class TUI implements Observer{
 
 	private static final int TILESIZE = 7;
-	private static final int FIELDSIZE = 2;
 	
 	private TpnController controller;
 	private boolean end;
 	private static Scanner inn;
 	
-	public TUI() {
-		controller = new TpnController(FIELDSIZE, this);
+	public TUI(int fieldsize) {
+		controller = new TpnController(fieldsize, this);
 		inn = new Scanner(System.in);
 		end = false;
-		printField(FIELDSIZE);
-		readInput(FIELDSIZE);
+		printField(fieldsize);
+		readInput(fieldsize);
 	}
 	
 	protected final void printField(int height) {
@@ -98,19 +97,32 @@ public class TUI implements Observer{
 		while (!end) {
 			println("Give the new direction");
 			direction = inn.next();
-			if (direction.equals("4") && controller.actionLeft()) {
-				printField(height);
-			} else if (direction.equals("6") && controller.actionRight()) {
-				printField(height);
-			} else if (direction.equals("8") && controller.actionUp()) {
-				printField(height);
-			} else if (direction.equals("2") && controller.actionDown()) {
-				printField(height);
-			} else if (direction.equals("q")){
+			
+			switch (direction) {
+			case "4":
+				if (controller.actionLeft()) {
+					printField(height);
+				}
+				break;
+			case "6":
+				if (controller.actionRight()) {
+					printField(height);
+				}
+				break;
+			case "8":
+				if (controller.actionUp()) {
+					printField(height);
+				}
+				break;
+			case "2":
+				if (controller.actionDown()) {
+					printField(height);
+				}
+				break;
+			case "q":
 				println("Game finished");
 				System.exit(0);
-			} else {
-			
+			default:
 				println("Please press only 2, 4, 6 or 8 to play or q to quit");
 			}
 		}

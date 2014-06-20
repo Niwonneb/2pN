@@ -75,8 +75,7 @@ public abstract class Direction implements DirectionInterface{
 			return false;
 		}
 		Direction d = (Direction) o;
-		if (columnStep != d.columnStep || rowStep != d.rowStep ||
-			columnStart != d.columnStart || rowStart != d.rowStart) {
+		if (columnStep != d.columnStep || rowStep != d.rowStep) {
 			return false;
 		}
 		return true;
@@ -84,6 +83,6 @@ public abstract class Direction implements DirectionInterface{
 	
 	@Override
 	public int hashCode() {
-		return columnStep + columnStart + rowStep + rowStart;
+		return columnStep + rowStep;
 	}
 }
