@@ -1,5 +1,6 @@
 package de.htwg.se.tpn.controller;
 
+import com.google.inject.Inject;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
