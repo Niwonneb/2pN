@@ -1,7 +1,7 @@
 package de.htwg.se.tpn.model;
 
-public interface Tile {
+public interface Tile extends Cloneable {
 	int getValue();
 	void doubleValue();
-	Object clone();
+	Object clone() throws CloneNotSupportedException;
 }

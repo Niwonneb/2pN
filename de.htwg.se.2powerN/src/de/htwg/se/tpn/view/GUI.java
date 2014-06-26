@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -29,7 +31,55 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 	/**
 	 * 
 	 */
+	private static final int WINDOWSIZE = 600;
+	private static final int INNERGAP = 10;
+	private static final int OUTERGAP = 30;
 	private static final long serialVersionUID = 1L;
+	private static final int STDSIZE = 4;
+	private static final int HIGSIZE = 8;
+	private static final int VHISIZE = 11;
+	private static final int LOWSIZEFONT = 50;
+	private static final int STDSIZEFONT = 31;
+	private static final int HIGSIZEFONT = 26;
+	private static final int VHISIZEFONT = 16;
+	private static final int ELSSIZEFONT = 10;
+	
+	private static final int FRAMECOLOR = 0xBCB39F;
+	
+	@SuppressWarnings("serial")
+	private static final Map<Integer,Integer> FORECOLORS =
+											new TreeMap<Integer, Integer>() {{
+		put(0, 0x000000);
+		put(2, 0x716B60);
+		put(4, 0x716B60);
+		put(8, 0xFFFFFF);
+		put(16, 0xFFFFFF);
+		put(32, 0xFFFFFF);
+		put(64, 0xFFFFFF);
+		put(128, 0xFFFFFF);
+		put(265, 0xFFFFFF);
+		put(512, 0xFFFFFF);
+		put(1024, 0xFFFFFF);
+		put(2048, 0xFFFFFF);
+		put(-1, 0x000000);
+	}};
+	@SuppressWarnings("serial")
+	private static final Map<Integer,Integer> BACKCOLORS = 
+											new TreeMap<Integer, Integer>() {{
+		put(0, 0xCAC5BA);
+		put(2, 0xE8E6D8);
+		put(4, 0xE5D8BD);
+		put(8, 0xF0AF66);
+		put(16, 0xF2965A);
+		put(32, 0xF57A5B);
+		put(64, 0xF04D24);
+		put(128, 0xE9D37C);
+		put(265, 0xF2D76E);
+		put(512, 0xE5CB43);
+		put(1024, 0xF4E43E);
+		put(2048, 0xE9F028);
+		put(-1, 0x6FD8C0);
+	}};
 	private TpnControllerInterface controller;
 	private JLabel[][] tileLabels;
 	private JPanel tilePanel;
@@ -56,33 +106,7 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 		newGame.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				JTextField fieldsize = new JTextField();
-				JTextField inputs = new JTextField();
-				fieldsize.setText("4");
-				inputs.setText("1");
-				Object[] message = {
-				    "Field size:", fieldsize,
-				    "Number of new Tiles:", inputs
-				};
-				int option = JOptionPane.showConfirmDialog(
-						GUI.this,
-						message,
-		                "Create new Game",
-		                JOptionPane.OK_CANCEL_OPTION);
-			
-			
-				if (option == JOptionPane.OK_OPTION) {
-				    try {
-				    	int size = Integer.valueOf(fieldsize.getText());
-				    	int inserts = Integer.valueOf(inputs.getText());
-					    GUI.this.controller.gameInit(size, inserts);
-					    new GUI(GUI.this.controller);
-					    GUI.this.controller.removeObserver(GUI.this);
-					    GUI.this.dispose();
-				    } catch (Exception err) {
-				    	JOptionPane.showMessageDialog(GUI.this, "Wrong input", "Game creation failed", JOptionPane.WARNING_MESSAGE);;
-				    }
-				}
+					handle(e);
 			}
 		});
 		menuFile.add(newGame);
@@ -92,7 +116,6 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 			
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
-				
 			}
 		});
 		menuFile.add(exitItem);
@@ -101,17 +124,51 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 		this.add(this.tilePanel);
         
 		this.pack();
-		this.setSize(600, 600);
+		this.setSize(WINDOWSIZE, WINDOWSIZE);
 		this.setVisible(true);
+	}
+
+	private void handle(ActionEvent e) {
+
+		JTextField fieldsize = new JTextField();
+		JTextField inputs = new JTextField();
+		fieldsize.setText("4");
+		inputs.setText("1");
+		Object[] message = {
+		    "Field size:", fieldsize,
+		    "Number of new Tiles:", inputs
+		};
+		int option = JOptionPane.showConfirmDialog(
+				GUI.this,
+				message,
+                "Create new Game",
+                JOptionPane.OK_CANCEL_OPTION);
+	
+	
+		if (option == JOptionPane.OK_OPTION) {
+		    try {
+		    	int size = Integer.valueOf(fieldsize.getText());
+		    	int inserts = Integer.valueOf(inputs.getText());
+			    GUI.this.controller.gameInit(size, inserts);
+			    new GUI(GUI.this.controller);
+			    GUI.this.controller.removeObserver(GUI.this);
+			    GUI.this.dispose();
+		    } catch (Exception err) {
+		    	JOptionPane.showMessageDialog(GUI.this, "Wrong input",
+		    			"Game creation failed", JOptionPane.WARNING_MESSAGE);
+		    }
+		}
 	}
 	
 	private void createTiles() {
 		tileLabels = new JLabel[controller.getSize()][controller.getSize()];
-		GridLayout layout = new GridLayout(controller.getSize(), controller.getSize());
-		layout.setHgap(10);
-		layout.setVgap(10);
+		GridLayout layout = new GridLayout(controller.getSize(),
+				                           controller.getSize());
+		layout.setHgap(INNERGAP);
+		layout.setVgap(INNERGAP);
 		this.tilePanel = new JPanel(layout);
-		tilePanel.setBorder(new EmptyBorder(30, 30, 30, 30));;
+		tilePanel.setBorder(new EmptyBorder(OUTERGAP, OUTERGAP,
+				                            OUTERGAP, OUTERGAP));
 		for (int i = 0; i < controller.getSize(); ++i) {
 			for (int j = 0; j < controller.getSize(); ++j) {
 				JLabel tileLabel = initLabel(new JLabel(""));
@@ -120,7 +177,7 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 			}
 		}
 		tilePanel.setOpaque(true);
-		tilePanel.setBackground(new Color(0xBCB39F));
+		tilePanel.setBackground(new Color(FRAMECOLOR));
 		updateValues();
 	}
 	
@@ -130,25 +187,25 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVerticalAlignment(JLabel.CENTER);
 		label.setVerticalTextPosition(JLabel.CENTER);
-		label.setBackground(new Color(0xCAC5BA));
-		label.setForeground(new Color(0x716B60));
+		label.setBackground(new Color(BACKCOLORS.get(0)));
 		Font labelFont = label.getFont();
-		label.setFont(new Font(labelFont.getName(), Font.BOLD + Font.ROMAN_BASELINE, getfontsize()));
+		label.setFont(new Font(labelFont.getName(),
+				      Font.BOLD + Font.ROMAN_BASELINE, getfontsize()));
 		
 		return label;
 	}
 	
 	private int getfontsize() {
-		if (controller.getSize() < 4) {
-			return 50;
-		} else if (controller.getSize() == 4) {
-			return 31;
-		} else if (controller.getSize() < 8) {
-			return 26;
-		} else if (controller.getSize() < 11) {
-			return 16;
+		if (controller.getSize() < STDSIZE) {
+			return LOWSIZEFONT;
+		} else if (controller.getSize() == STDSIZE) {
+			return STDSIZEFONT;
+		} else if (controller.getSize() < HIGSIZE) {
+			return HIGSIZEFONT;
+		} else if (controller.getSize() < VHISIZE) {
+			return VHISIZEFONT;
 		}
-		return 10;
+		return ELSSIZEFONT;
 	}
 	
 	private void updateValues() {
@@ -160,58 +217,13 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 					text = "";
 				}
 				tileLabels[i][j].setText(text);
-				switch (value) {
-					case 0:
-						tileLabels[i][j].setBackground(new Color(0xCAC5BA));
-						break;
-					case 2:
-						tileLabels[i][j].setBackground(new Color(0xE8E6D8));
-						tileLabels[i][j].setForeground(new Color(0x716B60));
-						break;
-					case 4:
-						tileLabels[i][j].setBackground(new Color(0xE5D8BD));
-						tileLabels[i][j].setForeground(new Color(0x716B60));
-						break;
-					case 8:
-						tileLabels[i][j].setBackground(new Color(0xF0AF66));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 16:
-						tileLabels[i][j].setBackground(new Color(0xF2965A));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 32:
-						tileLabels[i][j].setBackground(new Color(0xF57A5B));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 64:
-						tileLabels[i][j].setBackground(new Color(0xF04D24));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 128:
-						tileLabels[i][j].setBackground(new Color(0xE9D37C));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 256:
-						tileLabels[i][j].setBackground(new Color(0xF2D76E));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 512:
-						tileLabels[i][j].setBackground(new Color(0xE5CB43));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 1024:
-						tileLabels[i][j].setBackground(new Color(0xF4E43E));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					case 2048:
-						tileLabels[i][j].setBackground(new Color(0xE9F028));
-						tileLabels[i][j].setForeground(Color.WHITE);
-						break;
-					default:
-						tileLabels[i][j].setBackground(new Color(0x6FD8C0));
-						tileLabels[i][j].setForeground(Color.BLACK);
-						break;
+				JLabel label = tileLabels[i][j];
+				if (BACKCOLORS.containsKey(value)) {
+					label.setBackground(new Color(BACKCOLORS.get(value)));
+					label.setForeground(new Color(FORECOLORS.get(value)));
+				} else {
+					label.setBackground(new Color(BACKCOLORS.get(-1)));
+					label.setForeground(new Color(FORECOLORS.get(-1)));
 				}
 			}
 		}

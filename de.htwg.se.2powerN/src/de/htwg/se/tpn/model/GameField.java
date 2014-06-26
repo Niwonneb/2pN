@@ -190,7 +190,12 @@ public final class GameField implements GameFieldInterface{
 					original[i][j] = null;
 					continue;
 				}
+				try {
 				original[i][j] = (Tile) grid[i][j].clone();
+				} catch (CloneNotSupportedException e) {
+					System.out.println("Fatal Error");
+					System.exit(1);
+				}
 			}
 		}
 		return original;

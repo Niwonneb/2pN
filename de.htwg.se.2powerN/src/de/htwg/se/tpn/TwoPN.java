@@ -11,9 +11,10 @@ import de.htwg.se.tpn.view.TUI;
 
 public final class TwoPN {
 	@Inject private TpnControllerFactory controllerfactory;
+	private static final int FIELDSIZE = 4;
 
 	public void run() {
-		TpnControllerInterface controller = controllerfactory.create(4, 1);
+		TpnControllerInterface controller = controllerfactory.create(FIELDSIZE, 1);
 
 		new GUI(controller);
 		new TUI(controller);
