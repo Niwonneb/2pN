@@ -11,6 +11,9 @@ public interface TpnControllerInterface extends IObservable{
 	boolean actionRight();
 	boolean actionUp();
 	boolean actionDown();
+	void gamereset(int size);
+	void insert(int chance, int row, int column);
+	
 	public static class NewFieldEvent extends Event {}
 	public static class GameOverEvent extends Event {}
 	public static class NewGameEvent extends Event {}

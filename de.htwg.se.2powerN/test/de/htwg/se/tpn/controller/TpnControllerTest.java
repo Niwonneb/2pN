@@ -6,10 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TpnControllerTest {
-	TpnController c = new TpnController(2, 1);
+	TpnController c;
 
 	@Before
 	public void setUp() throws Exception {
+		c = new TpnController(2, 1);
 		c.gamereset(2);
 	}
 
