@@ -5,16 +5,17 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
+import de.htwg.se.tpn.TpNModule;
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.DirectionInterface;
 import de.htwg.se.tpn.model.GameFieldFactory;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.util.observer.Observable;
-import de.htwg.se.tpn.view.TpNModule;
 
 public class TpnController extends Observable implements TpnControllerInterface {
 	private GameFieldInterface gamefield;
 	private DirectionInterface lastDirection;
+	private int inserts;
 	private boolean hasMoved;
 	
 	@Inject private GameFieldFactory gameFieldFactory;
@@ -28,6 +29,9 @@ public class TpnController extends Observable implements TpnControllerInterface 
 		Injector injector = Guice.createInjector(new TpNModule());
 		injector.injectMembers(this);
 		gamefield = gameFieldFactory.create(size);
+		
+		this.inserts = inserts;
+		
 		for (int i = 0; i < inserts; i++) {
 			gamefield.insertRandomNumberTile();
 		}
@@ -76,7 +80,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
 		if (!hasMoved && direction.equals(lastDirection)) {
 			return false;
 		}
-		gamefield.insertRandomNumberTile();
+		gamefield.insertRandomNumberTiles(inserts);
 		lastDirection = direction;
 		notifyObservers(new NewFieldEvent());
 		return true;

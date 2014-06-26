@@ -1,5 +1,6 @@
 package de.htwg.se.tpn.view;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,6 +58,8 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 			public void actionPerformed(ActionEvent e) {
 				JTextField fieldsize = new JTextField();
 				JTextField inputs = new JTextField();
+				fieldsize.setText("4");
+				inputs.setText("1");
 				Object[] message = {
 				    "Field size:", fieldsize,
 				    "Number of new Tiles:", inputs
@@ -111,20 +114,41 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 		tilePanel.setBorder(new EmptyBorder(30, 30, 30, 30));;
 		for (int i = 0; i < controller.getSize(); ++i) {
 			for (int j = 0; j < controller.getSize(); ++j) {
-				JLabel tileLabel = new JLabel("");
-				tileLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-				tileLabel.setOpaque(true);
-				tileLabel.setHorizontalAlignment(JLabel.CENTER);
-				tileLabel.setVerticalAlignment(JLabel.CENTER);
-				tileLabel.setVerticalTextPosition(JLabel.CENTER);
-				tileLabel.setBackground(Color.lightGray);
+				JLabel tileLabel = initLabel(new JLabel(""));
 				tileLabels[i][j] = tileLabel;
 				tilePanel.add(tileLabel);
 			}
 		}
 		tilePanel.setOpaque(true);
-		tilePanel.setBackground(Color.gray);
+		tilePanel.setBackground(new Color(0xBCB39F));
 		updateValues();
+	}
+	
+	private JLabel initLabel(JLabel label) {
+		label.setBorder(BorderFactory.createRaisedBevelBorder());
+		label.setOpaque(true);
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setVerticalAlignment(JLabel.CENTER);
+		label.setVerticalTextPosition(JLabel.CENTER);
+		label.setBackground(new Color(0xCAC5BA));
+		label.setForeground(new Color(0x716B60));
+		Font labelFont = label.getFont();
+		label.setFont(new Font(labelFont.getName(), Font.BOLD + Font.ROMAN_BASELINE, getfontsize()));
+		
+		return label;
+	}
+	
+	private int getfontsize() {
+		if (controller.getSize() < 4) {
+			return 50;
+		} else if (controller.getSize() == 4) {
+			return 31;
+		} else if (controller.getSize() < 8) {
+			return 26;
+		} else if (controller.getSize() < 11) {
+			return 16;
+		}
+		return 10;
 	}
 	
 	private void updateValues() {
@@ -138,43 +162,55 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 				tileLabels[i][j].setText(text);
 				switch (value) {
 					case 0:
-						tileLabels[i][j].setBackground(Color.lightGray);
+						tileLabels[i][j].setBackground(new Color(0xCAC5BA));
 						break;
 					case 2:
-						tileLabels[i][j].setBackground(new Color(0xF6F5F4));
+						tileLabels[i][j].setBackground(new Color(0xE8E6D8));
+						tileLabels[i][j].setForeground(new Color(0x716B60));
 						break;
 					case 4:
-						tileLabels[i][j].setBackground(new Color(0xFBEFB6));
+						tileLabels[i][j].setBackground(new Color(0xE5D8BD));
+						tileLabels[i][j].setForeground(new Color(0x716B60));
 						break;
 					case 8:
-						tileLabels[i][j].setBackground(new Color(0xFCD77E));
+						tileLabels[i][j].setBackground(new Color(0xF0AF66));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 16:
-						tileLabels[i][j].setBackground(new Color(0xED7A64));
+						tileLabels[i][j].setBackground(new Color(0xF2965A));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 32:
-						tileLabels[i][j].setBackground(new Color(0xF7805F));
+						tileLabels[i][j].setBackground(new Color(0xF57A5B));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 64:
-						tileLabels[i][j].setBackground(new Color(0xF8583A));
+						tileLabels[i][j].setBackground(new Color(0xF04D24));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 128:
-						tileLabels[i][j].setBackground(new Color(0xC7FDA1));
+						tileLabels[i][j].setBackground(new Color(0xE9D37C));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 256:
-						tileLabels[i][j].setBackground(new Color(0xA9F872));
+						tileLabels[i][j].setBackground(new Color(0xF2D76E));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 512:
-						tileLabels[i][j].setBackground(new Color(0x8CF344));
+						tileLabels[i][j].setBackground(new Color(0xE5CB43));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 1024:
-						tileLabels[i][j].setBackground(new Color(0x42D17F));
+						tileLabels[i][j].setBackground(new Color(0xF4E43E));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					case 2048:
-						tileLabels[i][j].setBackground(new Color(0x0FCC60));
+						tileLabels[i][j].setBackground(new Color(0xE9F028));
+						tileLabels[i][j].setForeground(Color.WHITE);
 						break;
 					default:
-						tileLabels[i][j].setBackground(new Color(0x63E9E7));
+						tileLabels[i][j].setBackground(new Color(0x6FD8C0));
+						tileLabels[i][j].setForeground(Color.BLACK);
 						break;
 				}
 			}

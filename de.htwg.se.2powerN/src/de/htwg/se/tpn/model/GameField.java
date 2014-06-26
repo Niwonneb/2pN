@@ -11,7 +11,7 @@ public final class GameField implements GameFieldInterface{
 	
 	private Tile[][] grid;
 	private int height;
-	private static final int DOUBLECHANCE = 10;
+	private static final int DOUBLECHANCE = 20;
 	private static final int PERCMAX = 100;
 	
 	@Inject
