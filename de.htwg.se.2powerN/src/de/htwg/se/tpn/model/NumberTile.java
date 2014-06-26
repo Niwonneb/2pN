@@ -18,7 +18,7 @@ public class NumberTile implements Tile {
 		return value;
 	}
 	@Override
-	public Object clone()  {
+	public Object clone() throws CloneNotSupportedException {
 		return new NumberTile(value);
 	}
 }

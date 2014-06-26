@@ -46,39 +46,57 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 	
 	private static final int FRAMECOLOR = 0xBCB39F;
 	
+	private static final int FORE1 = 0x000000;
+	private static final int FORE2 = 0x716B60;
+	private static final int FORE3 = 0xFFFFFF;
+	
+	private static final int BACK0 = 0xCAC5BA;
+	private static final int BACK2 = 0xE8E6D8;
+	private static final int BACK4 = 0xE5D8BD;
+	private static final int BACK8 = 0xF0AF66;
+	private static final int BACK16 = 0xF2965A;
+	private static final int BACK32 = 0xF57A5B;
+	private static final int BACK64 = 0xF04D24;
+	private static final int BACK128 = 0xE9D37C;
+	private static final int BACK256 = 0xF2D76E;
+	private static final int BACK512 = 0xE5CB43;
+	private static final int BACK1024 = 0xF4E43E;
+	private static final int BACK2048 = 0xE9F028;
+	private static final int BACKREST = 0x6FD8C0;
+	
 	@SuppressWarnings("serial")
 	private static final Map<Integer,Integer> FORECOLORS =
 											new TreeMap<Integer, Integer>() {{
-		put(0, 0x000000);
-		put(2, 0x716B60);
-		put(4, 0x716B60);
-		put(8, 0xFFFFFF);
-		put(16, 0xFFFFFF);
-		put(32, 0xFFFFFF);
-		put(64, 0xFFFFFF);
-		put(128, 0xFFFFFF);
-		put(265, 0xFFFFFF);
-		put(512, 0xFFFFFF);
-		put(1024, 0xFFFFFF);
-		put(2048, 0xFFFFFF);
-		put(-1, 0x000000);
+		put(0, FORE1);
+		put(2, FORE2);
+		put(4, FORE2);
+		put(8, FORE3);
+		put(16, FORE3);
+		put(32, FORE3);
+		put(64, FORE3);
+		put(128, FORE3);
+		put(265, FORE3);
+		put(512, FORE3);
+		put(1024, FORE3);
+		put(2048, FORE3);
+		put(-1, FORE1);
 	}};
 	@SuppressWarnings("serial")
 	private static final Map<Integer,Integer> BACKCOLORS = 
 											new TreeMap<Integer, Integer>() {{
-		put(0, 0xCAC5BA);
-		put(2, 0xE8E6D8);
-		put(4, 0xE5D8BD);
-		put(8, 0xF0AF66);
-		put(16, 0xF2965A);
-		put(32, 0xF57A5B);
-		put(64, 0xF04D24);
-		put(128, 0xE9D37C);
-		put(265, 0xF2D76E);
-		put(512, 0xE5CB43);
-		put(1024, 0xF4E43E);
-		put(2048, 0xE9F028);
-		put(-1, 0x6FD8C0);
+		put(0, BACK0);
+		put(2, BACK2);
+		put(4, BACK4);
+		put(8, BACK8);
+		put(16, BACK16);
+		put(32, BACK32);
+		put(64, BACK64);
+		put(128, BACK128);
+		put(265, BACK256);
+		put(512, BACK512);
+		put(1024, BACK1024);
+		put(2048, BACK2048);
+		put(-1, BACKREST);
 	}};
 	private TpnControllerInterface controller;
 	private JLabel[][] tileLabels;
@@ -106,7 +124,7 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 		newGame.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-					handle(e);
+					handle();
 			}
 		});
 		menuFile.add(newGame);
@@ -128,7 +146,7 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 		this.setVisible(true);
 	}
 
-	private void handle(ActionEvent e) {
+	private void handle() {
 
 		JTextField fieldsize = new JTextField();
 		JTextField inputs = new JTextField();
