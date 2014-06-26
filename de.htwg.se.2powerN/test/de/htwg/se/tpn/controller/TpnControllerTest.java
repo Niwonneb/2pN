@@ -10,7 +10,7 @@ public class TpnControllerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		c.gameInit(2, 0);
+		c.gamereset(2);
 	}
 
 	@Test

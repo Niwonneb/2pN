@@ -127,7 +127,7 @@ public final class GameField implements GameFieldInterface{
 	public void insertNumberTile(int chance, int row, int collumn) {
 		Random rand = new Random();
 		// --------------------------------------------- create random 1-100
-		int random = rand.nextInt(PERCMAX + 1);
+		int random = rand.nextInt(PERCMAX) + 1;
 		NumberTile newTile = new NumberTile();
 		// --------------------------------------------- chance of creating a 4
 		if (random <= chance) {

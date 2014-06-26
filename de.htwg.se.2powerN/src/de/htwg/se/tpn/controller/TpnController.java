@@ -38,6 +38,12 @@ public class TpnController extends Observable implements TpnControllerInterface 
 		notifyObservers(new NewGameEvent());
 	}
 	
+	public void gamereset(int size) {
+		Injector injector = Guice.createInjector(new TpNModule());
+		injector.injectMembers(this);
+		gamefield = gameFieldFactory.create(size);
+	}
+	
 	public int getSize() {
 		return gamefield.getHeight();
 	}

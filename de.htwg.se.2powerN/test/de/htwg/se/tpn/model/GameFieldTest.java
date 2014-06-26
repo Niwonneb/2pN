@@ -131,8 +131,11 @@ public class GameFieldTest {
 		value = gamefield.getGrid()[3][3].getValue();
 		assertEquals(4, value);
 		
+		gamefield.insertRandomNumberTiles(1);
+		gamefield.insertRandomNumberTiles(16);
+		
 		int tilecount = getTilesInGameField();
-		assertEquals(4, tilecount);
+		assertEquals(16, tilecount);
 	}
 	
 	@Test
