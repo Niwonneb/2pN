@@ -64,38 +64,50 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 	private static final int BACK2048 = 0xE9F028;
 	private static final int BACKREST = 0x6FD8C0;
 	
+	private static final int NUMBER2 = 2;
+	private static final int NUMBER4 = 4;
+	private static final int NUMBER8 = 8;
+	private static final int NUMBER16 = 16;
+	private static final int NUMBER32 = 32;
+	private static final int NUMBER64 = 64;
+	private static final int NUMBER128 = 128;
+	private static final int NUMBER256 = 256;
+	private static final int NUMBER512 = 512;
+	private static final int NUMBER1024 = 1024;
+	private static final int NUMBER2048 = 2048;
+	
 	@SuppressWarnings("serial")
 	private static final Map<Integer,Integer> FORECOLORS =
 											new TreeMap<Integer, Integer>() {{
 		put(0, FORE1);
-		put(2, FORE2);
-		put(4, FORE2);
-		put(8, FORE3);
-		put(16, FORE3);
-		put(32, FORE3);
-		put(64, FORE3);
-		put(128, FORE3);
-		put(265, FORE3);
-		put(512, FORE3);
-		put(1024, FORE3);
-		put(2048, FORE3);
+		put(NUMBER2, FORE2);
+		put(NUMBER4, FORE2);
+		put(NUMBER8, FORE3);
+		put(NUMBER16, FORE3);
+		put(NUMBER32, FORE3);
+		put(NUMBER64, FORE3);
+		put(NUMBER128, FORE3);
+		put(NUMBER256, FORE3);
+		put(NUMBER512, FORE3);
+		put(NUMBER1024, FORE3);
+		put(NUMBER2048, FORE3);
 		put(-1, FORE1);
 	}};
 	@SuppressWarnings("serial")
 	private static final Map<Integer,Integer> BACKCOLORS = 
 											new TreeMap<Integer, Integer>() {{
 		put(0, BACK0);
-		put(2, BACK2);
-		put(4, BACK4);
-		put(8, BACK8);
-		put(16, BACK16);
-		put(32, BACK32);
-		put(64, BACK64);
-		put(128, BACK128);
-		put(265, BACK256);
-		put(512, BACK512);
-		put(1024, BACK1024);
-		put(2048, BACK2048);
+		put(NUMBER2, BACK2);
+		put(NUMBER4, BACK4);
+		put(NUMBER8, BACK8);
+		put(NUMBER16, BACK16);
+		put(NUMBER32, BACK32);
+		put(NUMBER64, BACK64);
+		put(NUMBER128, BACK128);
+		put(NUMBER256, BACK256);
+		put(NUMBER512, BACK512);
+		put(NUMBER1024, BACK1024);
+		put(NUMBER2048, BACK2048);
 		put(-1, BACKREST);
 	}};
 	private TpnControllerInterface controller;
