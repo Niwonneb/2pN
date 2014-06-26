@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.LinkedList;
 import java.awt.Point;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 public final class GameField implements GameFieldInterface{
 	
 	private Tile[][] grid;
@@ -11,7 +14,8 @@ public final class GameField implements GameFieldInterface{
 	private static final int DOUBLECHANCE = 10;
 	private static final int PERCMAX = 100;
 	
-	public GameField(int height) {
+	@Inject
+	public GameField(@Assisted int height) {
 		this.grid = new Tile[height][height];
 		this.height = height;
 	} 

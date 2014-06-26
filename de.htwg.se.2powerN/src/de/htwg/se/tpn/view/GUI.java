@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import com.google.inject.Inject;
+
 import de.htwg.se.tpn.controller.TpnControllerInterface;
 import de.htwg.se.tpn.util.observer.Event;
 import de.htwg.se.tpn.util.observer.IObserver;
@@ -32,6 +34,7 @@ public class GUI extends JFrame implements IObserver, KeyListener{
 	private JPanel tilePanel;
 	private boolean end;
 
+	@Inject
 	public GUI(TpnControllerInterface controller) {
 		this.controller = controller;
 		tileLabels = new JLabel[controller.getSize()][controller.getSize()];

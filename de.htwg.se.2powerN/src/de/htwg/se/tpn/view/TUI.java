@@ -1,4 +1,6 @@
 package de.htwg.se.tpn.view;
+
+import com.google.inject.Inject;
 import de.htwg.se.tpn.controller.*;
 import de.htwg.se.tpn.util.observer.Event;
 import de.htwg.se.tpn.util.observer.IObserver;
@@ -13,6 +15,7 @@ public class TUI implements IObserver{
 	private static Scanner inn;
 	private boolean end;
 	
+	@Inject
 	public TUI(TpnControllerInterface controller) {
 		this.controller = controller;
 		controller.addObserver(this);

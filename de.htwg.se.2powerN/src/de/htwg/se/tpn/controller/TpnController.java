@@ -1,21 +1,33 @@
 package de.htwg.se.tpn.controller;
+
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.assistedinject.Assisted;
+
 import de.htwg.se.tpn.model.Direction;
-import de.htwg.se.tpn.model.GameField;
 import de.htwg.se.tpn.model.DirectionInterface;
+import de.htwg.se.tpn.model.GameFieldFactory;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.util.observer.Observable;
+import de.htwg.se.tpn.view.TpNModule;
 
 public class TpnController extends Observable implements TpnControllerInterface {
 	private GameFieldInterface gamefield;
 	private DirectionInterface lastDirection;
 	private boolean hasMoved;
+	
+	@Inject private GameFieldFactory gameFieldFactory;
 
-	public TpnController(int size, int inserts) {
+	@Inject
+	public TpnController(@Assisted("size") int size, @Assisted("inserts") int inserts) {
 		gameInit(size, inserts);
 	}
 
 	public final void gameInit(int size, int inserts) {
-		gamefield = new GameField(size);
+		Injector injector = Guice.createInjector(new TpNModule());
+		injector.injectMembers(this);
+		gamefield = gameFieldFactory.create(size);
 		for (int i = 0; i < inserts; i++) {
 			gamefield.insertRandomNumberTile();
 		}
