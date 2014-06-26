@@ -8,6 +8,7 @@ import de.htwg.se.tpn.controller.TpnControllerFactory;
 import de.htwg.se.tpn.controller.TpnControllerInterface;
 import de.htwg.se.tpn.view.GUI;
 import de.htwg.se.tpn.view.TUI;
+import de.htwg.se.tpn.view.TpNModule;
 
 public final class TwoPN {
 	@Inject private TpnControllerFactory controllerfactory;
