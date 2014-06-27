@@ -8,7 +8,7 @@ import com.google.inject.assistedinject.Assisted;
 import de.htwg.se.tpn.TpNModule;
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.DirectionInterface;
-import de.htwg.se.tpn.model.GameFieldFactory;
+import de.htwg.se.tpn.model.GameField;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.util.observer.Observable;
 
@@ -17,8 +17,6 @@ public class TpnController extends Observable implements TpnControllerInterface 
 	private DirectionInterface lastDirection;
 	private int inserts;
 	private boolean hasMoved;
-	
-	@Inject private GameFieldFactory gameFieldFactory;
 
 	@Inject
 	public TpnController(@Assisted("size") int size, @Assisted("inserts") int inserts) {
@@ -26,10 +24,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
 	}
 
 	public final void gameInit(int size, int inserts) {
-		Injector injector = Guice.createInjector(new TpNModule());
-		injector.injectMembers(this);
-		gamefield = gameFieldFactory.create(size);
-		
+		gamefield = new GameField(size);
 		this.inserts = inserts;
 		
 		for (int i = 0; i < inserts; i++) {
@@ -41,7 +36,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
 	public void gamereset(int size) {
 		Injector injector = Guice.createInjector(new TpNModule());
 		injector.injectMembers(this);
-		gamefield = gameFieldFactory.create(size);
+		gamefield = new GameField(size);
 	}
 	
 	public int getSize() {
