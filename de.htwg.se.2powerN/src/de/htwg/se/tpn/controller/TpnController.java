@@ -5,12 +5,12 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
+import de.htwg.se.tpn.TpNModule;
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.DirectionInterface;
 import de.htwg.se.tpn.model.GameFieldFactory;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.util.observer.Observable;
-import de.htwg.se.tpn.view.TpNModule;
 
 public class TpnController extends Observable implements TpnControllerInterface {
 	private GameFieldInterface gamefield;

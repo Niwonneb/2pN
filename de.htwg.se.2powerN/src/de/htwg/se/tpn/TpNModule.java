@@ -1,4 +1,4 @@
-package de.htwg.se.tpn.view;
+package de.htwg.se.tpn;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
