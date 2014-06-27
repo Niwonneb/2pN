@@ -1,11 +1,9 @@
 package de.htwg.se.tpn.controller;
 
-import com.google.inject.Guice;
+
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.google.inject.assistedinject.Assisted;
 
-import de.htwg.se.tpn.TpNModule;
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.DirectionInterface;
 import de.htwg.se.tpn.model.GameField;
@@ -34,8 +32,6 @@ public class TpnController extends Observable implements TpnControllerInterface 
 	}
 	
 	public void gamereset(int size) {
-		Injector injector = Guice.createInjector(new TpNModule());
-		injector.injectMembers(this);
 		gamefield = new GameField(size);
 	}
 	
