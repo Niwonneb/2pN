@@ -12,19 +12,16 @@ public class TUI implements IObserver{
 	private static final int TILESIZE = 7;
 	
 	private TpnControllerInterface controller;
-	private static Scanner inn;
 	private boolean end;
 	
 	@Inject
 	public TUI(TpnControllerInterface controller) {
 		this.controller = controller;
 		controller.addObserver(this);
-		inn = new Scanner(System.in);
 		printField(controller.getSize());
-		readInput();
 		end = false;
 	}
-	
+
 	protected final void printField(int height) {
 		printSeperator(height);
 		for (int row = 0; row < height; row++) {
@@ -32,7 +29,7 @@ public class TUI implements IObserver{
 			printSeperator(height);
 		}
 	}
-	
+
 	private void printSeperator(int height) {
 		for (int i = 0; i < height; i++) {
 			print("+");
@@ -42,31 +39,31 @@ public class TUI implements IObserver{
 		}
 		println("+");
 	}
-	
+
 	private void printNumbers(int height, int row) {
 		printemptyTileLine(height);
 		printTileLine(row, height);
 		printemptyTileLine(height);
-		
+
 	}
-	
+
 	private void printemptyTileLine(int height) {
 		for (int collumn = 0; collumn < height; collumn++) {
 			printemptyTileSection();
 		}
 		println("|");
 	}
-	
+
 	private void printemptyTileSection() {
 		print("|");
 		for (int i = 0; i < TILESIZE; i++) {
 			print(" ");
 		}
 	}
-	
+
 	private void printTileLine(int row, int height) {
 		int valueLength = 0;
-		
+
 		for (int collumn = 0; collumn < height; collumn++) {
 
 			int value = controller.getValue(row, collumn);
@@ -74,7 +71,7 @@ public class TUI implements IObserver{
 				printemptyTileSection();
 				continue;
 			}
-			
+
 			String strValue = String.valueOf(value);
 			valueLength = strValue.length();
 			double spaces = (TILESIZE - valueLength);
@@ -85,9 +82,9 @@ public class TUI implements IObserver{
 			for (int i = 0; i < spacesBefore; i++) {
 				print(" ");
 			}
-			
+
 			print(strValue);
-			
+
 			for (int i = 0; i < spacesAfter; i++) {
 				print(" ");
 			}
@@ -96,28 +93,26 @@ public class TUI implements IObserver{
 		println("|");
 	}
 	
-	protected final void readInput() {
-		String direction = "";
-		while (!end) {
-			println("Give the new direction");
-			direction = inn.next();
-			
-			switch (direction) {
-			case "4":
-				controller.actionLeft();
-				break;
-			case "6":
-				controller.actionRight();
-				break;
-			case "8":
-				controller.actionUp();
-				break;
-			case "2":
-				controller.actionDown();
-				break;
-			default:
-				println("Please press only 2, 4, 6 or 8 to play or q to quit");
-			}
+	public final void processInput(String input) {
+		if (end) {
+			return;
+		}
+
+		switch (input) {
+		case "a":
+			controller.actionLeft();
+			break;
+		case "d":
+			controller.actionRight();
+			break;
+		case "w":
+			controller.actionUp();
+			break;
+		case "s":
+			controller.actionDown();
+			break;
+		default:
+			println("Please type w, a, s or d to play");
 		}
 	}
 	
