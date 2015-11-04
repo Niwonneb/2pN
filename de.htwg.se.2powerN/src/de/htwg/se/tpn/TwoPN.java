@@ -46,9 +46,8 @@ public final class TwoPN {
 		TUI tui = new TUI(controller);
 		Scanner inn = new Scanner(System.in);
 		while (inn.hasNext()) {
-			tui.processInput(inn.next());
+			controller.processInput(inn.next());
 		}
-
 	}
 
 	public void startGUI() {

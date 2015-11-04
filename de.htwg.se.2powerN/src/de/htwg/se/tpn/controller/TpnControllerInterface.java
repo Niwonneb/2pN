@@ -8,6 +8,7 @@ public interface TpnControllerInterface extends IObservable{
 	int getValue(int row, int column);
 	void gameInit(int size, int inserts);
 	int getSize();
+	boolean processInput(String input);
 	boolean actionLeft();
 	boolean actionRight();
 	boolean actionUp();

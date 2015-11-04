@@ -98,20 +98,7 @@ public class TUI implements IObserver{
 			return;
 		}
 
-		switch (input) {
-		case "a":
-			controller.actionLeft();
-			break;
-		case "d":
-			controller.actionRight();
-			break;
-		case "w":
-			controller.actionUp();
-			break;
-		case "s":
-			controller.actionDown();
-			break;
-		default:
+		if (!controller.processInput(input)) {
 			println("Please type w, a, s or d to play");
 		}
 	}

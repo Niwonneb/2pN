@@ -47,6 +47,26 @@ public class TpnController extends Observable implements TpnControllerInterface 
 		gamefield.insertNumberTile(chance, row, column);
 	}
 
+	public boolean processInput(String input) {
+		switch (input) {
+			case "a":
+				actionLeft();
+				break;
+			case "d":
+				actionRight();
+				break;
+			case "w":
+				actionUp();
+				break;
+			case "s":
+				actionDown();
+				break;
+			default:
+				return false;
+		}
+		return true;
+	}
+
 	public boolean actionLeft() {
 		return actionDir(new Direction.Left());
 	}
