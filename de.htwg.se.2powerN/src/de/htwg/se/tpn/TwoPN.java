@@ -10,6 +10,9 @@ import de.htwg.se.tpn.controller.TpnControllerInterface;
 import de.htwg.se.tpn.view.GUI;
 import de.htwg.se.tpn.view.TUI;
 
+import java.util.Scanner;
+
+
 public final class TwoPN {
 	@Inject
 	private TpnControllerFactory controllerfactory;
@@ -19,8 +22,6 @@ public final class TwoPN {
 
 	public TwoPN() {
 		controller = new TpnController(FIELDSIZE, 1);
-		new GUI(controller);
-		new TUI(controller);
 	}
 
 	public static TwoPN getInstance() {
@@ -37,5 +38,20 @@ public final class TwoPN {
 
 	public static void main(String[] args) {
 		TwoPN game = getInstance();
+		game.startTUI();
+		game.startGUI();
+	}
+
+	public void startTUI() {
+		TUI tui = new TUI(controller);
+		Scanner inn = new Scanner(System.in);
+		while (inn.hasNext()) {
+			tui.processInput(inn.next());
+		}
+
+	}
+
+	public void startGUI() {
+		new GUI(controller);
 	}
 }
