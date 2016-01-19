@@ -1,9 +1,5 @@
 package de.htwg.se.tpn.controller;
 
-
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
-
 import de.htwg.se.tpn.model.Direction;
 import de.htwg.se.tpn.model.DirectionInterface;
 import de.htwg.se.tpn.model.GameField;
@@ -16,8 +12,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
 	private int inserts;
 	private boolean hasMoved;
 
-	@Inject
-	public TpnController(@Assisted("size") int size, @Assisted("inserts") int inserts) {
+	public TpnController(int size, int inserts) {
 		gameInit(size, inserts);
 	}
 
