@@ -14,9 +14,11 @@ public class SaveAndLoadService {
 
     public void saveGame(GameFieldInterface game, String id) {
         gameDao.createOrUpdateGame(game, id);
+        gameDao.closeDb();
     }
 
     public SaveGame loadGame(String id) {
+        gameDao.closeDb();
         return gameDao.findGame(id);
     }
 }
