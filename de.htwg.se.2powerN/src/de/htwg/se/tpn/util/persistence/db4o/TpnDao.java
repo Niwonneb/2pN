@@ -17,11 +17,6 @@ public class TpnDao implements ITpnDao {
         } else {
             TpnControllerInterface old = findGame(game.getId());
 
-            /**
-             * ToDo:
-             */
-            //old.setCounter(game.getCounter());
-
             Db4oSessionManager.getDbObjectContainer().store(old);
         }
     }
