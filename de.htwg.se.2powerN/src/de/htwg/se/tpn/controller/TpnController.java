@@ -41,9 +41,28 @@ public class TpnController extends Observable implements TpnControllerInterface 
         gamefield.insertNumberTile(chance, row, column);
     }
 
+    public enum inputState {
+        COMMAND, SAVE, LOAD
+    }
 
-
+    private inputState status = inputState.COMMAND;
     public boolean processInput(String input) {
+        switch (status) {
+            case LOAD:
+                loadGame(input);
+                break;
+            case SAVE:
+                saveGame(input);
+                break;
+            case COMMAND:
+                return executeCommand(input);
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    private boolean executeCommand(String input) {
         switch (input) {
             case "a":
                 actionLeft();
@@ -58,15 +77,25 @@ public class TpnController extends Observable implements TpnControllerInterface 
                 actionDown();
                 break;
             case "save":
-                //saveGame(id);
+                status = inputState.SAVE;
                 break;
             case "load":
-                //loadGame(id);
+                status = inputState.LOAD;
                 break;
             default:
                 return false;
         }
         return true;
+    }
+
+    private void loadGame(String id) {
+        GameFieldInterface loadedGame = new GameField(4);
+        gamefield = loadedGame;
+        notifyObservers(new NewGameEvent());
+    }
+
+    private void saveGame(String id) {
+
     }
 
     public boolean actionLeft() {
