@@ -33,4 +33,7 @@ public interface TpnControllerInterface extends IObservable {
 
     public static final class NewGameEvent extends Event {
     }
+
+    String getId();
+
 }

@@ -133,4 +133,15 @@ public class TpnController extends Observable implements TpnControllerInterface 
         notifyObservers(new NewFieldEvent());
         return true;
     }
+
+    public String getId() {
+        /**
+         * TODO: Give back Session ID if exists, else null
+         */
+        return "ID";
+    }
+
+    public void setGameField(GameFieldInterface gamefield) {
+        this.gamefield = gamefield;
+    }
 }
