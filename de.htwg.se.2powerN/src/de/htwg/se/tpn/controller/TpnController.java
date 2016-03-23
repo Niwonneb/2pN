@@ -1,17 +1,18 @@
 package de.htwg.se.tpn.controller;
 
-import de.htwg.se.tpn.model.Direction;
-import de.htwg.se.tpn.model.DirectionInterface;
-import de.htwg.se.tpn.model.GameField;
-import de.htwg.se.tpn.model.GameFieldInterface;
+import de.htwg.se.tpn.model.*;
 import de.htwg.se.tpn.util.observer.Observable;
+import de.htwg.se.tpn.util.persistence.ITpnDao;
+import de.htwg.se.tpn.util.persistence.SaveAndLoadService;
 
 public class TpnController extends Observable implements TpnControllerInterface {
     private GameFieldInterface gamefield;
     private DirectionInterface lastDirection;
+    private SaveAndLoadService saveAndLoadService;
     private int inserts;
 
-    public TpnController(int size, int inserts) {
+    public TpnController(int size, int inserts, ITpnDao dao) {
+        saveAndLoadService = new SaveAndLoadService(dao);
         gameInit(size, inserts);
     }
 
@@ -50,9 +51,11 @@ public class TpnController extends Observable implements TpnControllerInterface 
         switch (status) {
             case LOAD:
                 loadGame(input);
+                status = inputState.COMMAND;
                 break;
             case SAVE:
                 saveGame(input);
+                status = inputState.COMMAND;
                 break;
             case COMMAND:
                 return executeCommand(input);
@@ -89,13 +92,13 @@ public class TpnController extends Observable implements TpnControllerInterface 
     }
 
     private void loadGame(String id) {
-        GameFieldInterface loadedGame = new GameField(4);
-        gamefield = loadedGame;
-        notifyObservers(new NewGameEvent());
+        SaveGame loadedGame = saveAndLoadService.loadGame(id);
+        gamefield = loadedGame.getGameField();
+        notifyObservers(new NewFieldEvent());
     }
 
     private void saveGame(String id) {
-
+        saveAndLoadService.saveGame(gamefield, id);
     }
 
     public boolean actionLeft() {

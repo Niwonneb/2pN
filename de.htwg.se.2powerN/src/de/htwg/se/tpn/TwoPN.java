@@ -2,6 +2,7 @@ package de.htwg.se.tpn;
 
 import de.htwg.se.tpn.controller.TpnController;
 import de.htwg.se.tpn.controller.TpnControllerInterface;
+import de.htwg.se.tpn.util.persistence.db4o.TpnDao;
 import de.htwg.se.tpn.view.GUI;
 import de.htwg.se.tpn.view.TUI;
 
@@ -14,7 +15,7 @@ public final class TwoPN {
     private static TwoPN instance = null;
 
     public TwoPN() {
-        controller = new TpnController(FIELDSIZE, 1);
+        controller = new TpnController(FIELDSIZE, 1, new TpnDao());
     }
 
     public static TwoPN getInstance() {
