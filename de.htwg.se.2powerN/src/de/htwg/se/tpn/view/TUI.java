@@ -18,6 +18,7 @@ public class TUI implements IObserver {
         controller.addObserver(this);
         printField(controller.getSize());
         end = false;
+        readInput();
     }
 
     protected final void printField(int height) {
@@ -91,13 +92,14 @@ public class TUI implements IObserver {
         println("|");
     }
 
-    public final void processInput(String input) {
-        if (end) {
-            return;
-        }
-
-        if (!controller.processInput(input)) {
-            println("Please type w, a, s or d to play");
+    public final void readInput() {
+        Scanner inn = new Scanner(System.in);
+        while (inn.hasNext()) {
+            if (!end) {
+                if (!controller.processInput(inn.next())) {
+                    println("Please type w, a, s, d to play or save/load");
+                }
+            }
         }
     }
 

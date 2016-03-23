@@ -36,10 +36,6 @@ public final class TwoPN {
 
     public void startTUI() {
         TUI tui = new TUI(controller);
-        Scanner inn = new Scanner(System.in);
-        while (inn.hasNext()) {
-            controller.processInput(inn.next());
-        }
     }
 
     public void startGUI() {

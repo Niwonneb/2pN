@@ -10,7 +10,6 @@ public class TpnController extends Observable implements TpnControllerInterface 
     private GameFieldInterface gamefield;
     private DirectionInterface lastDirection;
     private int inserts;
-    private boolean hasMoved;
 
     public TpnController(int size, int inserts) {
         gameInit(size, inserts);
@@ -42,6 +41,8 @@ public class TpnController extends Observable implements TpnControllerInterface 
         gamefield.insertNumberTile(chance, row, column);
     }
 
+
+
     public boolean processInput(String input) {
         switch (input) {
             case "a":
@@ -55,6 +56,12 @@ public class TpnController extends Observable implements TpnControllerInterface 
                 break;
             case "s":
                 actionDown();
+                break;
+            case "save":
+                //saveGame(id);
+                break;
+            case "load":
+                //loadGame(id);
                 break;
             default:
                 return false;
@@ -79,7 +86,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
     }
 
     private boolean actionDir(Direction direction) {
-        hasMoved = false;
+        boolean hasMoved;
 
         hasMoved = gamefield.moveTiles(direction);
         hasMoved = gamefield.mergeTiles(direction) || hasMoved;
