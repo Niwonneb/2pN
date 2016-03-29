@@ -1,6 +1,5 @@
 package de.htwg.se.tpn.controller;
 
-
 import de.htwg.se.tpn.util.observer.Event;
 import de.htwg.se.tpn.util.observer.IObservable;
 
@@ -25,15 +24,16 @@ public interface TpnControllerInterface extends IObservable {
 
     void insert(int chance, int row, int column);
 
-    public static final class NewFieldEvent extends Event {
+    void loadGame(String id);
+
+    void saveGame(String id);
+
+    final class NewFieldEvent extends Event {
     }
 
-    public static final class GameOverEvent extends Event {
+    final class GameOverEvent extends Event {
     }
 
-    public static final class NewGameEvent extends Event {
+    final class NewGameEvent extends Event {
     }
-
-    String getId();
-
 }

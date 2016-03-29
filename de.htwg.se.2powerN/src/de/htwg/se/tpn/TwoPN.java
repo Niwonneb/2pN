@@ -31,8 +31,8 @@ public final class TwoPN {
 
     public static void main(String[] args) {
         TwoPN game = getInstance();
-        game.startTUI();
         game.startGUI();
+        game.startTUI();
     }
 
     public void startTUI() {
@@ -40,6 +40,6 @@ public final class TwoPN {
     }
 
     public void startGUI() {
-        new GUI(controller);
+        GUI gui = new GUI(controller);
     }
 }

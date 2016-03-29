@@ -91,13 +91,13 @@ public class TpnController extends Observable implements TpnControllerInterface 
         return true;
     }
 
-    private void loadGame(String id) {
+    public void loadGame(String id) {
         SaveGame loadedGame = saveAndLoadService.loadGame(id);
         gamefield = loadedGame.getGameField();
         notifyObservers(new NewFieldEvent());
     }
 
-    private void saveGame(String id) {
+    public void saveGame(String id) {
         saveAndLoadService.saveGame(gamefield, id);
     }
 
@@ -135,16 +135,5 @@ public class TpnController extends Observable implements TpnControllerInterface 
         lastDirection = direction;
         notifyObservers(new NewFieldEvent());
         return true;
-    }
-
-    public String getId() {
-        /**
-         * TODO: Give back Session ID if exists, else null
-         */
-        return "ID";
-    }
-
-    public void setGameField(GameFieldInterface gamefield) {
-        this.gamefield = gamefield;
     }
 }

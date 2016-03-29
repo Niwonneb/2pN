@@ -10,15 +10,7 @@ import java.awt.event.KeyListener;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import de.htwg.se.tpn.controller.TpnControllerInterface;
@@ -123,7 +115,7 @@ public class GUI extends JFrame implements IObserver, KeyListener {
 
         this.setTitle("Two Power N");
         this.setResizable(false);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JMenuBar jmb = new JMenuBar();
         this.setJMenuBar(jmb);
@@ -131,21 +123,19 @@ public class GUI extends JFrame implements IObserver, KeyListener {
         jmb.add(menuFile);
 
         JMenuItem newGame = new JMenuItem("New Game");
-        newGame.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                handle();
-            }
-        });
+        newGame.addActionListener(e -> handle());
         menuFile.add(newGame);
 
-        JMenuItem exitItem = new JMenuItem("Exit...");
-        exitItem.addActionListener(new ActionListener() {
+        JMenuItem saveItem = new JMenuItem("Save");
+        saveItem.addActionListener(e -> controller.saveGame("GUI-ID"));
+        menuFile.add(saveItem);
 
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        JMenuItem loadItem = new JMenuItem("Load");
+        loadItem.addActionListener(e -> controller.loadGame("GUI-ID"));
+        menuFile.add(loadItem);
+
+        JMenuItem exitItem = new JMenuItem("Exit...");
+        exitItem.addActionListener(e -> System.exit(0));
         menuFile.add(exitItem);
 
         createTiles();
