@@ -93,8 +93,10 @@ public class TpnController extends Observable implements TpnControllerInterface 
 
     public void loadGame(String id) {
         SaveGame loadedGame = saveAndLoadService.loadGame(id);
-        gamefield = loadedGame.getGameField();
-        notifyObservers(new NewFieldEvent());
+        if (loadedGame != null) {
+            gamefield = loadedGame.getGameField();
+            notifyObservers(new NewFieldEvent());
+        }
     }
 
     public void saveGame(String id) {
