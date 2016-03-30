@@ -2,15 +2,35 @@ package de.htwg.se.tpn.controller;
 
 import static org.junit.Assert.*;
 
+import de.htwg.se.tpn.model.GameFieldInterface;
+import de.htwg.se.tpn.model.SaveGame;
+import de.htwg.se.tpn.util.persistence.ITpnDao;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TpnControllerTest {
 	TpnController c;
 
+	ITpnDao dao = new ITpnDao() {
+        @Override
+        public void createOrUpdateGame(GameFieldInterface game, String id) {
+
+        }
+
+        @Override
+        public SaveGame findGame(String id) {
+            return null;
+        }
+
+        @Override
+        public void closeDb() {
+
+        }
+    };
+
 	@Before
 	public void setUp() throws Exception {
-		c = new TpnController(2, 1);
+		c = new TpnController(2, 1, dao);
 		c.gamereset(2);
 	}
 
