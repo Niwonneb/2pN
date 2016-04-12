@@ -2,11 +2,10 @@ package de.htwg.se.tpn;
 
 import de.htwg.se.tpn.controller.TpnController;
 import de.htwg.se.tpn.controller.TpnControllerInterface;
-import de.htwg.se.tpn.util.persistence.db4o.TpnDao;
+import de.htwg.se.tpn.util.persistence.db4o.Db4oDao;
+import de.htwg.se.tpn.util.persistence.hibernate.HibernateDao;
 import de.htwg.se.tpn.view.GUI;
 import de.htwg.se.tpn.view.TUI;
-
-import java.util.Scanner;
 
 
 public final class TwoPN {
@@ -15,7 +14,7 @@ public final class TwoPN {
     private static TwoPN instance = null;
 
     public TwoPN() {
-        controller = new TpnController(FIELDSIZE, 1, new TpnDao());
+        controller = new TpnController(FIELDSIZE, 1, new HibernateDao());
     }
 
     public static TwoPN getInstance() {
