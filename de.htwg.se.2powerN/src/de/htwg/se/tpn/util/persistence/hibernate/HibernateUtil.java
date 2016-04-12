@@ -1,34 +1,25 @@
 package de.htwg.se.tpn.util.persistence.hibernate;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
+import org.hibernate.cfg.AnnotationConfiguration;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory;
-    private static ServiceRegistry serviceRegistry;
+    private static final SessionFactory sessionFactory;
+
+    static {
+        final AnnotationConfiguration cfg = new
+                AnnotationConfiguration();
+        cfg.configure("/hibernate.cfg.xml");
+        sessionFactory = cfg.buildSessionFactory();
+
+    }
 
     private HibernateUtil() {
     }
 
     public static SessionFactory getInstance() {
-        if (sessionFactory == null) {
-            createSession();
-        }
         return sessionFactory;
     }
 
-    private static void createSession() {
-        Configuration hibConfiguration = new Configuration()
-                .addResource("/hibernate.cfg.xml")
-                .configure();
-
-        serviceRegistry = new ServiceRegistryBuilder()
-                .applySettings(hibConfiguration.getProperties())
-                .buildServiceRegistry();
-
-        sessionFactory = hibConfiguration.buildSessionFactory(serviceRegistry);
-    }
 
 }
