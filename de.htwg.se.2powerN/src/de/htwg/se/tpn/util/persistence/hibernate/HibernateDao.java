@@ -22,7 +22,7 @@ public class HibernateDao implements ITpnDao {
         for (PersistentTile[] row : pGrid) {
             int tileNr = 0;
             for (PersistentTile tile : row) {
-                grid[rowNr][tileNr] = new NumberTile(tile.getValue());
+                grid[rowNr][tileNr] = new Tile(tile.getValue());
                 ++tileNr;
             }
             ++rowNr;
