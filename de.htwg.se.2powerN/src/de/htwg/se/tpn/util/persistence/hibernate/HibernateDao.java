@@ -1,5 +1,6 @@
 package de.htwg.se.tpn.util.persistence.hibernate;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import de.htwg.se.tpn.model.*;
@@ -15,13 +16,13 @@ public class HibernateDao implements ITpnDao {
         if (pSaveGame == null) {
             return null;
         }
-        PersistentTile[][] pGrid = pSaveGame.getGameField();
-        Tile[][] grid = new Tile[pGrid.length][pGrid.length];
+        List<PersistentSaveGame.PersistentRow> pRows = pSaveGame.getRows();
+        Tile[][] grid = new Tile[pRows.size()][pRows.size()];
 
         int rowNr = 0;
-        for (PersistentTile[] row : pGrid) {
+        for (PersistentSaveGame.PersistentRow row : pRows) {
             int tileNr = 0;
-            for (PersistentTile tile : row) {
+            for (PersistentTile tile : row.tiles) {
                 grid[rowNr][tileNr] = new Tile(tile.getValue());
                 ++tileNr;
             }
@@ -44,15 +45,20 @@ public class HibernateDao implements ITpnDao {
         GameFieldInterface gameField = saveGame.getGameField();
         int height = gameField.getHeight();
 
-        PersistentTile[][] pGrid = new PersistentTile[height][height];
+        List<PersistentSaveGame.PersistentRow> rows = new LinkedList<>();
 
         for (int rowNr = 0; rowNr < height; ++rowNr) {
+            PersistentSaveGame.PersistentRow curRow = new PersistentSaveGame.PersistentRow();
             for (int tileNr = 0; tileNr < height; ++tileNr) {
-                pGrid[rowNr][tileNr] = new PersistentTile(gameField.getValue(rowNr, tileNr));
+                int value = gameField.getValue(rowNr, tileNr);
+                PersistentTile pTile = new PersistentTile(value);
+
+                curRow.tiles.add(tileNr, pTile);
             }
+            rows.add(rowNr, curRow);
         }
 
-        pSaveGame.setGameField(pGrid);
+        pSaveGame.setRows(rows);
 
         return pSaveGame;
     }
@@ -69,6 +75,12 @@ public class HibernateDao implements ITpnDao {
             PersistentSaveGame pSaveGame = copySaveGame(new SaveGame(game, id));
 
             session.saveOrUpdate(pSaveGame);
+            for (PersistentSaveGame.PersistentRow pRow : pSaveGame.getRows()) {
+                session.saveOrUpdate(pRow);
+                for (PersistentTile pTile : pRow.tiles) {
+                    session.saveOrUpdate(pTile);
+                }
+            }
 
             tx.commit();
         } catch (HibernateException ex) {

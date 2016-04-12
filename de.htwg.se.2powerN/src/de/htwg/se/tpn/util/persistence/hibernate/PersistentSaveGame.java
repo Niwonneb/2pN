@@ -1,15 +1,13 @@
 package de.htwg.se.tpn.util.persistence.hibernate;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "saveGame")
+@Table(name = "tpnSaveGame")
 public class PersistentSaveGame implements Serializable {
 
     private static final long serialVersionUID = 1532222903825440126L;
@@ -19,8 +17,8 @@ public class PersistentSaveGame implements Serializable {
     private String id;
 
     @OneToMany(mappedBy = "saveGame")
-    @Column(name = "gameField")
-    private PersistentTile[][] gameField;
+    @Column(name = "rows")
+    private List<PersistentRow> gameField;
 
     public PersistentSaveGame() {
     }
@@ -33,15 +31,31 @@ public class PersistentSaveGame implements Serializable {
         this.id = id;
     }
 
-    public PersistentTile[][] getGameField() {
+    public List<PersistentRow> getRows() {
         return gameField;
     }
 
-    public void setGameField(PersistentTile[][] gameField) {
+    public void setRows(List<PersistentRow> gameField) {
         this.gameField = gameField;
     }
 
     public int getHeight() {
-        return gameField.length;
+        return gameField.size();
+    }
+
+    @Entity
+    @Table(name = "tpnRow")
+    public static class PersistentRow implements  Serializable {
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        public Integer id;
+
+        @OneToMany(mappedBy = "row")
+        @Column(name = "tiles")
+        public List<PersistentTile> tiles = new LinkedList<>();
+
+        @ManyToOne
+        @JoinColumn(name = "saveGameId")
+        public PersistentSaveGame saveGame;
     }
 }

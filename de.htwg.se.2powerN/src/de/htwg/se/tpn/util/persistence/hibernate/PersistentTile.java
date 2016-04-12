@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "tile")
+@Table(name = "tpnTile")
 public class PersistentTile implements Serializable {
 
     private static final long serialVersionUID = 3184225396652222648L;
@@ -16,9 +16,10 @@ public class PersistentTile implements Serializable {
 
     public Integer value = 0;
 
+
     @ManyToOne
-    @JoinColumn(name = "saveGameId")
-    public PersistentSaveGame saveGame;
+    @JoinColumn(name = "rowId")
+    public PersistentSaveGame.PersistentRow row;
 
 
     public PersistentTile(Integer value) {
@@ -26,14 +27,6 @@ public class PersistentTile implements Serializable {
     }
 
     public PersistentTile() {
-    }
-
-    public PersistentSaveGame getSaveGame() {
-        return saveGame;
-    }
-
-    public void setSaveGame(PersistentSaveGame saveGame) {
-        this.saveGame = saveGame;
     }
 
     public Integer getValue() {
