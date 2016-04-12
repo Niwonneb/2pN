@@ -21,4 +21,6 @@ public interface GameFieldInterface {
     List<Point> getEmptyPlaces();
 
     boolean trymerge();
+
+    String getId();
 }

@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.LinkedList;
 import java.awt.Point;
 
-public final class GameField implements GameFieldInterface {
+public class GameField implements GameFieldInterface {
 
     private Tile[][] grid;
     private int height;
     private static final int DOUBLECHANCE = 20;
     private static final int PERCMAX = 100;
+
+    public GameField() {
+
+    }
 
     public GameField(int height) {
         this.grid = new Tile[height][height];
@@ -177,6 +181,10 @@ public final class GameField implements GameFieldInterface {
                 || mergeTiles(new Direction.Down());
         grid = original;
         return merged;
+    }
+
+    public String getId() {
+        return null;
     }
 
     private Tile[][] cloneGrid() {
