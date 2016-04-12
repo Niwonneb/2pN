@@ -21,7 +21,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
         this.inserts = inserts;
 
         for (int i = 0; i < inserts; i++) {
-            gamefield.insertRandomNumberTile();
+            gamefield.insertRandomTile();
         }
         notifyObservers(new NewGameEvent());
     }
@@ -39,7 +39,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
     }
 
     public void insert(int chance, int row, int column) {
-        gamefield.insertNumberTile(chance, row, column);
+        gamefield.insertTile(chance, row, column);
     }
 
     public enum inputState {
@@ -133,7 +133,7 @@ public class TpnController extends Observable implements TpnControllerInterface 
         if (!hasMoved && direction.equals(lastDirection)) {
             return false;
         }
-        gamefield.insertRandomNumberTiles(inserts);
+        gamefield.insertRandomTiles(inserts);
         lastDirection = direction;
         notifyObservers(new NewFieldEvent());
         return true;

@@ -20,10 +20,10 @@ public class GameFieldTest {
 	
 	@Test
 	public void testMoveTiles() {
-		gamefield.insertNumberTile(0, 0, 0);
-		gamefield.insertNumberTile(100, 1, 0);
-		gamefield.insertNumberTile(100, 2, 2);
-		gamefield.insertNumberTile(100, 1, 3);
+		gamefield.insertTile(0, 0, 0);
+		gamefield.insertTile(100, 1, 0);
+		gamefield.insertTile(100, 2, 2);
+		gamefield.insertTile(100, 1, 3);
 		
 		gamefield.moveTiles(new Direction.Down());
 		
@@ -36,11 +36,11 @@ public class GameFieldTest {
 	
 	@Test
 	public void testMergeTiles() {
-		gamefield.insertNumberTile(0, 0, 0);
-		gamefield.insertNumberTile(0, 1, 0);
-		gamefield.insertNumberTile(0, 3, 0);
-		gamefield.insertNumberTile(100, 2, 2);
-		gamefield.insertNumberTile(100, 3, 2);
+		gamefield.insertTile(0, 0, 0);
+		gamefield.insertTile(0, 1, 0);
+		gamefield.insertTile(0, 3, 0);
+		gamefield.insertTile(100, 2, 2);
+		gamefield.insertTile(100, 3, 2);
 		
 		gamefield.mergeTiles(new Direction.Up());
 		assertEquals(4, gamefield.getGrid()[0][0].getValue());
@@ -51,8 +51,8 @@ public class GameFieldTest {
 
 	@Test
 	public void testMoveTile() {
-		gamefield.insertNumberTile(0, 0, 0);
-		gamefield.insertNumberTile(100, 1, 0);
+		gamefield.insertTile(0, 0, 0);
+		gamefield.insertTile(100, 1, 0);
 		
 		gamefield.moveTile(0, new Direction.Down());
 		
@@ -60,7 +60,7 @@ public class GameFieldTest {
 		assertEquals(2, gamefield.getGrid()[2][0].getValue());
 		// 2 at (2,0); 4 at (3,0)
 		
-		gamefield.insertNumberTile(0, 3, 2);
+		gamefield.insertTile(0, 3, 2);
 		
 		gamefield.moveTiles(new Direction.Right());
 		
@@ -83,30 +83,30 @@ public class GameFieldTest {
 	
 	@Test
 	public void testMergeTile() {
-		gamefield.insertNumberTile(0, 0, 0);
-		gamefield.insertNumberTile(0, 1, 0);
-		gamefield.insertNumberTile(0, 3, 0);
+		gamefield.insertTile(0, 0, 0);
+		gamefield.insertTile(0, 1, 0);
+		gamefield.insertTile(0, 3, 0);
 		
 		gamefield.mergeTile(0, new Direction.Up());
 		assertEquals(4, gamefield.getGrid()[0][0].getValue());
 		// 4 at (0,0); 2 at (3,0)
 		
-		gamefield.insertNumberTile(100, 0, 1);
-		gamefield.insertNumberTile(0, 0, 3);
+		gamefield.insertTile(100, 0, 1);
+		gamefield.insertTile(0, 0, 3);
 		
 		gamefield.mergeTile(0, new Direction.Left());
 		assertEquals(8, gamefield.getGrid()[0][0].getValue());
 		// 8 at (0,0); 2 at (0,3); 2 at (3,0)
 		
-		gamefield.insertNumberTile(100, 1, 3);
-		gamefield.insertNumberTile(100, 2, 3);
+		gamefield.insertTile(100, 1, 3);
+		gamefield.insertTile(100, 2, 3);
 		
 		gamefield.mergeTile(3, new Direction.Down());
 		assertEquals(8, gamefield.getGrid()[2][3].getValue());
 		// 8 at (0,0); 2 at (0,3); 2 at (3,0); 8 at (2,3)
 		
-		gamefield.insertNumberTile(100, 2, 0);
-		gamefield.insertNumberTile(100, 2, 1);
+		gamefield.insertTile(100, 2, 0);
+		gamefield.insertTile(100, 2, 1);
 		
 		gamefield.mergeTile(2, new Direction.Right());
 		assertEquals(8, gamefield.getGrid()[2][1].getValue());
@@ -114,40 +114,40 @@ public class GameFieldTest {
 	}
 	
 	@Test
-	public void testInsertNumberTile() {
-		gamefield.insertNumberTile(0, 0, 0);
+	public void testInsertTile() {
+		gamefield.insertTile(0, 0, 0);
 		int value = gamefield.getGrid()[0][0].getValue();
 		assertEquals(2, value);
 		
-		gamefield.insertNumberTile(0, 3, 0);
+		gamefield.insertTile(0, 3, 0);
 		value = gamefield.getGrid()[3][0].getValue();
 		assertEquals(2, value);
 		
-		gamefield.insertNumberTile(100, 0, 3);
+		gamefield.insertTile(100, 0, 3);
 		value = gamefield.getGrid()[0][3].getValue();
 		assertEquals(4, value);
 		
-		gamefield.insertNumberTile(100, 3, 3);
+		gamefield.insertTile(100, 3, 3);
 		value = gamefield.getGrid()[3][3].getValue();
 		assertEquals(4, value);
 		
-		gamefield.insertRandomNumberTiles(1);
-		gamefield.insertRandomNumberTiles(16);
+		gamefield.insertRandomTiles(1);
+		gamefield.insertRandomTiles(16);
 		
 		int tilecount = getTilesInGameField();
 		assertEquals(16, tilecount);
 	}
 	
 	@Test
-	public void testInsertRandomNumberTile() {
-		gamefield.insertRandomNumberTile();
-		gamefield.insertRandomNumberTile();
-		gamefield.insertRandomNumberTile();
+	public void testInsertRandomTile() {
+		gamefield.insertRandomTile();
+		gamefield.insertRandomTile();
+		gamefield.insertRandomTile();
 		int tilecount = getTilesInGameField();
 		assertEquals(3, tilecount);
 		boolean insert = true;
 		for (int i = 3; i <= 4 * 4; i++) {
-			insert = gamefield.insertRandomNumberTile();
+			insert = gamefield.insertRandomTile();
 		}
 		assertEquals(false, insert);
 	}
@@ -166,7 +166,7 @@ public class GameFieldTest {
 	@Test
 	public void testgetValue() {
 		assertEquals(0, gamefield.getValue(0, 0));
-		gamefield.insertNumberTile(0, 0, 0);
+		gamefield.insertTile(0, 0, 0);
 		assertEquals(2, gamefield.getValue(0, 0));
 	}
 	
@@ -174,8 +174,8 @@ public class GameFieldTest {
 	public void testTryMerge() {
 		assertEquals(false, gamefield.trymerge());
 		
-		gamefield.insertNumberTile(0, 0, 0);
-		gamefield.insertNumberTile(0, 1, 0);
+		gamefield.insertTile(0, 0, 0);
+		gamefield.insertTile(0, 1, 0);
 		
 		assertEquals(true, gamefield.trymerge());
 	}

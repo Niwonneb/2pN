@@ -12,11 +12,11 @@ public interface GameFieldInterface {
 
     boolean moveTiles(Direction direction);
 
-    boolean insertRandomNumberTiles(int count);
+    boolean insertRandomTiles(int count);
 
-    void insertNumberTile(int chance, int row, int collumn);
+    void insertTile(int chance, int row, int collumn);
 
-    boolean insertRandomNumberTile();
+    boolean insertRandomTile();
 
     List<Point> getEmptyPlaces();
 
