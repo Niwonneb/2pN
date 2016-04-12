@@ -118,14 +118,14 @@ public final class GameField implements GameFieldInterface {
     }
 
     /*
-     * insert a new NumberTiles to (row,column) if it's empty
+     * insert a new Tiles to (row,column) if it's empty
      * @param chance percentage (0-100) of spawning a 4
      */
-    public void insertNumberTile(int chance, int row, int collumn) {
+    public void insertTile(int chance, int row, int collumn) {
         Random rand = new Random();
         // --------------------------------------------- create random 1-100
         int random = rand.nextInt(PERCMAX) + 1;
-        NumberTile newTile = new NumberTile();
+        Tile newTile = new Tile();
         // --------------------------------------------- chance of creating a 4
         if (random <= chance) {
             newTile.doubleValue();
@@ -133,16 +133,16 @@ public final class GameField implements GameFieldInterface {
         grid[row][collumn] = newTile;
     }
 
-    public boolean insertRandomNumberTiles(int count) {
+    public boolean insertRandomTiles(int count) {
         for (int i = 0; i < count; i++) {
-            if (!insertRandomNumberTile()) {
+            if (!insertRandomTile()) {
                 return false;
             }
         }
         return true;
     }
 
-    public boolean insertRandomNumberTile() {
+    public boolean insertRandomTile() {
         Random rand = new Random();
         List<Point> emptyPlaces = getEmptyPlaces();
         if (emptyPlaces.isEmpty()) {
@@ -150,7 +150,7 @@ public final class GameField implements GameFieldInterface {
         }
         int idx = rand.nextInt(emptyPlaces.size());
         Point insertPlace = emptyPlaces.get(idx);
-        insertNumberTile(DOUBLECHANCE, (int) insertPlace.getY(),
+        insertTile(DOUBLECHANCE, (int) insertPlace.getY(),
                 (int) insertPlace.getX());
         return true;
     }

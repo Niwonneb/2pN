@@ -1,4 +1,4 @@
-package de.htwg.se.tpn.util.persistence.couchdb;
+package de.htwg.se.tpn.util.persistence.couchDb;
 
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
