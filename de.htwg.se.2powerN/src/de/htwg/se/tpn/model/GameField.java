@@ -21,6 +21,10 @@ public class GameField implements GameFieldInterface {
         this.height = height;
     }
 
+    public GameField(Tile[][] grid) {
+        this.grid = grid;
+    }
+
     protected Tile[][] getGrid() {
         return grid;
     }

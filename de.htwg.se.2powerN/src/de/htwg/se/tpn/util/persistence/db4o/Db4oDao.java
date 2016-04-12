@@ -6,10 +6,8 @@ import de.htwg.se.tpn.controller.TpnControllerInterface;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.model.SaveGame;
 import de.htwg.se.tpn.util.persistence.ITpnDao;
-/**
- * Created by Sergej on 23/03/16.
- */
-public class TpnDao implements ITpnDao {
+
+public class Db4oDao implements ITpnDao {
 
     @Override
     public void createOrUpdateGame(GameFieldInterface game, String id) {
