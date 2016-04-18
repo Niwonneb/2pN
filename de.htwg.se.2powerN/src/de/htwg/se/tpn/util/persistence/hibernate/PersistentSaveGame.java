@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tpnSaveGame")
-public class PersistentSaveGame implements Serializable {
+public class PersistentSaveGame implements Serializable, de.htwg.se.tpn.model.PersistentSaveGameInterface {
 
     private static final long serialVersionUID = 1532222903825440126L;
 
@@ -23,39 +23,29 @@ public class PersistentSaveGame implements Serializable {
     public PersistentSaveGame() {
     }
 
+    @Override
     public String getId() {
         return id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
 
+    @Override
     public List<PersistentRow> getRows() {
         return gameField;
     }
 
+    @Override
     public void setRows(List<PersistentRow> gameField) {
         this.gameField = gameField;
     }
 
+    @Override
     public int getHeight() {
         return gameField.size();
     }
 
-    @Entity
-    @Table(name = "tpnRow")
-    public static class PersistentRow implements  Serializable {
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        public Integer id;
-
-        @OneToMany(mappedBy = "row")
-        @Column(name = "tiles")
-        public List<PersistentTile> tiles = new LinkedList<>();
-
-        @ManyToOne
-        @JoinColumn(name = "saveGameId")
-        public PersistentSaveGame saveGame;
-    }
 }

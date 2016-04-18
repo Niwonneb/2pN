@@ -1,5 +1,7 @@
 package de.htwg.se.tpn;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import de.htwg.se.tpn.controller.TpnController;
 import de.htwg.se.tpn.controller.TpnControllerInterface;
 import de.htwg.se.tpn.util.persistence.db4o.Db4oDao;
@@ -14,7 +16,9 @@ public final class TwoPN {
     private static TwoPN instance = null;
 
     public TwoPN() {
-        controller = new TpnController(FIELDSIZE, 1, new HibernateDao());
+
+        Injector injector = Guice.createInjector(new TwoPNModule());
+        controller = injector.getInstance(TpnControllerInterface.class);
     }
 
     public static TwoPN getInstance() {

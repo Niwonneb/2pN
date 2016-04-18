@@ -1,5 +1,7 @@
 package de.htwg.se.tpn.controller;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import de.htwg.se.tpn.model.*;
 import de.htwg.se.tpn.util.observer.Observable;
 import de.htwg.se.tpn.util.persistence.ITpnDao;
@@ -11,7 +13,8 @@ public class TpnController extends Observable implements TpnControllerInterface 
     private SaveAndLoadService saveAndLoadService;
     private int inserts;
 
-    public TpnController(int size, int inserts, ITpnDao dao) {
+@Inject
+public TpnController(@Named("size") int size, @Named("inserts") int inserts, ITpnDao dao) {
         saveAndLoadService = new SaveAndLoadService(dao);
         gameInit(size, inserts);
     }

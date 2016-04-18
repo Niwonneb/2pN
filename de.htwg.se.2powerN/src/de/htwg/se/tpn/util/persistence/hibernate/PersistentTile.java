@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "tpnTile")
-public class PersistentTile implements Serializable {
+public class PersistentTile implements Serializable, de.htwg.se.tpn.model.PersistentTileInterface {
 
     private static final long serialVersionUID = 3184225396652222648L;
 
@@ -29,18 +29,22 @@ public class PersistentTile implements Serializable {
     public PersistentTile() {
     }
 
+    @Override
     public Integer getValue() {
         return value;
     }
 
+    @Override
     public void setValue(Integer value) {
         this.value = value;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public void setId(Integer id) {
         this.id = id;
     }
