@@ -1,7 +1,6 @@
 package de.htwg.se.tpn.util.persistence.hibernate;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -14,7 +13,7 @@ public class PersistentSaveGame implements Serializable, de.htwg.se.tpn.model.Pe
 
     @Id
     @Column(name = "id")
-    private String id;
+    private String saveGameId;
 
     @OneToMany(mappedBy = "saveGame")
     @Column(name = "rows")
@@ -23,14 +22,12 @@ public class PersistentSaveGame implements Serializable, de.htwg.se.tpn.model.Pe
     public PersistentSaveGame() {
     }
 
-    @Override
-    public String getId() {
-        return id;
+    public String getSaveGameId() {
+        return saveGameId;
     }
 
-    @Override
-    public void setId(String id) {
-        this.id = id;
+    public void setSaveGameId(String saveGameId) {
+        this.saveGameId = saveGameId;
     }
 
     @Override

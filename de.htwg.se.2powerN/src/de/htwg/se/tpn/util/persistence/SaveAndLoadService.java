@@ -9,9 +9,10 @@ public class SaveAndLoadService {
         this.gameDao = gameDao;
     }
 
-    public void saveGame(GameFieldInterface game, String id) {
-        gameDao.createOrUpdateGame(game, id);
+    public boolean saveGame(GameFieldInterface game, String id) {
+        boolean success = gameDao.createOrUpdateGame(game, id);
         gameDao.closeDb();
+        return success;
     }
 
     public SaveGame loadGame(String id) {

@@ -1,6 +1,8 @@
 package de.htwg.se.tpn.util.persistence.hibernate;
 
 
+import de.htwg.se.tpn.model.PersistentSaveGameInterface;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -15,7 +17,6 @@ public class PersistentTile implements Serializable, de.htwg.se.tpn.model.Persis
     public Integer id;
 
     public Integer value = 0;
-
 
     @ManyToOne
     @JoinColumn(name = "rowId")
@@ -47,5 +48,13 @@ public class PersistentTile implements Serializable, de.htwg.se.tpn.model.Persis
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public PersistentSaveGame.PersistentRow getRow() {
+        return row;
+    }
+
+    public void setRow(PersistentSaveGame.PersistentRow row) {
+        this.row = row;
     }
 }

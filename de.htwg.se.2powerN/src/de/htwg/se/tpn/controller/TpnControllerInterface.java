@@ -26,7 +26,10 @@ public interface TpnControllerInterface extends IObservable {
 
     void loadGame(String id);
 
-    void saveGame(String id);
+    boolean saveGame(String id);
+
+    final class GameLoadedEvent extends Event {
+    }
 
     final class NewFieldEvent extends Event {
     }

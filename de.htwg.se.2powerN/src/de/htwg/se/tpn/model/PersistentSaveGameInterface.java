@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public interface PersistentSaveGameInterface {
-    String getId();
+    String getSaveGameId();
 
-    void setId(String id);
+    void setSaveGameId(String saveGameId);
 
     List<PersistentRow> getRows();
 
@@ -33,5 +33,13 @@ public interface PersistentSaveGameInterface {
         @ManyToOne
         @JoinColumn(name = "saveGameId")
         public PersistentSaveGame saveGame;
+
+        public PersistentSaveGame getSaveGame() {
+            return saveGame;
+        }
+
+        public void setSaveGame(PersistentSaveGame tpnSaveGame) {
+            this.saveGame = tpnSaveGame;
+        }
     }
 }

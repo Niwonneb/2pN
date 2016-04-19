@@ -11,7 +11,7 @@ public interface ITpnDao {
     /**
      * @param game for database
      */
-    void createOrUpdateGame(GameFieldInterface game, String id);
+    boolean createOrUpdateGame(GameFieldInterface game, String id);
 
     /**
      * @param id id of game

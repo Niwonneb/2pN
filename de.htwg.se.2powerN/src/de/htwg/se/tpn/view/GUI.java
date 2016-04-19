@@ -127,11 +127,11 @@ public class GUI extends JFrame implements IObserver, KeyListener {
         menuFile.add(newGame);
 
         JMenuItem saveItem = new JMenuItem("Save");
-        saveItem.addActionListener(e -> controller.saveGame("GUI-ID"));
+        saveItem.addActionListener(e -> this.showSaveGameDialog());
         menuFile.add(saveItem);
 
         JMenuItem loadItem = new JMenuItem("Load");
-        loadItem.addActionListener(e -> controller.loadGame("GUI-ID"));
+        loadItem.addActionListener(e -> this.showLoadGameDialog());
         menuFile.add(loadItem);
 
         JMenuItem exitItem = new JMenuItem("Exit...");
@@ -175,6 +175,42 @@ public class GUI extends JFrame implements IObserver, KeyListener {
                 JOptionPane.showMessageDialog(GUI.this, "Wrong input",
                         "Game creation failed", JOptionPane.WARNING_MESSAGE);
             }
+        }
+    }
+
+    private void showSaveGameDialog() {
+        JTextField gameName = new JTextField();
+        Object[] message = {
+                "Game Name:", gameName,
+        };
+        int option = JOptionPane.showConfirmDialog(
+                GUI.this,
+                message,
+                "Save Game",
+                JOptionPane.OK_CANCEL_OPTION);
+
+
+        if (option == JOptionPane.OK_OPTION) {
+            if (!controller.saveGame(gameName.getText())) {
+                JOptionPane.showMessageDialog(this, "Could not save game");
+            }
+        }
+    }
+
+    private void showLoadGameDialog() {
+        JTextField gameName = new JTextField();
+        Object[] message = {
+                "Game Name:", gameName,
+        };
+        int option = JOptionPane.showConfirmDialog(
+                GUI.this,
+                message,
+                "Load Game",
+                JOptionPane.OK_CANCEL_OPTION);
+
+
+        if (option == JOptionPane.OK_OPTION) {
+            controller.loadGame(gameName.getText());
         }
     }
 
@@ -249,7 +285,11 @@ public class GUI extends JFrame implements IObserver, KeyListener {
 
     @Override
     public void update(Event e) {
-        if (e instanceof TpnControllerInterface.NewFieldEvent) {
+        if (e instanceof TpnControllerInterface.GameLoadedEvent) {
+            new GUI(GUI.this.controller);
+            GUI.this.controller.removeObserver(GUI.this);
+            GUI.this.dispose();
+        } else if (e instanceof TpnControllerInterface.NewFieldEvent) {
             updateValues();
         } else if (e instanceof TpnControllerInterface.GameOverEvent && !end) {
             end = true;
