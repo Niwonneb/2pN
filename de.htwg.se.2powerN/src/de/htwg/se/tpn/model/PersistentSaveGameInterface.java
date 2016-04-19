@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Sergej on 18/04/16.
- */
 public interface PersistentSaveGameInterface {
     String getId();
 
