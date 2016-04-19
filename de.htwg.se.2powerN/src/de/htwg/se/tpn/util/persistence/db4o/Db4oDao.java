@@ -10,7 +10,7 @@ import de.htwg.se.tpn.util.persistence.ITpnDao;
 public class Db4oDao implements ITpnDao {
 
     @Override
-    public void createOrUpdateGame(GameFieldInterface game, String id) {
+    public boolean createOrUpdateGame(GameFieldInterface game, String id) {
         if (findGame(id) == null) {
             Db4oSessionManager.getDbObjectContainer().store(new SaveGame(game, id));
         } else {
@@ -18,6 +18,7 @@ public class Db4oDao implements ITpnDao {
             old.setGameField(game);
             Db4oSessionManager.getDbObjectContainer().store(old);
         }
+        return true;
     }
 
     @Override

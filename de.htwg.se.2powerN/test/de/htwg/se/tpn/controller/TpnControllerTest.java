@@ -13,8 +13,8 @@ public class TpnControllerTest {
 
 	ITpnDao dao = new ITpnDao() {
         @Override
-        public void createOrUpdateGame(GameFieldInterface game, String id) {
-
+        public boolean createOrUpdateGame(GameFieldInterface game, String id) {
+			return true;
         }
 
         @Override

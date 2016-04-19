@@ -15,13 +15,14 @@ public class TpnDao implements ITpnDao {
     }
 
     @Override
-    public void createOrUpdateGame(GameFieldInterface game, String id) {
+    public boolean createOrUpdateGame(GameFieldInterface game, String id) {
         GameFieldInterface persistentGame = mapper.getPersistentGame(game);
         if (findGame(game.getId()) == null) {
             CouchDbSession.getCouchDbConnector().create(persistentGame);
         } else {
 
         }
+        return true;
     }
 
     @Override

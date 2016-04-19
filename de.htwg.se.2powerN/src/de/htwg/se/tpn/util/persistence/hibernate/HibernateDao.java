@@ -5,7 +5,6 @@ import java.util.List;
 
 import de.htwg.se.tpn.model.*;
 import de.htwg.se.tpn.util.persistence.ITpnDao;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,14 +22,20 @@ public class HibernateDao implements ITpnDao {
         for (PersistentSaveGame.PersistentRow row : pRows) {
             int tileNr = 0;
             for (PersistentTile tile : row.tiles) {
-                grid[rowNr][tileNr] = new Tile(tile.getValue());
+                Tile newTile;
+                if (tile.getValue() == 0) {
+                    newTile = null;
+                } else {
+                    newTile = new Tile(tile.getValue());
+                }
+                grid[rowNr][tileNr] = newTile;
                 ++tileNr;
             }
             ++rowNr;
         }
 
         GameFieldInterface gameField = new GameField(grid);
-        SaveGame saveGame = new SaveGame(gameField , pSaveGame.getId());
+        SaveGame saveGame = new SaveGame(gameField , pSaveGame.getSaveGameId());
 
         return saveGame;
     }
@@ -40,7 +45,7 @@ public class HibernateDao implements ITpnDao {
             return null;
         }
         PersistentSaveGame pSaveGame = new PersistentSaveGame();
-        pSaveGame.setId(saveGame.getId());
+        pSaveGame.setSaveGameId(saveGame.getId());
 
         GameFieldInterface gameField = saveGame.getGameField();
         int height = gameField.getHeight();
@@ -49,9 +54,11 @@ public class HibernateDao implements ITpnDao {
 
         for (int rowNr = 0; rowNr < height; ++rowNr) {
             PersistentSaveGame.PersistentRow curRow = new PersistentSaveGame.PersistentRow();
+            curRow.setSaveGame(pSaveGame);
             for (int tileNr = 0; tileNr < height; ++tileNr) {
                 int value = gameField.getValue(rowNr, tileNr);
                 PersistentTile pTile = new PersistentTile(value);
+                pTile.setRow(curRow);
 
                 curRow.tiles.add(tileNr, pTile);
             }
@@ -64,7 +71,7 @@ public class HibernateDao implements ITpnDao {
     }
 
     @Override
-    public void createOrUpdateGame(GameFieldInterface game, String id) {
+    public boolean createOrUpdateGame(GameFieldInterface game, String id) {
         Transaction tx = null;
         Session session = null;
 
@@ -86,8 +93,10 @@ public class HibernateDao implements ITpnDao {
         } catch (HibernateException ex) {
             if (tx != null)
                 tx.rollback();
-            throw new RuntimeException(ex.getMessage());
+            //throw new RuntimeException(ex.getMessage());
+            return false;
         }
+        return true;
     }
 
     @Override
@@ -95,7 +104,7 @@ public class HibernateDao implements ITpnDao {
         Session session = HibernateUtil.getInstance().getCurrentSession();
         session.beginTransaction();
 
-        return copySaveGame((PersistentSaveGame) session.get(PersistentSaveGame.class, id));
+        return copySaveGame(session.get(PersistentSaveGame.class, id));
     }
 
     @Override

@@ -98,12 +98,13 @@ public TpnController(@Named("size") int size, @Named("inserts") int inserts, ITp
         SaveGame loadedGame = saveAndLoadService.loadGame(id);
         if (loadedGame != null) {
             gamefield = loadedGame.getGameField();
+            notifyObservers(new GameLoadedEvent());
             notifyObservers(new NewFieldEvent());
         }
     }
 
-    public void saveGame(String id) {
-        saveAndLoadService.saveGame(gamefield, id);
+    public boolean saveGame(String id) {
+        return saveAndLoadService.saveGame(gamefield, id);
     }
 
     public boolean actionLeft() {
