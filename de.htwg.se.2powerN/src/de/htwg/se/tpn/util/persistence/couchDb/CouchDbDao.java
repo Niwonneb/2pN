@@ -85,8 +85,8 @@ public class CouchDbDao implements ITpnDao {
     }
 
     @Override
-    public void createOrUpdateGame(GameFieldInterface game, String id) {
-
+    public boolean createOrUpdateGame(GameFieldInterface game, String id) {
+        return false;
     }
 
     @Override
