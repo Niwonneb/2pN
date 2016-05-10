@@ -59,14 +59,14 @@ public class CouchDbDao implements ITpnDao {
         return saveGame;
     }
 
-    private PersistentSaveGame copySaveGame(SaveGame saveGame) {
+    private PersistentSaveGame copySaveGame(GameFieldInterface saveGame, String id) {
         if(saveGame == null) {
             return null;
         }
         PersistentSaveGame pSaveGame = new PersistentSaveGame();
-        pSaveGame.setId(saveGame.getId());
+        pSaveGame.setId(id);
 
-        GameFieldInterface gameField = saveGame.getGameField();
+        GameFieldInterface gameField = saveGame;
         int height = gameField.getHeight();
 
         List<PersistentTile> tiles = new LinkedList<>();
@@ -86,6 +86,17 @@ public class CouchDbDao implements ITpnDao {
 
     @Override
     public boolean createOrUpdateGame(GameFieldInterface game, String id) {
+        System.out.println("Created or Update game");
+        if (findGame(game.getId()) == null) {
+            System.out.println("Created SaveGame");
+            db.create(copySaveGame(game, id));
+
+            return true;
+        } else {
+            System.out.println("Update SaveGame");
+            db.update(copySaveGame(game, id));
+        }
+
         return false;
     }
 
@@ -93,7 +104,7 @@ public class CouchDbDao implements ITpnDao {
     public SaveGame findGame(String id) {
         ViewQuery query = new ViewQuery()
                 .designDocId("_design/findid")
-                .viewName("a_tpn_game")
+                .viewName("game")
                 .key(id);
 
         List<PersistentSaveGame> result = null;
