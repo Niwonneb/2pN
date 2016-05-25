@@ -19,7 +19,6 @@ public class PersistentSaveGame extends CouchDbDocument {
      *                    documents unique in the database.
      */
 
-
     @TypeDiscriminator
     private String id;
     private List<PersistentTile> tiles;
@@ -40,9 +39,5 @@ public class PersistentSaveGame extends CouchDbDocument {
 
     public void setTiles(List<PersistentTile> tiles) {
         this.tiles = tiles;
-    }
-
-    public int getSize() {
-        return (int)Math.sqrt(tiles.size());
     }
 }

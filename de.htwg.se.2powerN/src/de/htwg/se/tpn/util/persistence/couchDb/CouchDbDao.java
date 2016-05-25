@@ -39,7 +39,7 @@ public class CouchDbDao implements ITpnDao {
             return null;
         }
 
-        int size = pSaveGame.getSize();
+        int size = 4;
 
         Tile[][] grid = new Tile[size][size];
 
@@ -101,14 +101,15 @@ public class CouchDbDao implements ITpnDao {
     }
 
     @Override
-    public SaveGame findGame(String id) {
+    public SaveGame findGame(String _id) {
         ViewQuery query = new ViewQuery()
                 .designDocId("_design/findid")
                 .viewName("game")
-                .key(id);
+                .key(_id);
 
         List<PersistentSaveGame> result = null;
-        db.queryView(query, PersistentSaveGame.class);
+
+        result = db.queryView(query, PersistentSaveGame.class);
         if (result.size() == 0) {
             return null;
         }
