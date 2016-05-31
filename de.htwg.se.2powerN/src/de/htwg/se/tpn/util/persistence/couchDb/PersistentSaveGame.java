@@ -2,6 +2,8 @@ package de.htwg.se.tpn.util.persistence.couchDb;
 
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.model.SaveGame;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.ektorp.support.CouchDbDocument;
 import org.ektorp.support.TypeDiscriminator;
 
@@ -21,7 +23,10 @@ public class PersistentSaveGame extends CouchDbDocument {
 
     @TypeDiscriminator
     private String id;
+    private String rev;
     private List<PersistentTile> tiles;
+    @JsonIgnore
+    private int size;
 
     @Override
     public String getId() {
@@ -33,11 +38,25 @@ public class PersistentSaveGame extends CouchDbDocument {
         this.id = id;
     }
 
+    @Override
+    public String getRevision() {
+        return rev;
+    }
+
+    @Override
+    public void setRevision(String rev) {
+        this.rev = rev;
+    }
+
     public List<PersistentTile> getTiles() {
         return tiles;
     }
 
     public void setTiles(List<PersistentTile> tiles) {
         this.tiles = tiles;
+    }
+
+    public int getSize() {
+        return (int)Math.sqrt(this.tiles.size());
     }
 }

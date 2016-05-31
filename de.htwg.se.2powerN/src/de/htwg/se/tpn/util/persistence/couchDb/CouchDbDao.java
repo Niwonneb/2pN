@@ -39,11 +39,11 @@ public class CouchDbDao implements ITpnDao {
             return null;
         }
 
-        int size = 4;
+        int size = pSaveGame.getSize();
 
         Tile[][] grid = new Tile[size][size];
 
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size * size; ++i) {
             int row = Math.floorDiv(i, size);
             int column = i % size;
             if (pSaveGame.getTiles().get(i).getValue() == 0) {
