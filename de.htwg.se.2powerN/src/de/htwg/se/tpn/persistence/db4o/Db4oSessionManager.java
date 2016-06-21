@@ -1,4 +1,4 @@
-package de.htwg.se.tpn.util.persistence.db4o;
+package de.htwg.se.tpn.persistence.db4o;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;

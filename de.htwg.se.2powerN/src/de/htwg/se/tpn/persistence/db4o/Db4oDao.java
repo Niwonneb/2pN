@@ -1,13 +1,13 @@
-package de.htwg.se.tpn.util.persistence.db4o;
+package de.htwg.se.tpn.persistence.db4o;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import de.htwg.se.tpn.controller.TpnControllerInterface;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.model.SaveGame;
-import de.htwg.se.tpn.util.persistence.ITpnDao;
+import de.htwg.se.tpn.persistence.AbstractDao;
+import de.htwg.se.tpn.persistence.PersistenceStrategy;
 
-public class Db4oDao implements ITpnDao {
+public class Db4oDao extends AbstractDao {
 
     @Override
     public boolean createOrUpdateGame(GameFieldInterface game, String id) {
@@ -15,9 +15,11 @@ public class Db4oDao implements ITpnDao {
             Db4oSessionManager.getDbObjectContainer().store(new SaveGame(game, id));
         } else {
             SaveGame old = findGame(id);
+            Db4oSessionManager.getDbObjectContainer().delete(old);
             old.setGameField(game);
             Db4oSessionManager.getDbObjectContainer().store(old);
         }
+        close();
         return true;
     }
 
@@ -32,13 +34,25 @@ public class Db4oDao implements ITpnDao {
             }
         });
         if (objectSet.isEmpty()) {
+            close();
             return null;
         }
-        return objectSet.get(0);
+        SaveGame game = objectSet.get(0);
+        close();
+        return game;
     }
 
     @Override
-    public void closeDb() {
+    public PersistenceStrategy getStrategy() {
+        return PersistenceStrategy.db4o;
+    }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
+
+    private void close() {
         Db4oSessionManager.getDbObjectContainer().close();
     }
 }

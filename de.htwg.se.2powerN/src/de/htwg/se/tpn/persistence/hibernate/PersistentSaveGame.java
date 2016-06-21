@@ -1,4 +1,4 @@
-package de.htwg.se.tpn.util.persistence.hibernate;
+package de.htwg.se.tpn.persistence.hibernate;
 
 import java.io.Serializable;
 import java.util.List;

@@ -3,10 +3,11 @@ package de.htwg.se.tpn.util.observer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Observable implements IObservable {
 
-    private List<IObserver> subscribers = new ArrayList<IObserver>(2);
+    private List<IObserver> subscribers = new CopyOnWriteArrayList<IObserver>(new ArrayList<IObserver>(2));
 
     public void addObserver(IObserver s) {
         subscribers.add(s);

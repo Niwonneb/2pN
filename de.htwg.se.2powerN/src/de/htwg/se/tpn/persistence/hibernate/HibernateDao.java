@@ -1,15 +1,16 @@
-package de.htwg.se.tpn.util.persistence.hibernate;
+package de.htwg.se.tpn.persistence.hibernate;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import de.htwg.se.tpn.model.*;
-import de.htwg.se.tpn.util.persistence.ITpnDao;
+import de.htwg.se.tpn.persistence.AbstractDao;
+import de.htwg.se.tpn.persistence.PersistenceStrategy;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class HibernateDao implements ITpnDao {
+public class HibernateDao extends AbstractDao {
 
     private SaveGame copySaveGame(PersistentSaveGame pSaveGame) {
         if (pSaveGame == null) {
@@ -75,6 +76,10 @@ public class HibernateDao implements ITpnDao {
         Transaction tx = null;
         Session session = null;
 
+        if (findGame(id) != null) {
+            return false;
+        }
+
         try {
             session = HibernateUtil.getInstance().getCurrentSession();
             tx = session.beginTransaction();
@@ -108,7 +113,12 @@ public class HibernateDao implements ITpnDao {
     }
 
     @Override
-    public void closeDb() {
+    public boolean init() {
+        return true;
+    }
 
+    @Override
+    public PersistenceStrategy getStrategy() {
+        return PersistenceStrategy.hibernate;
     }
 }

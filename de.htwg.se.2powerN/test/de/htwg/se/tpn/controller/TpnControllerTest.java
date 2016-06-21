@@ -2,35 +2,17 @@ package de.htwg.se.tpn.controller;
 
 import static org.junit.Assert.*;
 
-import de.htwg.se.tpn.model.GameFieldInterface;
-import de.htwg.se.tpn.model.SaveGame;
-import de.htwg.se.tpn.util.persistence.ITpnDao;
+import akka.actor.ActorSystem;
 import org.junit.Before;
 import org.junit.Test;
 
 public class TpnControllerTest {
 	TpnController c;
-
-	ITpnDao dao = new ITpnDao() {
-        @Override
-        public boolean createOrUpdateGame(GameFieldInterface game, String id) {
-			return true;
-        }
-
-        @Override
-        public SaveGame findGame(String id) {
-            return null;
-        }
-
-        @Override
-        public void closeDb() {
-
-        }
-    };
+	private ActorSystem actorSystem = ActorSystem.create("tpn");
 
 	@Before
 	public void setUp() throws Exception {
-		c = new TpnController(2, 1, dao);
+		c = new TpnController(null, 1, null);
 		c.gamereset(2);
 	}
 

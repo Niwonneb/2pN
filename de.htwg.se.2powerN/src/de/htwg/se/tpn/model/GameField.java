@@ -188,10 +188,6 @@ public class GameField implements GameFieldInterface {
         return merged;
     }
 
-    public String getId() {
-        return null;
-    }
-
     private Tile[][] cloneGrid() {
         Tile[][] original = new Tile[height][height];
         for (int i = 0; i < height; i++) {
@@ -209,5 +205,11 @@ public class GameField implements GameFieldInterface {
             }
         }
         return original;
+    }
+
+
+    public void newGrid(int size) {
+        this.grid = new Tile[size][size];
+        this.height = size;
     }
 }

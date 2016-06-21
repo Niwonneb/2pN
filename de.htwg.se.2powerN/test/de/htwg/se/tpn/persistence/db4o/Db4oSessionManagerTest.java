@@ -1,6 +1,4 @@
-package de.htwg.se.tpn.util.persistence.db4o;
-
-import static org.junit.Assert.*;
+package de.htwg.se.tpn.persistence.db4o;
 
 /**
  * Created by Sergej on 30/03/16.

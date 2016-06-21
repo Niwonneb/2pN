@@ -1,7 +1,5 @@
-package de.htwg.se.tpn.util.persistence.hibernate;
+package de.htwg.se.tpn.persistence.hibernate;
 
-
-import de.htwg.se.tpn.model.PersistentSaveGameInterface;
 
 import javax.persistence.*;
 import java.io.Serializable;

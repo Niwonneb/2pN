@@ -13,15 +13,16 @@ import java.util.TreeMap;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import akka.actor.ActorRef;
+import akka.actor.dsl.Creators;
 import de.htwg.se.tpn.controller.TpnControllerInterface;
+import de.htwg.se.tpn.model.GameField;
+import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.util.observer.Event;
 import de.htwg.se.tpn.util.observer.IObserver;
 
-public class GUI extends JFrame implements IObserver, KeyListener {
+public class GUI extends JFrame implements KeyListener {
 
-    /**
-     *
-     */
     private static final int WINDOWSIZE = 600;
     private static final int INNERGAP = 10;
     private static final int OUTERGAP = 30;
@@ -101,15 +102,14 @@ public class GUI extends JFrame implements IObserver, KeyListener {
                 put(NUMBER2048, BACK2048);
                 put(-1, BACKREST);
             }};
-    private TpnControllerInterface controller;
     private JLabel[][] tileLabels;
     private JPanel tilePanel;
     private boolean end;
+    private GUIActor guiActor;
 
-    public GUI(TpnControllerInterface controller) {
-        this.controller = controller;
-        tileLabels = new JLabel[controller.getSize()][controller.getSize()];
-        controller.addObserver(this);
+    public GUI(GameFieldInterface gameField, GUIActor guiActor) {
+        this.guiActor = guiActor;
+        tileLabels = new JLabel[gameField.getHeight()][gameField.getHeight()];
         this.addKeyListener(this);
         end = false;
 
@@ -138,7 +138,7 @@ public class GUI extends JFrame implements IObserver, KeyListener {
         exitItem.addActionListener(e -> System.exit(0));
         menuFile.add(exitItem);
 
-        createTiles();
+        createTiles(gameField);
         this.add(this.tilePanel);
 
         this.pack();
@@ -167,10 +167,7 @@ public class GUI extends JFrame implements IObserver, KeyListener {
             try {
                 int size = Integer.valueOf(fieldsize.getText());
                 int inserts = Integer.valueOf(inputs.getText());
-                GUI.this.controller.gameInit(size, inserts);
-                new GUI(GUI.this.controller);
-                GUI.this.controller.removeObserver(GUI.this);
-                GUI.this.dispose();
+                guiActor.newGame(size, inserts);
             } catch (Exception err) {
                 JOptionPane.showMessageDialog(GUI.this, "Wrong input",
                         "Game creation failed", JOptionPane.WARNING_MESSAGE);
@@ -191,9 +188,7 @@ public class GUI extends JFrame implements IObserver, KeyListener {
 
 
         if (option == JOptionPane.OK_OPTION) {
-            if (!controller.saveGame(gameName.getText())) {
-                JOptionPane.showMessageDialog(this, "Could not save game");
-            }
+            guiActor.saveGame(gameName.getText());
         }
     }
 
@@ -210,32 +205,32 @@ public class GUI extends JFrame implements IObserver, KeyListener {
 
 
         if (option == JOptionPane.OK_OPTION) {
-            controller.loadGame(gameName.getText());
+            guiActor.loadGame(gameName.getText());
         }
     }
 
-    private void createTiles() {
-        tileLabels = new JLabel[controller.getSize()][controller.getSize()];
-        GridLayout layout = new GridLayout(controller.getSize(),
-                controller.getSize());
+    private void createTiles(GameFieldInterface gameField) {
+        int gameSize = gameField.getHeight();
+        tileLabels = new JLabel[gameSize][gameSize];
+        GridLayout layout = new GridLayout(gameSize, gameSize);
         layout.setHgap(INNERGAP);
         layout.setVgap(INNERGAP);
         this.tilePanel = new JPanel(layout);
         tilePanel.setBorder(new EmptyBorder(OUTERGAP, OUTERGAP,
                 OUTERGAP, OUTERGAP));
-        for (int i = 0; i < controller.getSize(); ++i) {
-            for (int j = 0; j < controller.getSize(); ++j) {
-                JLabel tileLabel = initLabel(new JLabel(""));
+        for (int i = 0; i < gameSize; ++i) {
+            for (int j = 0; j < gameSize; ++j) {
+                JLabel tileLabel = initLabel(new JLabel(""), gameSize);
                 tileLabels[i][j] = tileLabel;
                 tilePanel.add(tileLabel);
             }
         }
         tilePanel.setOpaque(true);
         tilePanel.setBackground(new Color(FRAMECOLOR));
-        updateValues();
+        updateValues(gameField);
     }
 
-    private JLabel initLabel(JLabel label) {
+    private JLabel initLabel(JLabel label, int gameSize) {
         label.setBorder(BorderFactory.createRaisedBevelBorder());
         label.setOpaque(true);
         label.setHorizontalAlignment(JLabel.CENTER);
@@ -244,28 +239,28 @@ public class GUI extends JFrame implements IObserver, KeyListener {
         label.setBackground(new Color(BACKCOLORS.get(0)));
         Font labelFont = label.getFont();
         label.setFont(new Font(labelFont.getName(),
-                Font.BOLD + Font.ROMAN_BASELINE, getfontsize()));
+                Font.BOLD + Font.ROMAN_BASELINE, getfontsize(gameSize)));
 
         return label;
     }
 
-    private int getfontsize() {
-        if (controller.getSize() < STDSIZE) {
+    private int getfontsize(int gameSize) {
+        if (gameSize < STDSIZE) {
             return LOWSIZEFONT;
-        } else if (controller.getSize() == STDSIZE) {
+        } else if (gameSize == STDSIZE) {
             return STDSIZEFONT;
-        } else if (controller.getSize() < HIGSIZE) {
+        } else if (gameSize < HIGSIZE) {
             return HIGSIZEFONT;
-        } else if (controller.getSize() < VHISIZE) {
+        } else if (gameSize < VHISIZE) {
             return VHISIZEFONT;
         }
         return ELSSIZEFONT;
     }
 
-    private void updateValues() {
-        for (int i = 0; i < controller.getSize(); ++i) {
-            for (int j = 0; j < controller.getSize(); ++j) {
-                int value = controller.getValue(i, j);
+    private void updateValues(GameFieldInterface gameField) {
+        for (int i = 0; i < gameField.getHeight(); ++i) {
+            for (int j = 0; j < gameField.getHeight(); ++j) {
+                int value = gameField.getValue(i, j);
                 String text = String.valueOf(value);
                 if (value == 0) {
                     text = "";
@@ -284,40 +279,43 @@ public class GUI extends JFrame implements IObserver, KeyListener {
     }
 
     @Override
-    public void update(Event e) {
-        if (e instanceof TpnControllerInterface.GameLoadedEvent) {
-            new GUI(GUI.this.controller);
-            GUI.this.controller.removeObserver(GUI.this);
-            GUI.this.dispose();
-        } else if (e instanceof TpnControllerInterface.NewFieldEvent) {
-            updateValues();
-        } else if (e instanceof TpnControllerInterface.GameOverEvent && !end) {
-            end = true;
-            JOptionPane.showMessageDialog(this, "Game over");
-        } else if (e instanceof TpnControllerInterface.NewGameEvent) {
-            end = false;
-        }
-    }
-
-    @Override
     public void keyTyped(KeyEvent e) {
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
-            controller.actionUp();
+            guiActor.actionUp();
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            controller.actionDown();
+            guiActor.actionDown();
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            controller.actionLeft();
+            guiActor.actionLeft();
         } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            controller.actionRight();
+            guiActor.actionRight();
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    public void handleNewFieldEvent(GameFieldInterface gameField) {
+        updateValues(gameField);
+    }
+
+    public void handleGameOverEvent(GameFieldInterface gameField) {
+        if (!end) {
+            end = true;
+            JOptionPane.showMessageDialog(this, "Game over");
+        }
+    }
+
+    public void handleNewGameEvent(GameFieldInterface gameField) {
+        end = false;
+    }
+
+    public void handleErrorEvent(String message) {
+        JOptionPane.showMessageDialog(this, message);
     }
 }

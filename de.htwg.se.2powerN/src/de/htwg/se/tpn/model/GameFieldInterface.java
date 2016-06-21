@@ -22,5 +22,5 @@ public interface GameFieldInterface {
 
     boolean trymerge();
 
-    String getId();
+    void newGrid(int size);
 }

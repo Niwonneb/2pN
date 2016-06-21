@@ -1,30 +1,45 @@
 package de.htwg.se.tpn.view;
 
+import akka.actor.ActorRef;
+import akka.actor.Props;
+import akka.japi.Creator;
 import de.htwg.se.tpn.controller.*;
-import de.htwg.se.tpn.util.observer.Event;
-import de.htwg.se.tpn.util.observer.IObserver;
+import de.htwg.se.tpn.model.GameField;
+import de.htwg.se.tpn.model.GameFieldInterface;
 
+import java.util.List;
 import java.util.Scanner;
 
-public class TUI implements IObserver {
+public class TUI extends UIActor {
 
     private static final int TILESIZE = 7;
 
-    private TpnControllerInterface controller;
     private boolean end;
+    private ActorRef controller;
 
-    public TUI(TpnControllerInterface controller) {
+
+    public static Props props(GameFieldInterface gameField, ActorRef controller) {
+        return Props.create(new Creator<TUI>() {
+            @Override
+            public TUI create() throws Exception {
+                return new TUI(gameField, controller);
+            }
+        });
+    }
+
+    public TUI(GameFieldInterface gameField, ActorRef controller) {
         this.controller = controller;
-        controller.addObserver(this);
-        printField(controller.getSize());
+        controller.tell(new AddUIRequest(getSelf()), getSelf());
+        printField(gameField);
         end = false;
         readInput();
     }
 
-    protected final void printField(int height) {
+    private void printField(GameFieldInterface gameField) {
+        int height = gameField.getHeight();
         printSeperator(height);
         for (int row = 0; row < height; row++) {
-            printNumbers(height, row);
+            printNumbers(height, row, gameField);
             printSeperator(height);
         }
     }
@@ -39,9 +54,9 @@ public class TUI implements IObserver {
         println("+");
     }
 
-    private void printNumbers(int height, int row) {
+    private void printNumbers(int height, int row, GameFieldInterface gameField) {
         printemptyTileLine(height);
-        printTileLine(row, height);
+        printTileLine(row, height, gameField);
         printemptyTileLine(height);
 
     }
@@ -60,12 +75,12 @@ public class TUI implements IObserver {
         }
     }
 
-    private void printTileLine(int row, int height) {
+    private void printTileLine(int row, int height, GameFieldInterface gameField) {
         int valueLength = 0;
 
         for (int collumn = 0; collumn < height; collumn++) {
 
-            int value = controller.getValue(row, collumn);
+            int value = gameField.getValue(row, collumn);
             if (value == 0) {
                 printemptyTileSection();
                 continue;
@@ -96,9 +111,7 @@ public class TUI implements IObserver {
         Scanner inn = new Scanner(System.in);
         while (inn.hasNext()) {
             if (!end) {
-                if (!controller.processInput(inn.next())) {
-                    println("Please type w, a, s, d to play or save/load");
-                }
+                controller.tell(new Command(inn.next()), getSelf());
             }
         }
     }
@@ -112,16 +125,32 @@ public class TUI implements IObserver {
     }
 
     @Override
-    public void update(Event e) {
-        if (e instanceof TpnControllerInterface.NewFieldEvent) {
-            printField(controller.getSize());
-        } else if (e instanceof TpnControllerInterface.GameOverEvent && !end) {
+    public void handleNewFieldEvent(GameFieldInterface gameField) {
+        printField(gameField);
+    }
+
+    @Override
+    public void handleGameOverEvent(GameFieldInterface gameField) {
+        if (!end) {
             println("Game Over");
             end = true;
-        } else if (e instanceof TpnControllerInterface.NewGameEvent) {
-            println("New Game");
-            end = false;
-            printField(controller.getSize());
         }
+    }
+
+    @Override
+    public void handleNewGameEvent(GameFieldInterface gameField) {
+        println("New Game");
+        end = false;
+        printField(gameField);
+    }
+
+    @Override
+    void handleLoadedGameEvent(GameFieldInterface gameField) {
+
+    }
+
+    @Override
+    public void handleErrorEvent(String message) {
+        println(message);
     }
 }
