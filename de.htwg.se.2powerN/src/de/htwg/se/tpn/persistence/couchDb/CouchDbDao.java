@@ -1,10 +1,12 @@
-package de.htwg.se.tpn.util.persistence.couchDb;
+package de.htwg.se.tpn.persistence.couchDb;
 
+import de.htwg.se.tpn.controller.Command;
 import de.htwg.se.tpn.model.GameField;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.model.SaveGame;
 import de.htwg.se.tpn.model.Tile;
-import de.htwg.se.tpn.util.persistence.ITpnDao;
+import de.htwg.se.tpn.persistence.AbstractDao;
+import de.htwg.se.tpn.persistence.PersistenceStrategy;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.CouchDbInstance;
 import org.ektorp.ViewQuery;
@@ -16,7 +18,7 @@ import java.net.MalformedURLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CouchDbDao implements ITpnDao {
+public class CouchDbDao extends AbstractDao {
 
     private static CouchDbConnector db;
 
@@ -85,15 +87,17 @@ public class CouchDbDao implements ITpnDao {
     }
 
     @Override
+    public boolean init() {
+        return true;
+    }
+
+    @Override
     public boolean createOrUpdateGame(GameFieldInterface game, String id) {
-        System.out.println("Created or Update game");
-        if (findGame(game.getId()) == null) {
-            System.out.println("Created SaveGame");
-            db.create(copySaveGame(game, id));
+        if (findGame(id) == null) {
+            db.create(new Command("abc"));//copySaveGame(game, id));
 
             return true;
         } else {
-            System.out.println("Update SaveGame");
             db.update(copySaveGame(game, id));
         }
 
@@ -118,8 +122,7 @@ public class CouchDbDao implements ITpnDao {
     }
 
     @Override
-    public void closeDb() {
-        // no need
+    public PersistenceStrategy getStrategy() {
+        return null;
     }
-
 }

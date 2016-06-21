@@ -1,4 +1,4 @@
-package de.htwg.se.tpn.util.persistence.couchDb;
+package de.htwg.se.tpn.persistence.couchDb;
 
 import org.ektorp.support.CouchDbDocument;
 import org.ektorp.support.TypeDiscriminator;

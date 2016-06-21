@@ -1,17 +1,9 @@
-package de.htwg.se.tpn.util.persistence.couchDb;
-
-import de.htwg.se.tpn.model.GameFieldInterface;
-import de.htwg.se.tpn.model.SaveGame;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+package de.htwg.se.tpn.persistence.couchDb;
 import org.ektorp.support.CouchDbDocument;
 import org.ektorp.support.TypeDiscriminator;
 
 import java.util.List;
 
-/**
- * Created by Sergej on 19/04/16.
- */
 public class PersistentSaveGame extends CouchDbDocument {
 
     private static final long serialVersionUID = 7638702989285440560L;
@@ -25,8 +17,6 @@ public class PersistentSaveGame extends CouchDbDocument {
     private String id;
     private String rev;
     private List<PersistentTile> tiles;
-    @JsonIgnore
-    private int size;
 
     @Override
     public String getId() {
