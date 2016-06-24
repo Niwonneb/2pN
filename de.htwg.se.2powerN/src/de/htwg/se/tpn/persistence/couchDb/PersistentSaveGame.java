@@ -17,6 +17,7 @@ public class PersistentSaveGame extends CouchDbDocument {
     private String id;
     private String rev;
     private List<PersistentTile> tiles;
+    private int size;
 
     @Override
     public String getId() {

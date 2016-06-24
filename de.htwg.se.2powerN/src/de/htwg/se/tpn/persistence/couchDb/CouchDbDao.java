@@ -1,6 +1,5 @@
 package de.htwg.se.tpn.persistence.couchDb;
 
-import de.htwg.se.tpn.controller.Command;
 import de.htwg.se.tpn.model.GameField;
 import de.htwg.se.tpn.model.GameFieldInterface;
 import de.htwg.se.tpn.model.SaveGame;
@@ -94,7 +93,7 @@ public class CouchDbDao extends AbstractDao {
     @Override
     public boolean createOrUpdateGame(GameFieldInterface game, String id) {
         if (findGame(id) == null) {
-            db.create(new Command("abc"));//copySaveGame(game, id));
+            db.create(copySaveGame(game, id));
 
             return true;
         } else {
@@ -123,6 +122,6 @@ public class CouchDbDao extends AbstractDao {
 
     @Override
     public PersistenceStrategy getStrategy() {
-        return null;
+        return PersistenceStrategy.couchdb;
     }
 }
