@@ -20,18 +20,39 @@ public final class TwoPN {
     private static final int FIELDSIZE = 4;
     private static final int INSERTS = 1;
 
-    public static void main(String[] args) {
-        ActorSystem actorSystem = ActorSystem.create("tpn");
+    public ActorSystem actorSystem;
+    public List<ActorRef> databases;
+    public GameFieldInterface gamefield;
+    public ActorRef controller;
 
-        List<ActorRef> databases = new LinkedList<>();
-        //databases.add(actorSystem.actorOf(Props.create(Db4oDao.class), "db4o"));
-        databases.add(actorSystem.actorOf(Props.create(CouchDbDao.class), "couch"));
+    public static void main(String[] args) {
+        TwoPN game = new TwoPN();
+        game.startTUI();
+        game.startGUI();
+    }
+
+    public TwoPN() {
+        initActors();
+    }
+
+    public void initActors() {
+        actorSystem = ActorSystem.create("tpn");
+
+        databases = new LinkedList<>();
+        databases.add(actorSystem.actorOf(Props.create(Db4oDao.class), "db4o"));
+        //databases.add(actorSystem.actorOf(Props.create(CouchDbDao.class), "couch"));
         //databases.add(actorSystem.actorOf(Props.create(HibernateDao.class), "hibernate"));
 
-        GameFieldInterface gamefield = new GameField(FIELDSIZE);
+        gamefield = new GameField(FIELDSIZE);
 
-        ActorRef controller = actorSystem.actorOf(TpnController.props(gamefield, INSERTS, databases), "controller");
+        controller = actorSystem.actorOf(TpnController.props(gamefield, INSERTS, databases), "controller");
+    }
+
+    public void startTUI() {
         actorSystem.actorOf(TUI.props(gamefield, controller), "tui");
+    }
+
+    public void startGUI() {
         actorSystem.actorOf(GUIActor.props(gamefield, controller), "gui");
     }
 }

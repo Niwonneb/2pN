@@ -61,18 +61,6 @@ public class TpnController extends UntypedActor implements TpnControllerInterfac
         notifyUIs(new UIEvent(gamefield, UIEvent.Type.NewGame));
     }
 
-    public int getSize() {
-        return 0; //gamefield.getHeight();
-    }
-
-    public int getValue(int row, int column) {
-        return 0; //gamefield.getValue(row, column);
-    }
-
-    public void insert(int chance, int row, int column) {
-        //gamefield.insertTile(chance, row, column);
-    }
-
     public enum inputState {
         COMMAND, SAVE, LOAD, NEWSIZE, NEWINSERTS
     }

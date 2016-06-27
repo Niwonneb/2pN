@@ -2,87 +2,106 @@ package de.htwg.se.tpn.controller;
 
 import static org.junit.Assert.*;
 
+import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.Props;
+import de.htwg.se.tpn.model.GameField;
+import de.htwg.se.tpn.model.GameFieldInterface;
+import de.htwg.se.tpn.persistence.db4o.Db4oDao;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class TpnControllerTest {
-	TpnController c;
-	private ActorSystem actorSystem = ActorSystem.create("tpn");
+	ActorRef c;
+	public ActorSystem actorSystem;
+	public List<ActorRef> databases;
+	public GameFieldInterface g;
+	public ActorRef controller;
 
 	@Before
 	public void setUp() throws Exception {
-		c = new TpnController(null, 1, null);
-		c.gamereset(2);
+		actorSystem = ActorSystem.create("tpn");
+
+		databases = new LinkedList<>();
+		databases.add(actorSystem.actorOf(Props.create(Db4oDao.class), "db4o"));
+		//databases.add(actorSystem.actorOf(Props.create(CouchDbDao.class), "couch"));
+		//databases.add(actorSystem.actorOf(Props.create(HibernateDao.class), "hibernate"));
+
+		g = new GameField(2);
+
+		c = actorSystem.actorOf(TpnController.props(g, 0, databases), "controller");
 	}
 
 	@Test
 	public void testactionLeft() {
-		c.insert(0, 0, 1);
+		g.insertTile(0, 0, 1);
 		assertEquals(true, c.actionLeft());
-		c.insert(100, 0, 1);
-		c.insert(0, 1, 0);
-		c.insert(100, 1, 1);
+		g.insertTile(100, 0, 1);
+		g.insertTile(0, 1, 0);
+		g.insertTile(100, 1, 1);
 		assertEquals(false, c.actionLeft());
-		c.insert(0, 0, 0);
-		c.insert(100, 0, 1);
-		c.insert(100, 1, 0);
-		c.insert(0, 1, 1);
+		g.insertTile(0, 0, 0);
+		g.insertTile(100, 0, 1);
+		g.insertTile(100, 1, 0);
+		g.insertTile(0, 1, 1);
 		c.actionLeft();
 	}
 
 	@Test
 	public void testactionRight() {
-		c.insert(0, 1, 0);
+		g.insertTile(0, 1, 0);
 		assertEquals(true, c.actionRight());
-		c.insert(0, 0, 1);
-		c.insert(100, 1, 0);
-		c.insert(100, 0, 0);
+		g.insertTile(0, 0, 1);
+		g.insertTile(100, 1, 0);
+		g.insertTile(100, 0, 0);
 		assertEquals(false, c.actionRight());
-		c.insert(0, 0, 0);
-		c.insert(100, 0, 1);
-		c.insert(100, 1, 0);
-		c.insert(0, 1, 1);
+		g.insertTile(0, 0, 0);
+		g.insertTile(100, 0, 1);
+		g.insertTile(100, 1, 0);
+		g.insertTile(0, 1, 1);
 		c.actionRight();
 	}
 
 	@Test
 	public void testactionUp() {
-		c.insert(0, 1, 0);
+		g.insertTile(0, 1, 0);
 		assertEquals(true, c.actionUp());
-		c.insert(0, 0, 1);
-		c.insert(100, 1, 0);
-		c.insert(100, 1, 1);
+		g.insertTile(0, 0, 1);
+		g.insertTile(100, 1, 0);
+		g.insertTile(100, 1, 1);
 		assertEquals(false, c.actionUp());
-		c.insert(0, 0, 0);
-		c.insert(100, 0, 1);
-		c.insert(100, 1, 0);
-		c.insert(0, 1, 1);
+		g.insertTile(0, 0, 0);
+		g.insertTile(100, 0, 1);
+		g.insertTile(100, 1, 0);
+		g.insertTile(0, 1, 1);
 		c.actionUp();
 	}
 
 	@Test
 	public void testactionDown() {
-		c.insert(0, 0, 0);
+		g.insertTile(0, 0, 0);
 		assertEquals(true, c.actionDown());
-		c.insert(100, 0, 1);
-		c.insert(100, 0, 0);
-		c.insert(0, 1, 1);
+		g.insertTile(100, 0, 1);
+		g.insertTile(100, 0, 0);
+		g.insertTile(0, 1, 1);
 		assertEquals(false, c.actionDown());
-		c.insert(0, 0, 0);
-		c.insert(100, 0, 1);
-		c.insert(100, 1, 0);
-		c.insert(0, 1, 1);
+		g.insertTile(0, 0, 0);
+		g.insertTile(100, 0, 1);
+		g.insertTile(100, 1, 0);
+		g.insertTile(0, 1, 1);
 		c.actionDown();
 	}
 	
 	@Test
 	public void testgetValue() {
-		assertEquals(0, c.getValue(0, 0));
+		assertEquals(0, g.getValue(0, 0));
 	}
 	
 	@Test
 	public void testgetSize() {
-		assertEquals(2, c.getSize());
+		assertEquals(2, g.getHeight());
 	}
 }

@@ -5,11 +5,8 @@ import de.htwg.se.tpn.util.observer.Event;
 import de.htwg.se.tpn.util.observer.IObservable;
 
 public interface TpnControllerInterface {
-    int getValue(int row, int column);
 
     void gameInit(GameFieldInterface gamefield, int inserts);
-
-    int getSize();
 
     boolean actionLeft();
 
@@ -20,8 +17,6 @@ public interface TpnControllerInterface {
     boolean actionDown();
 
     void gamereset(int size);
-
-    void insert(int chance, int row, int column);
 
     void loadGame(String id);
 

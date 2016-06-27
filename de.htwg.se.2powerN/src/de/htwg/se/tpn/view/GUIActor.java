@@ -28,6 +28,7 @@ public class GUIActor extends UIActor {
         });
     }
 
+    @Override
     public void handleLoadedGameEvent(GameFieldInterface gameField) {
         gui.dispose();
         gui = new GUI(gameField, this);
