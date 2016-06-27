@@ -28,7 +28,7 @@ public interface PersistentSaveGameInterface {
 
         @OneToMany(mappedBy = "row")
         @Column(name = "tiles")
-        public List<PersistentTile> tiles = new LinkedList<>();
+        private List<PersistentTile> tiles = new LinkedList<>();
 
         @ManyToOne
         @JoinColumn(name = "saveGameId")
@@ -40,6 +40,10 @@ public interface PersistentSaveGameInterface {
 
         public void setSaveGame(PersistentSaveGame tpnSaveGame) {
             this.saveGame = tpnSaveGame;
+        }
+
+        public List<PersistentTile> getTiles() {
+            return tiles;
         }
     }
 }

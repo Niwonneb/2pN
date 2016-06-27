@@ -22,7 +22,7 @@ public class HibernateDao extends AbstractDao {
         int rowNr = 0;
         for (PersistentSaveGame.PersistentRow row : pRows) {
             int tileNr = 0;
-            for (PersistentTile tile : row.tiles) {
+            for (PersistentTile tile : row.getTiles()) {
                 Tile newTile;
                 if (tile.getValue() == 0) {
                     newTile = null;
@@ -61,7 +61,7 @@ public class HibernateDao extends AbstractDao {
                 PersistentTile pTile = new PersistentTile(value);
                 pTile.setRow(curRow);
 
-                curRow.tiles.add(tileNr, pTile);
+                curRow.getTiles().add(tileNr, pTile);
             }
             rows.add(rowNr, curRow);
         }
@@ -89,7 +89,7 @@ public class HibernateDao extends AbstractDao {
             session.saveOrUpdate(pSaveGame);
             for (PersistentSaveGame.PersistentRow pRow : pSaveGame.getRows()) {
                 session.saveOrUpdate(pRow);
-                for (PersistentTile pTile : pRow.tiles) {
+                for (PersistentTile pTile : pRow.getTiles()) {
                     session.saveOrUpdate(pTile);
                 }
             }
