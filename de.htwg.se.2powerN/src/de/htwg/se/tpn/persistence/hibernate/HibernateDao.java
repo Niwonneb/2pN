@@ -2,15 +2,20 @@ package de.htwg.se.tpn.persistence.hibernate;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.htwg.se.tpn.model.*;
 import de.htwg.se.tpn.persistence.AbstractDao;
 import de.htwg.se.tpn.persistence.PersistenceStrategy;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 public class HibernateDao extends AbstractDao {
+
+    private static final Logger log = Logger.getLogger( HibernateDao.class.getName() );
 
     private SaveGame copySaveGame(PersistentSaveGame pSaveGame) {
         if (pSaveGame == null) {
@@ -74,15 +79,17 @@ public class HibernateDao extends AbstractDao {
     @Override
     public boolean createOrUpdateGame(GameFieldInterface game, String id) {
         Transaction tx = null;
-        Session session = null;
 
         if (findGame(id) != null) {
             return false;
         }
 
         try {
-            session = HibernateUtil.getInstance().getCurrentSession();
+            SessionFactory sessionFactory = HibernateUtil.getInstance();
+            Session session = sessionFactory.getCurrentSession();
+            sessionFactory.close();
             tx = session.beginTransaction();
+
 
             PersistentSaveGame pSaveGame = copySaveGame(new SaveGame(game, id));
 
@@ -98,7 +105,7 @@ public class HibernateDao extends AbstractDao {
         } catch (HibernateException ex) {
             if (tx != null)
                 tx.rollback();
-            //throw new RuntimeException(ex.getMessage());
+            log.log(Level.SEVERE, ex.toString(), ex);
             return false;
         }
         return true;
@@ -106,9 +113,10 @@ public class HibernateDao extends AbstractDao {
 
     @Override
     public SaveGame findGame(String id) {
-        Session session = HibernateUtil.getInstance().getCurrentSession();
+        SessionFactory sessionFactory = HibernateUtil.getInstance();
+        Session session = sessionFactory.getCurrentSession();
+        sessionFactory.close();
         session.beginTransaction();
-
         return copySaveGame(session.get(PersistentSaveGame.class, id));
     }
 

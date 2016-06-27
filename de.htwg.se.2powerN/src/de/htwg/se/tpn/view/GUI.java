@@ -105,7 +105,7 @@ public class GUI extends JFrame implements KeyListener {
     private JLabel[][] tileLabels;
     private JPanel tilePanel;
     private boolean end;
-    private GUIActor guiActor;
+    transient GUIActor guiActor;
 
     public GUI(GameFieldInterface gameField, GUIActor guiActor) {
         this.guiActor = guiActor;

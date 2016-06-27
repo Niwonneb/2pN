@@ -16,8 +16,12 @@ import org.ektorp.impl.StdCouchDbInstance;
 import java.net.MalformedURLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CouchDbDao extends AbstractDao {
+
+    private static final Logger log = Logger.getLogger( CouchDbDao.class.getName() );
 
     private static CouchDbConnector db;
 
@@ -28,8 +32,8 @@ public class CouchDbDao extends AbstractDao {
             client = new StdHttpClient.Builder().url(
                     "http://lenny2.in.htwg-konstanz.de:5984").build();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+        } catch (MalformedURLException ex) {
+            log.log(Level.SEVERE, ex.toString(), ex);
         }
         CouchDbInstance dbInstance = new StdCouchDbInstance(client);
         db = dbInstance.createConnector("a_tpn_game", true);
